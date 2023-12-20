@@ -15,27 +15,33 @@
       "**/*"
     ],
     "ios": {
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1, 
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.alyasohret.expoNotification"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-
     "plugins": [
       [
         "expo-notifications",
         {
           "icon": "./local/assets/icon.png",
           "color": "#D88484"
-        
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5d0d322c-59d9-4477-823a-bb758a88ccb3"
+      }
+    }
   }
 }
