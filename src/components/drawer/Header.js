@@ -26,7 +26,7 @@ export default function Header({ header, navigation }) {
       </View>
       <Ionicons
         name="chatbox-ellipses-outline"
-        size={24}
+        size={25}
         color={Colors.white}
       />
     </View>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
     color: Colors.white,
   },

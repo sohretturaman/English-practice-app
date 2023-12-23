@@ -10,6 +10,7 @@ const Colors = {
   darkGray: "#424242",
   white: "#FFFFFF",
   black: "#000000",
+  brown: "#BA873B",
 };
 
 export default Colors;

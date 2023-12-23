@@ -43,8 +43,14 @@ const Drawer = createDrawerNavigator();
 const DrawerRouter = () => {
   return (
     <Drawer.Navigator
+      initialRouteName="Practices"
       drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
+        headerTintColor: Colors.lightGray,
+        drawerActiveTintColor: "black",
+        drawerActiveBackgroundColor: Colors.lightGray,
+        drawerInactiveTintColor: "white",
+
         header: ({ navigation }) => {
           return <Header navigation={navigation} header={"My Practice App"} />;
         },
@@ -53,34 +59,94 @@ const DrawerRouter = () => {
       <Drawer.Screen
         name="HomeBottomDrawer"
         component={MyBottomTab}
-        options={{ title: "Home page-practices" }}
+        options={{
+          title: "Home-practices",
+          drawerLabelStyle: { fontSize: 18 },
+          drawerIcon: ({ focused }) => (
+            <Ionicons
+              name="home"
+              size={24}
+              color={focused ? Colors.black : Colors.lightGray}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name="MyLibrary"
         component={MyLibraryScreen}
-        options={{ title: "My Library" }}
+        options={{
+          title: "My Library",
+          drawerLabelStyle: { fontSize: 18 },
+          drawerIcon: ({ focused }) => (
+            <Ionicons
+              name="library"
+              size={24}
+              color={focused ? Colors.black : Colors.lightGray}
+            />
+          ),
+        }}
         // options={{ drawerIcon: () => <Text style={{color: 'white'}}>#</Text> }}
       />
       <Drawer.Screen
         name="SavedNews"
         component={SavedNews}
-        options={{ title: "Saved News" }}
+        options={{
+          title: "Saved News",
+          drawerLabelStyle: { fontSize: 18 },
+          drawerIcon: ({ focused }) => (
+            <Ionicons
+              name="md-newspaper"
+              size={24}
+              color={focused ? Colors.black : Colors.lightGray}
+            />
+          ),
+        }}
       />
 
       <Drawer.Screen
         name="ChatGpt"
         component={ChatGptScreen}
-        options={{ title: "Chat Gpt" }}
+        options={{
+          title: "Chat Gpt",
+          drawerLabelStyle: { fontSize: 18 },
+          drawerIcon: ({ focused }) => (
+            <Ionicons
+              name="ios-chatbox-ellipses"
+              size={24}
+              color={focused ? Colors.black : Colors.lightGray}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name="Calendar"
         component={CalendarScreen}
-        options={{ title: "Calendar" }}
+        options={{
+          title: "Calendar",
+          drawerLabelStyle: { fontSize: 18 },
+          drawerIcon: ({ focused }) => (
+            <Ionicons
+              name="calendar"
+              size={24}
+              color={focused ? Colors.black : Colors.lightGray}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name="Notifications"
         component={NotificationScreen}
-        options={{ title: "Notifications" }}
+        options={{
+          title: "Notifications",
+          drawerLabelStyle: { fontSize: 18 },
+          drawerIcon: ({ focused }) => (
+            <Ionicons
+              name="notifications"
+              size={24}
+              color={focused ? Colors.black : Colors.lightGray}
+            />
+          ),
+        }}
       />
     </Drawer.Navigator>
   );
@@ -98,7 +164,7 @@ function MyBottomTab() {
       left: 8,
       right: 8,
       borderRadius: 10,
-      height: 50,
+      height: 60,
     },
   };
   return (
