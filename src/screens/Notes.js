@@ -15,6 +15,7 @@ import { Button, FAB } from "react-native-paper";
 import ModalAddTask from "../components/ModalAddTask";
 import RenderItem from "../components/RenderItem";
 import DATA from "../utils/DummyData";
+import { SafeAreaView } from "react-native";
 
 const Notes = () => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -28,7 +29,7 @@ const Notes = () => {
     setModalIsVisible(false);
   };
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -55,7 +56,7 @@ const Notes = () => {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
-    </View>
+    </SafeAreaView>
   );
 };
 
