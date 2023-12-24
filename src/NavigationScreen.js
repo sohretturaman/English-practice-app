@@ -3,7 +3,7 @@
 import { StatusBar } from "expo-status-bar";
 import * as Notifications from "expo-notifications";
 import AddTime from "./screens/AddTime";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomePage from "./screens/HomePage";
@@ -30,6 +30,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { changeTheme } from "./store/Reducers";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -43,6 +44,7 @@ Notifications.setNotificationHandler({
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
+const TopTab = createMaterialTopTabNavigator();
 
 const DrawerRouter = () => {
   const darkMode = useSelector((selector) => selector.theme.isDarkTheme);
@@ -177,8 +179,8 @@ function MyBottomTab() {
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
-        name="Notes"
-        component={Notes}
+        name="noteTaks"
+        component={MyTabs}
         options={{
           tabBarIcon: ({ focused, color, size }) => {
             return (
@@ -252,6 +254,26 @@ function MyBottomTab() {
         }}
       />
     </Tab.Navigator>
+  );
+}
+
+function MyTabs() {
+  return (
+    <TopTab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarLabelStyle: { fontSize: 15, fontWeight: "bold" },
+        tabBarStyle: { backgroundColor: Colors.white },
+        tabBarIndicatorStyle: {
+          height: 1.5,
+          backgroundColor: Colors.secondary,
+        },
+        tabBarActiveTintColor: Colors.secondary,
+      }}
+    >
+      <TopTab.Screen name="Notes" component={Notes} />
+      <TopTab.Screen name="Tasks" component={Tasks} />
+    </TopTab.Navigator>
   );
 }
 
