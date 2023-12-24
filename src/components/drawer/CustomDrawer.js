@@ -8,17 +8,32 @@ import {
   Image,
   Switch,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
 import Colors from "../../contants/Colors";
 import { Avatar } from "react-native-paper";
+import { useDispatch, useSelector } from "react-redux";
+import { changeTheme } from "../../store/Reducers";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CustomDrawer = (props) => {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const [darkMode, setDarkMode] = useState(false);
+  useEffect(() => {
+    AsyncStorage.getItem("savedTheme").then((value) => {
+      setDarkMode(JSON.parse(value));
+    });
+  }),
+    [];
+
+  const dispatch = useDispatch();
+
+  const toggleSwitch = (val) => {
+    setDarkMode((prev) => !prev);
+    dispatch(changeTheme(val));
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -46,13 +61,13 @@ const CustomDrawer = (props) => {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <View style={styles.switchWrapper}>
-        <Text style={styles.switchText}>Switch Theme</Text>
+        <Text style={styles.switchText}>Dark Theme</Text>
         <Switch
           trackColor={{ false: "#767577", true: Colors.lightGray }}
-          thumbColor={isEnabled ? Colors.lightBlue : "#f4f3f4"}
+          thumbColor={darkMode ? Colors.lightBlue : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitch}
-          value={isEnabled}
+          value={darkMode}
           style={styles.switch}
         />
       </View>

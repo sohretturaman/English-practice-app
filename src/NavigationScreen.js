@@ -26,6 +26,10 @@ import CalendarScreen from "./screens/Drawer/CalendarScreen";
 import NotificationScreen from "./screens/Drawer/NotificationScreen";
 import CustomDrawer from "./components/drawer/CustomDrawer";
 import Header from "./components/drawer/Header";
+import { useDispatch, useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
+import { changeTheme } from "./store/Reducers";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -41,6 +45,7 @@ const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const DrawerRouter = () => {
+  const darkMode = useSelector((selector) => selector.theme.isDarkTheme);
   return (
     <Drawer.Navigator
       initialRouteName="Practices"
@@ -50,10 +55,13 @@ const DrawerRouter = () => {
         drawerActiveTintColor: "black",
         drawerActiveBackgroundColor: Colors.lightGray,
         drawerInactiveTintColor: "white",
-
+        drawerStyle: { backgroundColor: Colors.primary },
         header: ({ navigation }) => {
           return <Header navigation={navigation} header={"My Practice App"} />;
         },
+        sceneContainerStyle: {
+          backgroundColor: darkMode ? Colors.black : Colors.white,
+        }, //changed all drawer screen's background color at once
       }}
     >
       <Drawer.Screen
@@ -61,7 +69,7 @@ const DrawerRouter = () => {
         component={MyBottomTab}
         options={{
           title: "Home-practices",
-          drawerLabelStyle: { fontSize: 18 },
+          drawerLabelStyle: { fontSize: 16 },
           drawerIcon: ({ focused }) => (
             <Ionicons
               name="home"
@@ -76,7 +84,7 @@ const DrawerRouter = () => {
         component={MyLibraryScreen}
         options={{
           title: "My Library",
-          drawerLabelStyle: { fontSize: 18 },
+          drawerLabelStyle: { fontSize: 16 },
           drawerIcon: ({ focused }) => (
             <Ionicons
               name="library"
@@ -85,14 +93,13 @@ const DrawerRouter = () => {
             />
           ),
         }}
-        // options={{ drawerIcon: () => <Text style={{color: 'white'}}>#</Text> }}
       />
       <Drawer.Screen
         name="SavedNews"
         component={SavedNews}
         options={{
           title: "Saved News",
-          drawerLabelStyle: { fontSize: 18 },
+          drawerLabelStyle: { fontSize: 16 },
           drawerIcon: ({ focused }) => (
             <Ionicons
               name="md-newspaper"
@@ -108,7 +115,7 @@ const DrawerRouter = () => {
         component={ChatGptScreen}
         options={{
           title: "Chat Gpt",
-          drawerLabelStyle: { fontSize: 18 },
+          drawerLabelStyle: { fontSize: 16 },
           drawerIcon: ({ focused }) => (
             <Ionicons
               name="ios-chatbox-ellipses"
@@ -123,12 +130,12 @@ const DrawerRouter = () => {
         component={CalendarScreen}
         options={{
           title: "Calendar",
-          drawerLabelStyle: { fontSize: 18 },
+          drawerLabelStyle: { fontSize: 16 },
           drawerIcon: ({ focused }) => (
             <Ionicons
               name="calendar"
               size={24}
-              color={focused ? Colors.black : Colors.lightGray}
+              color={focused ? Colors.secondary : Colors.lightGray}
             />
           ),
         }}
@@ -138,7 +145,7 @@ const DrawerRouter = () => {
         component={NotificationScreen}
         options={{
           title: "Notifications",
-          drawerLabelStyle: { fontSize: 18 },
+          drawerLabelStyle: { fontSize: 16 },
           drawerIcon: ({ focused }) => (
             <Ionicons
               name="notifications"
@@ -248,21 +255,40 @@ function MyBottomTab() {
   );
 }
 
+const RootStack = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    AsyncStorage.getItem("savedTheme").then((value) => {
+      console.log("initial saved val", value);
+      dispatch(changeTheme(JSON.parse(value)));
+    });
+  }, []);
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: "black" }, //doesn't work
+        }}
+      >
+        <Stack.Screen name="DrawerRoot" component={DrawerRouter} />
+        {/*  <Stack.Screen name="Maintab" component={MyBottomTab} /> */}
+        <Stack.Screen name="AddTime" component={AddTime} />
+        <Stack.Screen name="FavedWords" component={FavedWords} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
 export default function NavigationScreen() {
   return (
     <PaperProvider>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="DrawerRoot" component={DrawerRouter} />
-          {/*  <Stack.Screen name="Maintab" component={MyBottomTab} /> */}
-          <Stack.Screen name="AddTime" component={AddTime} />
-          <Stack.Screen name="FavedWords" component={FavedWords} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <RootStack />
     </PaperProvider>
   );
 }
 
+// to open replace console use CTRL + H !!
 // todo app yap geçici olarak sakla veya , context içine koy, react native selice de deneyebilirsin kolay olacaktır
 // task app yap sonunda da bir alaram butonu koy notification, task app yap note değil ve kaydırmalı özellik ekle
 //rest api kullanabilrisin oldukça kolay pratik yap

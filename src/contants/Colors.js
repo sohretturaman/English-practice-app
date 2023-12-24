@@ -1,5 +1,4 @@
 /** @format */
-
 const Colors = {
   primary: "#4262D3",
   lightBlue: "#3498db",

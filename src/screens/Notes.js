@@ -16,10 +16,12 @@ import ModalAddTask from "../components/ModalAddTask";
 import RenderItem from "../components/RenderItem";
 import DATA from "../utils/DummyData";
 import { SafeAreaView } from "react-native";
+import { useSelector } from "react-redux";
 
 const Notes = () => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
-
+  const darkMode = useSelector((selector) => selector.theme.isDarkTheme);
+  console.log("dark mode in note", darkMode);
   const onAddTaskHandler = (val) => {
     console.log("input:", val);
     setModalIsVisible(false);
@@ -29,7 +31,9 @@ const Notes = () => {
     setModalIsVisible(false);
   };
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: darkMode ? "black" : "white" }}
+    >
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS == "ios" ? "padding" : "height"}

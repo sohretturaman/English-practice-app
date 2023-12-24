@@ -1,16 +1,28 @@
 /** @format */
 
-import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import React from "react";
+import Colors from "../contants/Colors";
 
 const PracticesScreen = () => {
+  const darkMode = useSelector((selector) => selector.theme.isDarkTheme);
+
   return (
-    <View>
+    <SafeAreaView
+      style={[
+        styles.container,
+        { backgroundColor: darkMode ? Colors.black : Colors.background },
+      ]}
+    >
       <Text>PracticesScreen</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default PracticesScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
