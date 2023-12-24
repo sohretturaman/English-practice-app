@@ -3,6 +3,7 @@
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Colors from "../contants/Colors";
+import { useSelector } from "react-redux";
 
 const PracticesScreen = () => {
   const darkMode = useSelector((selector) => selector.theme.isDarkTheme);

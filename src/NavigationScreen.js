@@ -281,7 +281,6 @@ const RootStack = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     AsyncStorage.getItem("savedTheme").then((value) => {
-      console.log("initial saved val", value);
       dispatch(changeTheme(JSON.parse(value)));
     });
   }, []);

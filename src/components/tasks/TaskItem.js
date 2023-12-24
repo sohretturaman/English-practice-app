@@ -2,10 +2,8 @@
 import { StyleSheet, Text, View, FlatList, Pressable } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { Button, FAB } from "react-native-paper";
 
-const RenderItem = ({ itemData }) => {
-  //console.log("item", itemData);
+const TaskItem = ({ itemData }) => {
   function onDeletePress() {
     console.log("delete button pressed");
   }
@@ -26,7 +24,7 @@ const RenderItem = ({ itemData }) => {
   );
 };
 
-export default RenderItem;
+export default TaskItem;
 
 const styles = StyleSheet.create({
   itemWrapper: {

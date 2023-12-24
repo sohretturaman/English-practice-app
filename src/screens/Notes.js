@@ -1,65 +1,25 @@
 /** @format */
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  Pressable,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from "react-native";
+import { StyleSheet, Text, View, FlatList, Pressable } from "react-native";
 import React, { useState } from "react";
-import { Button, FAB } from "react-native-paper";
-import ModalAddTask from "../components/ModalAddTask";
-import RenderItem from "../components/RenderItem";
-import DATA from "../utils/DummyData";
+
 import { SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
+import NoteList from "../components/notes/NoteList";
+import Colors from "../contants/Colors";
 
 const Notes = () => {
-  const [modalIsVisible, setModalIsVisible] = useState(false);
   const darkMode = useSelector((selector) => selector.theme.isDarkTheme);
   console.log("dark mode in note", darkMode);
-  const onAddTaskHandler = (val) => {
-    console.log("input:", val);
-    setModalIsVisible(false);
-  };
 
-  const onCancelHandler = () => {
-    setModalIsVisible(false);
-  };
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: darkMode ? "black" : "white" }}
+      style={[
+        styles.mainContainer,
+        { backgroundColor: darkMode ? Colors.black : Colors.background },
+      ]}
     >
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
-            <Text>Tasks</Text>
-            <FlatList
-              data={DATA}
-              renderItem={({ item }) => <RenderItem itemData={item} />}
-              keyExtractor={(item) => item.id}
-            />
-            <ModalAddTask
-              isVisible={modalIsVisible}
-              onAddTask={onAddTaskHandler}
-              onCancel={onCancelHandler}
-              onBackdropPress={() => setModalIsVisible(false)}
-            />
-            <FAB
-              icon="plus"
-              style={styles.fab}
-              onPress={() => setModalIsVisible(true)}
-            />
-          </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+      <NoteList />
     </SafeAreaView>
   );
 };
@@ -67,26 +27,50 @@ const Notes = () => {
 export default Notes;
 
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1,
-  },
-  fab: {
-    position: "absolute",
-    margin: 16,
-    right: 0,
-    bottom: 0,
-  },
-  itemWrapper: {
-    flexDirection: "row",
-    padding: 10,
-    backgroundColor: "pink",
-    margin: 5,
-    borderRadius: 10,
-  },
-  icon: {
-    marginRight: 10,
-  },
-  pressed: {
-    opacity: 0.5,
+    alignContent: "center",
   },
 });
+
+{
+  /**
+give ronadom colors for categories in notes screen
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
+
+const RandomColorView = () => {
+  const [backgroundColor, setBackgroundColor] = useState(getRandomColor);
+
+  useEffect(() => {
+    setBackgroundColor(getRandomColor);
+  }, []);
+
+  const getRandomColor = () => {
+    const lightColors = [
+      '#FFC0CB', // Pink
+      '#ADD8E6', // Light Blue
+      '#98FB98', // Pale Green
+      '#FFD700', // Gold
+      '#FFA07A', // Light Salmon
+      '#87CEFA', // Light Sky Blue
+    ];
+
+    return lightColors[Math.floor(Math.random() * lightColors.length)];
+  };
+
+  return (
+    <View style={[styles.container, { backgroundColor }]} />
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+export default RandomColorView;*/
+}
