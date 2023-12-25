@@ -26,7 +26,7 @@ const AddTime = ({ handleNotificaionTime }) => {
   };
 
   return (
-    <View>
+    <View style={{ backgroundColor: "white", flex: 1 }}>
       <Text>AddTime</Text>
       <Button title="show date picker" onPress={() => setIsVisible(true)} />
       <DateTimePickerModal

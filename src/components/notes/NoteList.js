@@ -14,6 +14,7 @@ import NoteItem from "./NoteItem";
 import { Button, FAB } from "react-native-paper";
 import Colors from "../../contants/Colors";
 import ModalAddTask from "../ModalAddTask";
+import { useNavigation } from "@react-navigation/native";
 
 const DATA = [
   {
@@ -33,9 +34,9 @@ const DATA = [
   },
 ];
 
-const NoteList = () => {
+const NoteList = ({ onFabPress }) => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
-
+  const navigation = useNavigation();
   const onAddTaskHandler = (val) => {
     console.log("input:", val);
     setModalIsVisible(false);
@@ -66,7 +67,7 @@ const NoteList = () => {
           <FAB
             icon="plus"
             style={[styles.fab, { backgroundColor: Colors.secondary }]}
-            onPress={() => setModalIsVisible(true)}
+            onPress={() => navigation.navigate("AddNote")}
             color="white"
             size="medium"
           />

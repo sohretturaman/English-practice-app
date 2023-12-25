@@ -31,6 +31,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { changeTheme } from "./store/Reducers";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import AddNote from "./screens/AddNote";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -296,6 +297,7 @@ const RootStack = () => {
         {/*  <Stack.Screen name="Maintab" component={MyBottomTab} /> */}
         <Stack.Screen name="AddTime" component={AddTime} />
         <Stack.Screen name="FavedWords" component={FavedWords} />
+        <Stack.Screen name="AddNote" component={AddNote} />
       </Stack.Navigator>
     </NavigationContainer>
   );

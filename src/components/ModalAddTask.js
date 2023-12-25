@@ -3,6 +3,8 @@
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 import React, { useState } from "react";
 import Modal from "react-native-modal";
+import ButtonComp from "./uı/ButtonComp";
+import Colors from "../contants/Colors";
 
 const ModalAddTask = ({ isVisible, onAddTask, onCancel, onBackdropPress }) => {
   const [taskVal, setTaskVal] = useState("");
@@ -33,7 +35,11 @@ const ModalAddTask = ({ isVisible, onAddTask, onCancel, onBackdropPress }) => {
 
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
-            <Button title="Cancel" onPress={onCancel} />
+            <ButtonComp
+              buttonTitle={"Cancel"}
+              onPress={onCancel}
+              style={{ backgroundColor: Colors.secondary }}
+            />
           </View>
           <View style={styles.button}>
             <Button title="Add Goal" onPress={addTaskHandler} />
@@ -48,7 +54,7 @@ export default ModalAddTask;
 
 const styles = StyleSheet.create({
   inputContainer: {
-    flex: 0.5,
+    flex: 0.7,
     justifyContent: "flex-start",
     alignItems: "center",
     marginBottom: 24,

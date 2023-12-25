@@ -7,10 +7,12 @@ import { SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
 import NoteList from "../components/notes/NoteList";
 import Colors from "../contants/Colors";
+import { useNavigation } from "@react-navigation/native";
 
 const Notes = () => {
   const darkMode = useSelector((selector) => selector.theme.isDarkTheme);
   console.log("dark mode in note", darkMode);
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView
