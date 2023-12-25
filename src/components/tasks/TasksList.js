@@ -10,10 +10,10 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, FAB } from "react-native-paper";
-import ModalAddTask from "../ModalAddTask";
+import ModalAddTask from "./ModalAddTask";
 import TaskItem from "./TaskItem";
 import Colors from "../../contants/Colors";
 
@@ -86,9 +86,7 @@ const DATA = [
 ];
 const TasksList = () => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
-  function onDeletePress() {
-    console.log("delete button pressed");
-  }
+  const inputRef = useRef(null);
 
   const onAddTaskHandler = (val) => {
     console.log("input:", val);
@@ -97,6 +95,14 @@ const TasksList = () => {
 
   const onCancelHandler = () => {
     setModalIsVisible(false);
+  };
+
+  const handleButtonClick = () => {
+    // Focus the TextInput to open the keyboard
+    setModalIsVisible(true);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
   return (
     <View style={{ flex: 1 }}>
@@ -120,7 +126,7 @@ const TasksList = () => {
             <FAB
               icon="plus"
               style={styles.fab}
-              onPress={() => setModalIsVisible(true)}
+              onPress={handleButtonClick}
               color="white"
               size="medium"
             />

@@ -1,21 +1,33 @@
 /** @format */
 
-import { StyleSheet, View, Text, ScrollView } from "react-native";
-import React, { useState } from "react";
-
+import {
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+} from "react-native";
+import React from "react";
 import TasksList from "../components/tasks/TasksList";
+import { Keyboard } from "react-native";
 
 const Tasks = () => {
-  // finish tasks uı , then add,  add note screen
-  //add keyboard avoiding view into tasks screen
   return (
-    <View style={styles.container}>
-      <TasksList />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <TasksList />
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
-
-export default Tasks;
 
 const styles = StyleSheet.create({
   container: {
@@ -23,3 +35,5 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
+
+export default Tasks;

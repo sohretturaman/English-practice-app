@@ -13,7 +13,7 @@ import React, { useState } from "react";
 import NoteItem from "./NoteItem";
 import { Button, FAB } from "react-native-paper";
 import Colors from "../../contants/Colors";
-import ModalAddTask from "../ModalAddTask";
+import ModalAddTask from "../tasks/ModalAddTask";
 import { useNavigation } from "@react-navigation/native";
 
 const DATA = [
