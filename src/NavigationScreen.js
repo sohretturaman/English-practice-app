@@ -9,7 +9,11 @@ import HomePage from "./screens/HomePage";
 import { PaperProvider } from "react-native-paper";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import Colors from "./contants/Colors";
 import Notes from "./screens/Notes";
 import Tasks from "./screens/Tasks";
@@ -21,7 +25,6 @@ import MyLibraryScreen from "./screens/Drawer/MyLibraryScreen";
 import SavedNews from "./screens/Drawer/SavedNews";
 import FavedWords from "./screens/FavedWords";
 import ChatGptScreen from "./screens/Drawer/ChatGptScreen";
-import CalendarScreen from "./screens/Drawer/CalendarScreen";
 import NotificationScreen from "./screens/Drawer/NotificationScreen";
 import CustomDrawer from "./components/drawer/CustomDrawer";
 import Header from "./components/drawer/Header";
@@ -31,6 +34,9 @@ import { useEffect } from "react";
 import { changeTheme } from "./store/Reducers";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import AddNote from "./screens/AddNote";
+import SettingsScreen from "./screens/Drawer/SettingsScreen";
+import NewsDetailsScreen from "./screens/backup/NewsDetailsScreen";
+import CustomHeader from "./components/notes/CustomHeader";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -128,21 +134,6 @@ const DrawerRouter = () => {
         }}
       />
       <Drawer.Screen
-        name="Calendar"
-        component={CalendarScreen}
-        options={{
-          title: "Calendar",
-          drawerLabelStyle: { fontSize: 16 },
-          drawerIcon: ({ focused }) => (
-            <Ionicons
-              name="calendar"
-              size={24}
-              color={focused ? Colors.secondary : Colors.lightGray}
-            />
-          ),
-        }}
-      />
-      <Drawer.Screen
         name="Notifications"
         component={NotificationScreen}
         options={{
@@ -153,6 +144,21 @@ const DrawerRouter = () => {
               name="notifications"
               size={24}
               color={focused ? Colors.black : Colors.lightGray}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          title: "Settings",
+          drawerLabelStyle: { fontSize: 16 },
+          drawerIcon: ({ focused }) => (
+            <Ionicons
+              name="settings"
+              size={24}
+              color={focused ? Colors.secondary : Colors.lightGray}
             />
           ),
         }}
@@ -230,8 +236,8 @@ function MyBottomTab() {
         options={{
           tabBarIcon: ({ focused, color, size }) => {
             return (
-              <Ionicons
-                name="newspaper-outline"
+              <FontAwesome
+                name="newspaper-o"
                 size={25}
                 color={focused ? Colors.secondary : Colors.darkGray}
               />
@@ -298,6 +304,19 @@ const RootStack = () => {
 
         <Stack.Screen name="FavedWords" component={FavedWords} />
         <Stack.Screen name="AddNote" component={AddNote} />
+        <Stack.Screen
+          name="NewsDetails"
+          component={NewsDetailsScreen}
+          options={{
+            headerShown: true,
+            header: () => (
+              <CustomHeader
+                header={"News Details"}
+                iconName={"clipboard-text-clock-outline"}
+              />
+            ),
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

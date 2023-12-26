@@ -30,6 +30,7 @@ const AddNoteContext = () => {
           value={title}
           onChangeText={handleTitleChange}
           onSubmitEditing={handleTitleSubmit}
+          autoFocus={true}
         />
         <MaterialCommunityIcons
           name="sticker-check-outline"
@@ -47,7 +48,6 @@ const AddNoteContext = () => {
           textAlignVertical="top"
           value={note}
           onChangeText={(text) => setNote(text)}
-          autoFocus={true}
         />
       </View>
     </View>

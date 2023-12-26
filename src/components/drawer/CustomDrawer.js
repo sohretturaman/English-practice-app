@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     padding: 10,
   },
-  image: { width: "100%", height: 150, opacity: 0.7 },
+  image: { width: "100%", height: 150, opacity: 0.8 },
   imageWrapper: {
     height: 150,
     padding: 0,

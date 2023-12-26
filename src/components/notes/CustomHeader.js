@@ -7,7 +7,7 @@ import Colors from "../../contants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import MenuComp from "./MenuComp";
 
-function CustomHeader({ header, iconName }) {
+function CustomHeader({ header, iconName, MenuComp }) {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -33,16 +33,16 @@ function CustomHeader({ header, iconName }) {
         style={({ pressed }) => [styles.iconWrapper, pressed && styles.pressed]}
       >
         <MaterialCommunityIcons
-          name={"clock-edit-outline"}
+          name={iconName}
           size={25}
           color={"white"}
-          style={{ marginRight: 10 }}
+          style={{ marginRight: 1 }}
         />
       </Pressable>
       <Pressable
         style={({ pressed }) => [styles.iconWrapper, pressed && styles.pressed]}
       >
-        <MenuComp />
+        {MenuComp}
       </Pressable>
     </View>
   );
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
   },
   iconWrapper: {
     padding: 1,
+    marginLeft: 10,
   },
   backButton: {
     paddingHorizontal: 10,

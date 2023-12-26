@@ -3,14 +3,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const CalendarScreen = () => {
+const NewsItem = () => {
   return (
     <View>
-      <Text>CalendarScreen</Text>
+      <Text>NewsItem</Text>
     </View>
   );
 };
 
-export default CalendarScreen;
+export default NewsItem;
 
 const styles = StyleSheet.create({});
