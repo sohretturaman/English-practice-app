@@ -2,7 +2,6 @@
 
 import { StatusBar } from "expo-status-bar";
 import * as Notifications from "expo-notifications";
-import AddTime from "./screens/AddTime";
 import { Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -175,6 +174,7 @@ function MyBottomTab() {
       right: 8,
       borderRadius: 10,
       height: 60,
+      tabBarHideOnKeyboard: true, // to hide bottom tabbar on keyboard
     },
   };
   return (
@@ -290,12 +290,12 @@ const RootStack = () => {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-          contentStyle: { backgroundColor: "black" }, //doesn't work
+          contentStyle: { backgroundColor: "black" }, //doesn't work4
         }}
       >
         <Stack.Screen name="DrawerRoot" component={DrawerRouter} />
         {/*  <Stack.Screen name="Maintab" component={MyBottomTab} /> */}
-        <Stack.Screen name="AddTime" component={AddTime} />
+
         <Stack.Screen name="FavedWords" component={FavedWords} />
         <Stack.Screen name="AddNote" component={AddNote} />
       </Stack.Navigator>

@@ -47,6 +47,7 @@ const AddNoteContext = () => {
           textAlignVertical="top"
           value={note}
           onChangeText={(text) => setNote(text)}
+          autoFocus={true}
         />
       </View>
     </View>

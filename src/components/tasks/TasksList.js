@@ -13,9 +13,9 @@ import {
 import React, { useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, FAB } from "react-native-paper";
-import ModalAddTask from "./ModalAddTask";
 import TaskItem from "./TaskItem";
 import Colors from "../../contants/Colors";
+import MyModal from "./MyModal";
 
 const DATA = [
   {
@@ -86,53 +86,31 @@ const DATA = [
 ];
 const TasksList = () => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
-  const inputRef = useRef(null);
-
-  const onAddTaskHandler = (val) => {
-    console.log("input:", val);
-    setModalIsVisible(false);
-  };
 
   const onCancelHandler = () => {
     setModalIsVisible(false);
   };
 
-  const handleButtonClick = () => {
-    // Focus the TextInput to open the keyboard
-    setModalIsVisible(true);
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  };
   return (
-    <View style={{ flex: 1 }}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
-            <FlatList
-              data={DATA}
-              renderItem={({ item }) => <TaskItem itemData={item} />}
-              keyExtractor={(item) => item.id}
-            />
-            <ModalAddTask
-              isVisible={modalIsVisible}
-              onAddTask={onAddTaskHandler}
-              onCancel={onCancelHandler}
-              onBackdropPress={() => setModalIsVisible(false)}
-            />
-            <FAB
-              icon="plus"
-              style={styles.fab}
-              onPress={handleButtonClick}
-              color="white"
-              size="medium"
-            />
-          </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+    <View style={styles.container}>
+      <FlatList
+        data={DATA}
+        renderItem={({ item }) => <TaskItem itemData={item} />}
+        keyExtractor={(item) => item.id}
+      />
+      <MyModal
+        isOpen={modalIsVisible}
+        onRequestClose={() => setModalIsVisible(false)}
+        onModalCancel={onCancelHandler}
+      />
+
+      <FAB
+        icon="plus"
+        style={styles.fab}
+        onPress={() => setModalIsVisible(true)}
+        color="white"
+        size="medium"
+      />
     </View>
   );
 };

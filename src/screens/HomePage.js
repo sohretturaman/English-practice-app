@@ -2,7 +2,7 @@
 
 import { StyleSheet, Text, View, Button } from "react-native";
 import React, { useEffect, useState } from "react";
-import AddTime from "./AddTime";
+import AddTime from "../components/tasks/AddTime";
 import * as Notifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/native";
 
@@ -137,7 +137,7 @@ const HomePage = () => {
           title="send Push notification"
           onPress={SendPushNotificationHandler}
         />
-        <AddTime handleNotificaionTime={onHandleNotificationTime} />
+
         <Text>
           Time : {noftTime?.toDateString() + noftTime?.toLocaleTimeString()}
         </Text>

@@ -11,6 +11,7 @@ import {
 import React from "react";
 import TasksList from "../components/tasks/TasksList";
 import { Keyboard } from "react-native";
+import AddTime from "../components/tasks/AddTime";
 
 const Tasks = () => {
   return (
@@ -20,9 +21,7 @@ const Tasks = () => {
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
-            <TasksList />
-          </View>
+          <TasksList />
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>

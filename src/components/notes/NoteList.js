@@ -13,7 +13,6 @@ import React, { useState } from "react";
 import NoteItem from "./NoteItem";
 import { Button, FAB } from "react-native-paper";
 import Colors from "../../contants/Colors";
-import ModalAddTask from "../tasks/ModalAddTask";
 import { useNavigation } from "@react-navigation/native";
 
 const DATA = [
@@ -34,17 +33,9 @@ const DATA = [
   },
 ];
 
-const NoteList = ({ onFabPress }) => {
-  const [modalIsVisible, setModalIsVisible] = useState(false);
+const NoteList = () => {
   const navigation = useNavigation();
-  const onAddTaskHandler = (val) => {
-    console.log("input:", val);
-    setModalIsVisible(false);
-  };
 
-  const onCancelHandler = () => {
-    setModalIsVisible(false);
-  };
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -56,12 +47,6 @@ const NoteList = ({ onFabPress }) => {
             data={DATA}
             renderItem={({ item }) => <NoteItem item={item} />}
             keyExtractor={(item) => item.id}
-          />
-          <ModalAddTask
-            isVisible={modalIsVisible}
-            onAddTask={onAddTaskHandler}
-            onCancel={onCancelHandler}
-            onBackdropPress={() => setModalIsVisible(false)}
           />
 
           <FAB
