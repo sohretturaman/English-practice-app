@@ -1,22 +1,14 @@
 /** @format */
 
-// NewsList.js
+import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  Pressable,
-} from "react-native";
 import { GetNewsHeadlines } from "../../utils/NewsHttp";
-
+import { useIsFocused } from "@react-navigation/native";
+import HeadlineItem from "./HeadlineItem";
+import Colors from "../../contants/Colors";
 import Title from "./Title";
-import NewsItem from "./NewsItem";
 
-const NewsList = () => {
+const HeadlineList = () => {
   const [headLineData, setHeadLineData] = useState([]);
   useEffect(() => {
     const getLatestNews = async () => {
@@ -26,21 +18,24 @@ const NewsList = () => {
 
     getLatestNews();
   }, []);
+
   return (
     <View style={styles.container}>
-      <Title>News</Title>
+      <Title>Headlines</Title>
       <FlatList
         data={headLineData}
-        renderItem={({ item }) => <NewsItem item={item} />}
+        renderItem={({ item }) => <HeadlineItem item={item} />}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
       />
     </View>
   );
 };
 
-export default NewsList;
+export default HeadlineList;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    marginBottom: 10,
   },
 });

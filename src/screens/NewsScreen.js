@@ -2,11 +2,14 @@
 
 // NewsScreen.js
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import NewsList from "../components/news/NewsList";
 import SearchBar from "../components/uı/SearchBar";
 import Axios from "axios"; // Import Axios correctly
 import CategoryList from "../components/news/CategoryList";
+import HeadlineList from "../components/news/HeadlineList";
+import Colors from "../contants/Colors";
+import { ScrollView } from "react-native-gesture-handler";
 
 const fakeNewsData = [
   {
@@ -50,15 +53,22 @@ const NewsScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <View>
-      <SearchBar onSubmit={handleSearchSubmit} />
-      <CategoryList />
-      <NewsList
-        data={searchedNews.length > 0 ? searchedNews : newsData}
-        onPress={handleNewsPress}
-      />
-    </View>
+    <ScrollView showVerticalScrollIndicator={false}>
+      <View style={styles.container}>
+        <SearchBar onSubmit={handleSearchSubmit} />
+        <CategoryList />
+        <HeadlineList />
+
+        <NewsList />
+      </View>
+    </ScrollView>
   );
 };
 
 export default NewsScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

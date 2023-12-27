@@ -47,7 +47,7 @@ const CategoryList = () => {
     );
   };
   return (
-    <View>
+    <View style={styles.catgListWrapper}>
       <FlatList
         data={categoryData}
         keyExtractor={(item) => item}
@@ -67,6 +67,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "500",
     paddingHorizontal: 2,
+  },
+  catgListWrapper: {
+    marginVertical: 10,
   },
   catgItemContiner: {
     marginHorizontal: 5,
