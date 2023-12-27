@@ -27,8 +27,8 @@ const SearchBar = ({ onSubmit }) => {
         placeholder="Search for news..."
         value={searchTerm}
         onChangeText={(text) => setSearchTerm(text)}
+        onSubmitEditing={handleSearch}
       />
-      <Button title="Search" onPress={handleSearch} />
     </View>
   );
 };

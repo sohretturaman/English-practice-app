@@ -11,6 +11,7 @@ const Colors = {
   black: "#000000",
   brown: "#BA873B",
   favGray: "#f6f6f6",
+  coral: "#DF7058",
 };
 
 export default Colors;

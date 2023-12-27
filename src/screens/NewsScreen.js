@@ -6,6 +6,7 @@ import { View } from "react-native";
 import NewsList from "../components/news/NewsList";
 import SearchBar from "../components/uı/SearchBar";
 import Axios from "axios"; // Import Axios correctly
+import CategoryList from "../components/news/CategoryList";
 
 const fakeNewsData = [
   {
@@ -38,7 +39,7 @@ const NewsScreen = ({ navigation }) => {
         const response = await Axios.get(
           "https://fakenews.squirro.com/news/sport"
         );
-        console.log(response.data); // Assuming the data is in response.data
+        console.log(response.data ? "data fetched" : "no data"); // Assuming the data is in response.data
         setNewsData(response.data); // Update the state with the fetched data
       } catch (error) {
         console.error(error);
@@ -51,6 +52,7 @@ const NewsScreen = ({ navigation }) => {
   return (
     <View>
       <SearchBar onSubmit={handleSearchSubmit} />
+      <CategoryList />
       <NewsList
         data={searchedNews.length > 0 ? searchedNews : newsData}
         onPress={handleNewsPress}
