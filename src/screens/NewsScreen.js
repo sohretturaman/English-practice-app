@@ -10,40 +10,35 @@ import CategoryList from "../components/news/CategoryList";
 import HeadlineList from "../components/news/HeadlineList";
 import Colors from "../contants/Colors";
 import { ScrollView } from "react-native-gesture-handler";
-
-const fakeNewsData = [
-  {
-    id: 1,
-    title: "Breaking News 1",
-    description: "This is a breaking news article.",
-    image: "https://via.placeholder.com/300",
-  },
-  // Add more fake news data...
-];
+import { getByCategory } from "../utils/NewsHttp";
 
 const NewsScreen = ({ navigation }) => {
-  const [newsData, setNewsData] = useState(fakeNewsData);
+  const [newsData, setNewsData] = useState();
   const [searchedNews, setSearchedNews] = useState([]);
 
-  const handleNewsPress = (news) => {
-    navigation.navigate("NewsDetails", { id: news.id });
-  };
+  useEffect(() => {
+    getNewsByCategory();
+  }, []);
 
   const handleSearchSubmit = (searchTerm) => {
-    const filteredNews = fakeNewsData.filter((news) =>
+    /*   const filteredNews = fakeNewsData.filter((news) =>
       news.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setSearchedNews(filteredNews);
+    ); */
+    console.log("searche item", searchTerm);
   };
 
+  const getNewsByCategory = async (category = "general") => {
+    const result = await getByCategory(category);
+    setNewsData(result.data.articles);
+  };
   return (
     <ScrollView showVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <SearchBar onSubmit={handleSearchSubmit} />
-        <CategoryList />
+        <CategoryList selectedCategoryInfo={getNewsByCategory} />
         <HeadlineList />
 
-        <NewsList />
+        <NewsList newsData={newsData} />
       </View>
     </ScrollView>
   );

@@ -23,7 +23,10 @@ const NewsItem = ({ item }) => {
             {item.description}
           </Text>
           <View style={styles.ItemFooter}>
-            <Text style={styles.source}> {item.source.name}</Text>
+            <Text style={styles.source}>
+              {" "}
+              {item?.source ? item.source.name : ""}
+            </Text>
             <Text style={styles.publishTime}> {publishTime}</Text>
           </View>
         </View>

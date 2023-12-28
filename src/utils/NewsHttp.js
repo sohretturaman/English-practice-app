@@ -12,6 +12,12 @@ export const GetNewsHeadlines = async () => {
   const result = await api.get(`/top-headlines?country=us&apiKey=${API_KEY}`);
   return result;
 };
+
+export const getByCategory = async (category) => {
+  const response = await api.get(`/everything?q=${category}&apiKey=${API_KEY}`);
+  return response;
+};
+
 // https://newsapi.org/v2/top-headlines?country=us&apiKey=1e7f18a6c5c64f2082a053a799b8c160
 
 //https://newsapi.org/v2/everything?q=apple&from=2023-12-26&to=2023-12-26&sortBy=popularity&apiKey=1e7f18a6c5c64f2082a053a799b8c160

@@ -6,14 +6,22 @@ import { Button } from "react-native-paper";
 import Colors from "../../contants/Colors";
 import { Pressable } from "react-native";
 
-// "Latest", item has been removed
-const CategoryList = () => {
-  const categoryData = ["World Wide", "Businnes", "Sports", "Life", "Movie"];
+const categoryData = [
+  "general",
+  "health",
+  "sports",
+  "entertainment",
+  "technology",
+  "business",
+  "science",
+];
+const CategoryList = ({ selectedCategoryInfo }) => {
   const [catgPressedItem, setCatgPressedItem] = useState(null);
 
   function onCategoryPress({ item }) {
     console.log("category pressed item ", item);
     setCatgPressedItem(item);
+    selectedCategoryInfo(item);
   }
 
   const CategoryRenderItem = ({ item }) => {

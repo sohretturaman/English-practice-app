@@ -11,28 +11,18 @@ import {
   Image,
   Pressable,
 } from "react-native";
-import { GetNewsHeadlines } from "../../utils/NewsHttp";
 
 import Title from "./Title";
 import NewsItem from "./NewsItem";
 
-const NewsList = () => {
-  const [headLineData, setHeadLineData] = useState([]);
-  useEffect(() => {
-    const getLatestNews = async () => {
-      const result = await GetNewsHeadlines();
-      setHeadLineData(result.data.articles);
-    };
-
-    getLatestNews();
-  }, []);
+const NewsList = ({ newsData }) => {
   return (
     <View style={styles.container}>
       <Title>News</Title>
       <FlatList
         nestedScrollEnabled={true}
         scrollEnabled={false}
-        data={headLineData}
+        data={newsData}
         renderItem={({ item }) => <NewsItem item={item} />}
       />
     </View>

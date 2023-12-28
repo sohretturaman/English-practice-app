@@ -20,7 +20,6 @@ const HeadlineItem = ({ item }) => {
     item.description === "[Removed]" ||
     item.title === "[Removed]"
   ) {
-    console.log("emtpy objects is", item);
     return null; // checked for empty objects
   }
 
