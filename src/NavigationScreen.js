@@ -60,7 +60,7 @@ const DrawerRouter = () => {
       drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
         headerTintColor: Colors.lightGray,
-        drawerActiveTintColor: "black",
+        drawerActiveTintColor: Colors.darkGray,
         drawerActiveBackgroundColor: Colors.lightGray,
         drawerInactiveTintColor: "white",
         drawerStyle: { backgroundColor: Colors.primary },
@@ -68,7 +68,7 @@ const DrawerRouter = () => {
           return <Header navigation={navigation} header={"My Practice App"} />;
         },
         sceneContainerStyle: {
-          backgroundColor: darkMode ? Colors.black : Colors.white,
+          backgroundColor: darkMode ? Colors.black : Colors.background,
         }, //changed all drawer screen's background color at once
       }}
     >
@@ -82,7 +82,7 @@ const DrawerRouter = () => {
             <Ionicons
               name="home"
               size={24}
-              color={focused ? Colors.black : Colors.lightGray}
+              color={focused ? Colors.darkGray : Colors.lightGray}
             />
           ),
         }}

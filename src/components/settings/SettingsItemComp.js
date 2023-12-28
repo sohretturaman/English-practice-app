@@ -7,7 +7,10 @@ import Colors from "../../contants/Colors";
 
 const SettingsItemComp = ({ onPress, icon, title, switchItem, secondIcon }) => {
   return (
-    <Pressable onPress={onPress}>
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+    >
       <View style={styles.settingItem}>
         <View style={styles.iconContainer}>
           <MaterialCommunityIcons name={icon} size={25} color={Colors.coral} />
