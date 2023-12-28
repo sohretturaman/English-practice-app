@@ -85,3 +85,25 @@ const TasksSlice = createSlice({
 
 export const { addTask, deleteTask, editTask } = TasksSlice.actions;
 export const TasksReducer = TasksSlice.reducer;
+/* 
+const SavedNewsSlice = createSlice({
+  name: "savedNews",
+  initialState: {
+    savedNews: [],
+  },
+  reducers: {
+    addSavedNews: (state, action) => {
+      const id = Math.random().toString + new Date().toString(); //added an id for each news
+      const news = { ...action.payload, id: id };
+      console.log("news object in addSavedNews", news);
+      state.savedNews.push(news);
+    },
+    deleteSavedNews: (state, action) => {
+      state.savedNews.filter((news) => news.id !== action.payload);
+    },
+  },
+});
+
+export const { addSavedNews, deleteSavedNews } = SavedNewsSlice.actions;
+export const SavedNewsReducer = SavedNewsSlice.reducer;
+ */

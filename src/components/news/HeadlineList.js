@@ -7,18 +7,25 @@ import { useIsFocused } from "@react-navigation/native";
 import HeadlineItem from "./HeadlineItem";
 import Colors from "../../contants/Colors";
 import Title from "./Title";
+import LoadingComp from "../uı/LoadingComp";
 
 const HeadlineList = () => {
   const [headLineData, setHeadLineData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const getLatestNews = async () => {
+      setIsLoading(true);
       const result = await GetNewsHeadlines();
       setHeadLineData(result.data.articles);
+      setIsLoading(false);
     };
 
     getLatestNews();
   }, []);
 
+  if (isLoading) {
+    return <LoadingComp />;
+  }
   return (
     <View style={styles.container}>
       <Title>Headlines</Title>

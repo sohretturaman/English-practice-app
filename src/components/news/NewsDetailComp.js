@@ -1,14 +1,24 @@
 /** @format */
 
-import { Image, Pressable, StyleSheet, Text, View, Share } from "react-native";
-import React from "react";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  Share,
+  Alert,
+} from "react-native";
+import React, { createContext, useCallback, useContext } from "react";
 import CustomHeader from "../notes/CustomHeader";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "../../contants/Colors";
 import * as WebBrowser from "expo-web-browser";
 import * as Sharing from "expo-sharing";
+import { SavedNewsContext } from "../../store/SavedNewsContext";
 
 const NewsDetailComp = ({ news }) => {
+  const newsContext = useContext(SavedNewsContext); // created context object to use addcontextfunc
   const publishTime = news.publishedAt.slice(0, 10);
 
   const handleShare = async () => {
@@ -26,6 +36,20 @@ const NewsDetailComp = ({ news }) => {
       console.log("dismissed", result.action, "and type", result.activityType);
     }
   };
+
+  const handleonSave = useCallback(() => {
+    const isSamePusblishTime = newsContext.news.filter(
+      (item) => item.publishedAt === news.publishedAt
+    );
+    const isSameTitle = newsContext.news.filter(
+      (item) => item.title === news.title
+    );
+    if (isSamePusblishTime.length !== 0 && isSameTitle.length !== 0) {
+      Alert.alert("News already saved");
+    } else {
+      newsContext.AddSavedNews(news);
+    }
+  }, [newsContext]);
   return (
     <View style={styles.container}>
       <CustomHeader
@@ -33,7 +57,12 @@ const NewsDetailComp = ({ news }) => {
         iconName={"share"}
         onIconPress={handleShare}
         MenuComp={() => (
-          <MaterialCommunityIcons name="bookmark" size={25} color="white" />
+          <MaterialCommunityIcons
+            name="bookmark"
+            size={25}
+            color="white"
+            onPress={handleonSave}
+          />
         )}
       />
       <Image source={{ uri: news.urlToImage }} style={styles.image} />

@@ -7,9 +7,9 @@ import Colors from "../../contants/Colors";
 import { useNavigation } from "@react-navigation/native";
 
 const NewsItem = ({ item }) => {
-  //add load state component
-  const publishTime = item.publishedAt.slice(0, 10);
   const navigation = useNavigation();
+  const publishTime = item.publishedAt.slice(0, 10);
+
   return (
     <View style={styles.container}>
       <Pressable

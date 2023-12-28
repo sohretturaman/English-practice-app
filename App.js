@@ -3,11 +3,14 @@
 import { Provider, useDispatch } from "react-redux";
 import NavigationScreen from "./src/NavigationScreen";
 import store from "./src/store/Store";
+import SavedNewsContextProvider from "./src/store/SavedNewsContext";
 
 function App() {
   return (
     <Provider store={store}>
-      <NavigationScreen />
+      <SavedNewsContextProvider>
+        <NavigationScreen />
+      </SavedNewsContextProvider>
     </Provider>
   );
 }

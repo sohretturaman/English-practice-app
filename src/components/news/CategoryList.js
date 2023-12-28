@@ -15,23 +15,23 @@ const categoryData = [
   "business",
   "science",
 ];
-const CategoryList = ({ selectedCategoryInfo }) => {
-  const [catgPressedItem, setCatgPressedItem] = useState(null);
-
-  function onCategoryPress({ item }) {
-    console.log("category pressed item ", item);
-    setCatgPressedItem(item);
-    selectedCategoryInfo(item);
-  }
+const CategoryList = ({ selectedCategoryInfo, selectedCategory }) => {
+  const [catgPressedItem, setCatgPressedItem] = useState(selectedCategory);
 
   const CategoryRenderItem = ({ item }) => {
     const selectedItem = catgPressedItem === item;
-    // console.log("pressed item in category render", item);
+    function onCategoryPress({ item }) {
+      setCatgPressedItem(item);
+      selectedCategoryInfo(item);
+    }
+
     return (
       <View
         style={[
           styles.catgItemContiner,
-          { backgroundColor: selectedItem ? Colors.coral : Colors.background },
+          {
+            backgroundColor: selectedItem ? Colors.coral : Colors.background,
+          },
         ]}
       >
         <Pressable
