@@ -4,13 +4,23 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import { Pressable } from "react-native";
 import Colors from "../../contants/Colors";
+import { useNavigation } from "@react-navigation/native";
 
 const NewsItem = ({ item }) => {
+  //add load state component
   const publishTime = item.publishedAt.slice(0, 10);
-
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Pressable style={styles.mainWrapper}>
+      <Pressable
+        style={({ pressed }) => [
+          styles.mainWrapper,
+          { opacity: pressed ? 0.5 : 1 },
+        ]}
+        onPress={() => {
+          navigation.navigate("NewsDetails", { news: item });
+        }}
+      >
         <View style={styles.imageWrapper}>
           <Image source={{ uri: item.urlToImage }} style={styles.image} />
         </View>

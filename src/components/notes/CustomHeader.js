@@ -7,7 +7,7 @@ import Colors from "../../contants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import MenuComp from "./MenuComp";
 
-function CustomHeader({ header, iconName, MenuComp }) {
+function CustomHeader({ header, iconName, MenuComp, onIconPress }) {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -37,6 +37,7 @@ function CustomHeader({ header, iconName, MenuComp }) {
           size={25}
           color={"white"}
           style={{ marginRight: 1 }}
+          onPress={onIconPress}
         />
       </Pressable>
       <Pressable

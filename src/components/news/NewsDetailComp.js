@@ -1,17 +1,37 @@
 /** @format */
 
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View, Share } from "react-native";
 import React from "react";
 import CustomHeader from "../notes/CustomHeader";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "../../contants/Colors";
+import * as WebBrowser from "expo-web-browser";
+import * as Sharing from "expo-sharing";
+
 const NewsDetailComp = ({ news }) => {
   const publishTime = news.publishedAt.slice(0, 10);
+
+  const handleShare = async () => {
+    const result = await Share.share({
+      message: `Check out this news: ${news.title} ${news.url}`,
+    });
+    if (result.action === Share.sharedAction) {
+      if (result.activityType) {
+        console.log("shared with activity type: ", result.activityType);
+      } else {
+        console.log("shared");
+      }
+    }
+    if (result.activityType === Share.dismissedAction) {
+      console.log("dismissed", result.action, "and type", result.activityType);
+    }
+  };
   return (
     <View style={styles.container}>
       <CustomHeader
         header={"Read News"}
         iconName={"share"}
+        onIconPress={handleShare}
         MenuComp={() => (
           <MaterialCommunityIcons name="bookmark" size={25} color="white" />
         )}
@@ -29,7 +49,9 @@ const NewsDetailComp = ({ news }) => {
       </View>
 
       <Pressable
-        onPress={() => {}}
+        onPress={() => {
+          WebBrowser.openBrowserAsync(news.url);
+        }}
         style={({ pressed }) => pressed && styles.pressed}
       >
         <Text style={styles.readMore}>Read</Text>
