@@ -83,7 +83,7 @@ const NewsDetailComp = ({ news }) => {
         }}
         style={({ pressed }) => pressed && styles.pressed}
       >
-        <Text style={styles.readMore}>Read</Text>
+        <Text style={styles.readMore}>Read more..</Text>
       </Pressable>
     </View>
   );

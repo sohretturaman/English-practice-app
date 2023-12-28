@@ -7,7 +7,7 @@ import { SavedNewsContext } from "../../store/SavedNewsContext";
 
 const SavedNews = () => {
   const newsContext = useContext(SavedNewsContext);
-  console.log("context in saved", newsContext.news[0].id);
+  console.log("context in saved", newsContext.news[0]?.id);
   // const isNewsFaved = newsContext.news.includes(mealId);
   return (
     <View style={styles.container}>

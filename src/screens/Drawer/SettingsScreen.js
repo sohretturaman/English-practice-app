@@ -2,8 +2,9 @@
 
 import React from "react";
 import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
-import { Switch, Text, Button } from "react-native-paper";
+import { Switch, Text, Button, Drawer } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import SettingsItemComp from "../../components/settings/SettingsItemComp";
 
 const SettingsScreen = () => {
   const [notificationsEnabled, setNotificationsEnabled] = React.useState(false);
@@ -32,35 +33,37 @@ const SettingsScreen = () => {
     // Implement your logic for sending feedback
   };
 
-  const renderSettingItem = (title, icon, onPress) => (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.settingItem}>
-        <View style={styles.iconContainer}>
-          <MaterialCommunityIcons name={icon} size={24} color="black" />
-        </View>
-        <View style={styles.textContainer}>
-          <Text>{title}</Text>
-        </View>
-        <Switch value={notificationsEnabled} onValueChange={toggleSwitch} />
-      </View>
-    </TouchableOpacity>
-  );
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Settings</Text>
+      <Text style={styles.title}>Account</Text>
+      <SettingsItemComp
+        icon={"account"}
+        title={"Edit Profile"}
+        secondIcon={"chevron-right"}
+      />
 
-      {renderSettingItem("Enable Notifications", "bell", toggleSwitch)}
-
-      {renderSettingItem("Delete Notes", "trash-can", handleDeleteNotes)}
-
-      {renderSettingItem("Change Language", "earth", handleChangeLanguage)}
-
-      {renderSettingItem("Logout", "logout", handleLogout)}
-
-      {renderSettingItem("Edit Profile", "account", handleEditProfile)}
-
-      {renderSettingItem("Send Feedback", "message", handleSendFeedback)}
+      <View style={{ marginTop: 20 }}>
+        <Text style={styles.title}>Settings</Text>
+        <SettingsItemComp
+          icon={"bell"}
+          title={"Notifications"}
+          switchItem={
+            <Switch value={notificationsEnabled} onValueChange={toggleSwitch} />
+          }
+        />
+        <SettingsItemComp
+          icon={"trash-can"}
+          title={"Deleted Notes"}
+          secondIcon={"chevron-right"}
+        />
+        {/* <SettingsItemComp icon={"home"} title={"Change Language"} /> */}
+        <SettingsItemComp icon={"logout"} title={"Log out"} />
+        <SettingsItemComp
+          icon={"send"}
+          title={"Send Feedback"}
+          secondIcon={"chevron-right"}
+        />
+      </View>
     </ScrollView>
   );
 };
@@ -71,26 +74,9 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 16,
-  },
-  settingItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 16,
-    padding: 16,
-    backgroundColor: "lightgray",
-    borderRadius: 8,
-    elevation: 2, // Adds a shadow on Android
-  },
-  iconContainer: {
-    marginRight: 16,
-  },
-  textContainer: {
-    flex: 1,
-    marginRight: 16,
   },
 });
 
