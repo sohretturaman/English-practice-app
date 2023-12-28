@@ -2,7 +2,7 @@
 
 // NewsScreen.js
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, VirtualizedList } from "react-native";
 import NewsList from "../components/news/NewsList";
 import SearchBar from "../components/uı/SearchBar";
 import Axios from "axios"; // Import Axios correctly
@@ -35,22 +35,6 @@ const NewsScreen = ({ navigation }) => {
     );
     setSearchedNews(filteredNews);
   };
-
-  useEffect(() => {
-    const getFetchNews = async () => {
-      try {
-        const response = await Axios.get(
-          "https://fakenews.squirro.com/news/sport"
-        );
-        console.log(response.data ? "data fetched" : "no data"); // Assuming the data is in response.data
-        setNewsData(response.data); // Update the state with the fetched data
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getFetchNews();
-  }, []);
 
   return (
     <ScrollView showVerticalScrollIndicator={false}>

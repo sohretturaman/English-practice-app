@@ -23,6 +23,8 @@ const HeadlineList = () => {
     <View style={styles.container}>
       <Title>Headlines</Title>
       <FlatList
+        nestedScrollEnabled={true}
+        //   scrollEnabled={false}
         data={headLineData}
         renderItem={({ item }) => <HeadlineItem item={item} />}
         horizontal={true}

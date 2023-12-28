@@ -30,6 +30,8 @@ const NewsList = () => {
     <View style={styles.container}>
       <Title>News</Title>
       <FlatList
+        nestedScrollEnabled={true}
+        scrollEnabled={false}
         data={headLineData}
         renderItem={({ item }) => <NewsItem item={item} />}
       />

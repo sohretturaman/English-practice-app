@@ -2,19 +2,13 @@
 
 // NewsDetails.js
 import React from "react";
+import { Pressable, ScrollView, StyleSheet } from "react-native";
 import { View, Text, Image, Button } from "react-native";
+import Colors from "../../contants/Colors";
+import NewsDetailComp from "../../components/news/NewsDetailComp";
 
 const NewsDetailsScreen = ({ route, navigation }) => {
-  const { id } = route.params;
-
-  // You can fetch the news details based on the id
-  // For now, you can use a placeholder object
-  const news = {
-    id,
-    title: "Breaking News 1",
-    description: "This is a breaking news article.",
-    image: "https://via.placeholder.com/300",
-  };
+  const { news } = route.params;
 
   const handleSave = () => {
     // Implement the logic to save the news (you may use Redux here)
@@ -23,18 +17,16 @@ const NewsDetailsScreen = ({ route, navigation }) => {
   };
 
   return (
-    <View style={{ padding: 16 }}>
-      <Image
-        source={{ uri: news.image }}
-        style={{ width: "100%", height: 200, marginBottom: 10 }}
-      />
-      <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>
-        {news.title}
-      </Text>
-      <Text>{news.description}</Text>
-      <Button title="Save" onPress={handleSave} />
-    </View>
+    <ScrollView style={styles.container}>
+      <NewsDetailComp news={news} />
+    </ScrollView>
   );
 };
 
 export default NewsDetailsScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+});

@@ -304,19 +304,7 @@ const RootStack = () => {
 
         <Stack.Screen name="FavedWords" component={FavedWords} />
         <Stack.Screen name="AddNote" component={AddNote} />
-        <Stack.Screen
-          name="NewsDetails"
-          component={NewsDetailsScreen}
-          options={{
-            headerShown: true,
-            header: () => (
-              <CustomHeader
-                header={"News Details"}
-                iconName={"clipboard-text-clock-outline"}
-              />
-            ),
-          }}
-        />
+        <Stack.Screen name="NewsDetails" component={NewsDetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

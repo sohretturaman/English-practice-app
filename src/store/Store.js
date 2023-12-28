@@ -12,6 +12,7 @@ const store = configureStore({
     notes: NotesReducer,
     tasks: TasksReducer,
   },
+
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,

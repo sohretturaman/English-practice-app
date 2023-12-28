@@ -9,9 +9,20 @@ import {
 } from "react-native";
 import React from "react";
 import Colors from "../../contants/Colors";
+import { useNavigation } from "@react-navigation/native";
 
 const HeadlineItem = ({ item }) => {
   const publishTime = item.publishedAt.slice(0, 10);
+  const navigation = useNavigation();
+
+  if (
+    item.content === "[Removed]" ||
+    item.description === "[Removed]" ||
+    item.title === "[Removed]"
+  ) {
+    console.log("emtpy objects is", item);
+    return null; // checked for empty objects
+  }
 
   return (
     <View style={styles.headlineItemContainer}>
@@ -20,6 +31,7 @@ const HeadlineItem = ({ item }) => {
           styles.emptyImageContainer,
           { opacity: pressed ? 0.5 : 1 },
         ]}
+        onPress={() => navigation.navigate("NewsDetails", { news: item })}
       >
         <ImageBackground
           source={{ uri: item.urlToImage }}
