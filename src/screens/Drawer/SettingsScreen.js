@@ -3,6 +3,7 @@
 import React from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import SettingsContext from "../../components/settings/SettingsContext";
+import BottomSheetComp from "../../components/settings/BottomSheetComp";
 
 const SettingsScreen = () => {
   return (

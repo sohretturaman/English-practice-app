@@ -1,18 +1,29 @@
 /** @format */
 
-import React from "react";
+import React, { useRef, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Switch } from "react-native-paper";
 import SettingsItemComp from "./SettingsItemComp";
 import Colors from "../../contants/Colors";
+import ProfileComp from "./ProfileComp";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheetComp from "./BottomSheetComp";
 
 const SettingsContext = () => {
   const [notificationsEnabled, setNotificationsEnabled] = React.useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleBottomSheet = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   const toggleSwitch = () => {
     setNotificationsEnabled(!notificationsEnabled);
   };
 
+  function handleEditPress() {
+    setModalVisible(true);
+  }
   const handleDeleteNotes = () => {
     // Implement your logic for deleting notes
   };
@@ -36,12 +47,7 @@ const SettingsContext = () => {
   return (
     <View style={styles.container}>
       <View style={styles.headerWrapper}>
-        <Text style={styles.title}>Account</Text>
-        <SettingsItemComp
-          icon={"account-edit-outline"}
-          title={"Edit Profile"}
-          secondIcon={"chevron-right"}
-        />
+        <ProfileComp onEditPress={handleEditPress} />
       </View>
 
       <View style={{ marginTop: 20 }}>
@@ -64,6 +70,13 @@ const SettingsContext = () => {
           icon={"send-outline"}
           title={"Send Feedback"}
           secondIcon={"chevron-right"}
+        />
+      </View>
+      {/**Bottom sheet  */}
+      <View>
+        <BottomSheetComp
+          isModalVisible={isModalVisible}
+          toggleModal={toggleBottomSheet}
         />
       </View>
     </View>
