@@ -13,7 +13,7 @@ import axios, { Axios } from "axios";
 import { OpenAIError } from "openai";
 
 const ChatGptScreen = () => {
-  const apiKey = "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";
+ 
   // const apiUrl ="https://api.openai.com/v1/engines/text-davinci-002/completions";
   const apiUrl =
     "https://api.openai.com/v1/engines/gpt-3.5-turbo-1106/completions";
