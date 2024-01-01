@@ -1,9 +1,19 @@
 /** @format */
 
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import React from "react";
 import { useSelector } from "react-redux";
 import Colors from "../contants/Colors";
+import TranslatorContext from "../components/translator/TranslatorContext";
 
 const TranslateScreen = () => {
   const darkMode = useSelector((selector) => selector.theme.isDarkTheme);
@@ -16,6 +26,7 @@ const TranslateScreen = () => {
       ]}
     >
       <Text>TranslateScreen</Text>
+      <TranslatorContext />
     </SafeAreaView>
   );
 };
@@ -24,6 +35,6 @@ export default TranslateScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    padding: 5,
   },
 });

@@ -42,8 +42,15 @@ const NewsScreen = ({ navigation }) => {
   if (isLoading) {
     return <LoadingComp />;
   }
+
+  //solution for keyboard problem in scrollview component ,it is avoindg keyboard on scroll
+  //wrapp scrollview with keyboardavoiding view to solve  virtual keyboard problem
   return (
-    <ScrollView showVerticalScrollIndicator={false} style={{ flex: 1 }}>
+    <ScrollView
+      showVerticalScrollIndicator={false}
+      style={{ flex: 1 }}
+      keyboardDismissMode="on-drag"
+    >
       <View style={styles.container}>
         <SearchBar onSubmit={handleSearchSubmit} />
         <CategoryList

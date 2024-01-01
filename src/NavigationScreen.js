@@ -171,6 +171,7 @@ function MyBottomTab() {
   const screenOptions = {
     headerShown: false,
     tabBarShowLabel: false,
+    tabBarHideOnKeyboard: true, //Solved problem to hide bottom tabbar on keyboard
     tabBarStyle: {
       elevation: 1,
       position: "absolute",
@@ -180,7 +181,6 @@ function MyBottomTab() {
       right: 8,
       borderRadius: 10,
       height: 60,
-      tabBarHideOnKeyboard: true, // to hide bottom tabbar on keyboard
     },
   };
   return (
