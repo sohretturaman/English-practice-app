@@ -12,6 +12,7 @@ const Colors = {
   brown: "#BA873B",
   favGray: "#f6f6f6",
   coral: "#DF7058",
+  traslate: "#009ADF",
 };
 
 export default Colors;

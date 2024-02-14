@@ -3,6 +3,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import TranslatorHeader from "./TranslatorHeader";
+import TranslatorInput from "./TranslatorInput";
+import HistoryComp from "./HistoryComp";
 
 export default function Translator({ selectedLang, langKey, mode }) {
   const [translateFrom, setTranslateFrom] = useState("English");
@@ -11,10 +13,13 @@ export default function Translator({ selectedLang, langKey, mode }) {
   useEffect(() => {
     if (mode === "from") {
       setTranslateFrom(selectedLang);
-    } else {
+    }
+    if (mode === "to") {
       setTranslateTo(selectedLang);
     }
   }, [selectedLang, mode]);
+
+  console.log("tranlate to ", translateTo);
 
   return (
     <View>
@@ -23,6 +28,8 @@ export default function Translator({ selectedLang, langKey, mode }) {
         translateFrom={translateFrom}
         translateTo={translateTo}
       />
+      <TranslatorInput />
+      <HistoryComp />
     </View>
   );
 }

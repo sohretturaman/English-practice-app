@@ -1,7 +1,7 @@
 /** @format */
 
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { Pressable } from "react-native";
 import SupportedLanguges from "../../utils/SupportedLanguges";
 import { useNavigation } from "@react-navigation/native";
@@ -19,21 +19,37 @@ const SelectLangComp = ({ selectMode, current }) => {
     });
   };
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: selectMode === "to" ? "Translate To" : "Translate From ",
+    });
+  }, []);
+
   const SelectLangItem = ({ item }) => {
     const itemText = SupportedLanguges[item];
     isChecked = itemText === current;
 
     return (
-      <Pressable onPress={() => onLangPress(item)}>
-        <Ionicons name="checkmark" color={"black"} />
-        <Text>{itemText}</Text>
+      <Pressable
+        onPress={() => onLangPress(item)}
+        style={({ pressed }) => [
+          pressed && styles.pressed,
+          styles.itemContainer,
+        ]}
+      >
+        <Ionicons
+          name={isChecked ? "checkbox-sharp" : ""}
+          size={24}
+          color="black"
+        />
+
+        <Text style={styles.text}>{itemText}</Text>
       </Pressable>
     );
   };
 
   return (
     <View style={styles.container}>
-      <Text>AvailableLanguages</Text>
       <FlatList
         data={Object.keys(SupportedLanguges)}
         renderItem={SelectLangItem}
@@ -48,6 +64,21 @@ export default SelectLangComp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    padding: 2,
+  },
+  itemContainer: {
+    flex: 1,
+    margin: 5,
+    padding: 5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 16,
+    fontWeight: "500",
+    marginLeft: 5,
+  },
+  pressed: {
+    opacity: 0.5,
   },
 });

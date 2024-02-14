@@ -309,6 +309,7 @@ const RootStack = () => {
         <Stack.Group
           screenOptions={{
             presentation: "card",
+            headerShown: true,
           }}
         >
           <Stack.Screen name="LangugeSelect" component={LanguageSelect} />
