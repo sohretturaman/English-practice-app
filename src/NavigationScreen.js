@@ -37,6 +37,7 @@ import AddNote from "./screens/AddNote";
 import SettingsScreen from "./screens/Drawer/SettingsScreen";
 import NewsDetailsScreen from "./screens/backup/NewsDetailsScreen";
 import CustomHeader from "./components/notes/CustomHeader";
+import LanguageSelect from "./screens/backup/LanguageSelect";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -305,6 +306,13 @@ const RootStack = () => {
         <Stack.Screen name="FavedWords" component={FavedWords} />
         <Stack.Screen name="AddNote" component={AddNote} />
         <Stack.Screen name="NewsDetails" component={NewsDetailsScreen} />
+        <Stack.Group
+          screenOptions={{
+            presentation: "card",
+          }}
+        >
+          <Stack.Screen name="LangugeSelect" component={LanguageSelect} />
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );

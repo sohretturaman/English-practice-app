@@ -3,6 +3,7 @@
 import {
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -13,10 +14,13 @@ import {
 import React from "react";
 import { useSelector } from "react-redux";
 import Colors from "../contants/Colors";
-import TranslatorContext from "../components/translator/TranslatorContext";
+
+import Translator from "../components/translator/Translator";
+import { useRoute } from "@react-navigation/native";
 
 const TranslateScreen = () => {
   const darkMode = useSelector((selector) => selector.theme.isDarkTheme);
+  const route = useRoute();
 
   return (
     <SafeAreaView
@@ -25,8 +29,11 @@ const TranslateScreen = () => {
         { backgroundColor: darkMode ? Colors.black : Colors.background },
       ]}
     >
-      <Text>TranslateScreen</Text>
-      <TranslatorContext />
+      <Translator
+        selectedLang={route.params?.selectedLang}
+        langKey={route.params?.langKey}
+        mode={route.params?.mode}
+      />
     </SafeAreaView>
   );
 };

@@ -16,6 +16,8 @@ const HeadlineList = () => {
     const getLatestNews = async () => {
       setIsLoading(true);
       const result = await GetNewsHeadlines();
+      console.log("getting newHeadlines ,result", result);
+
       setHeadLineData(result.data.articles);
       setIsLoading(false);
     };
