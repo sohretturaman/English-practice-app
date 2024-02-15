@@ -4,8 +4,10 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Colors from "../../contants/Colors";
 
-const HistoryComp = () => {
+const HistoryComp = ({ data }) => {
   //render tranlated words here after got the  tranlated items objects's list
+  console.log("data in history", data?.length);
+
   return (
     <View style={styles.container}>
       <Text>History</Text>

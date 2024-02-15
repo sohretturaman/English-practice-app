@@ -14,7 +14,6 @@ const SelectLangComp = ({ selectMode, current }) => {
     selectedLang = SupportedLanguges[langKey];
     navigation.navigate("TranslateScreen", {
       selectedLang: selectedLang,
-      langKey: langKey,
       mode: selectMode,
     });
   };

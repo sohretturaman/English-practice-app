@@ -5,24 +5,31 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../contants/Colors";
 
-const TranslatorInput = () => {
+const TranslatorInput = ({ handleTranslate }) => {
   const [input, setInput] = useState("");
+
+  const handleSubmitInpput = () => {
+    handleTranslate(input);
+    setInput("");
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.inputWrapper}>
         <TextInput
-          onChangeText={(text) => console.log("text in iput", text)}
+          onChangeText={(text) => setInput(text)}
           placeholder="Enter Text"
           style={styles.input}
+          value={input}
           textAlignVertical="top"
-          onSubmitEditing={() => console.log("submitted")}
+          onSubmitEditing={handleSubmitInpput}
         />
         <Ionicons
           name="arrow-forward-circle"
           size={30}
           color={Colors.secondary}
           style={styles.arrowIcon}
+          onPress={handleSubmitInpput}
         />
       </View>
       <View style={styles.resultWrapper}>

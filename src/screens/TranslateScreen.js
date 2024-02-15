@@ -31,7 +31,6 @@ const TranslateScreen = () => {
     >
       <Translator
         selectedLang={route.params?.selectedLang}
-        langKey={route.params?.langKey}
         mode={route.params?.mode}
       />
     </SafeAreaView>
