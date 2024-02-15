@@ -10,19 +10,30 @@ import { Ionicons } from "@expo/vector-icons";
 const HistoryComp = ({ data }) => {
   //render tranlated words here after got the  tranlated items objects's list
 
-  const { saveHistory, historyData } = useTranslateContext();
+  const { saveHistory, historyData, saveFaved, favedData } =
+    useTranslateContext();
 
+  const handleFavedItems = (item) => {
+    saveFaved(item);
+  };
   const renderItem = ({ item }) => {
+    const isFaved = favedData.some((faved) => faved.id === item.id);
+
+    console.log("is faved", isFaved);
+
     return (
       <View style={styles.itemContainer}>
         <View>
-          <Text numberOfLines={4} style={{ fontSize: 16, color: "black" }}>
+          <Text numberOfLines={4} style={{ fontSize: 16, color: Colors.black }}>
             {item.original_text}
           </Text>
           <Text style={styles.subtext}>{item.translated_text[item.to]}</Text>
         </View>
-        <Pressable style={({ pressed }) => pressed && { opacity: 0.5 }}>
-          <Ionicons name="star" color={"blue"} size={20} />
+        <Pressable
+          style={({ pressed }) => pressed && { opacity: 0.5 }}
+          onPress={() => handleFavedItems(item)}
+        >
+          <Ionicons name="star" color={isFaved ? "blue" : "gray"} size={20} />
         </Pressable>
       </View>
     );

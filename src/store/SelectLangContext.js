@@ -62,7 +62,22 @@ export const AppContextProvider = ({ children }) => {
     dispatch({ type: actionTypes.ADD_HISTORY_DATA, payload: historyData });
   }
   function saveFaved(favedItem) {
-    dispatch({ type: actionTypes.ADD_FAVED_DATA, payload: favedItem });
+    const isAlreadyFaved = state.favedData.some(
+      (item) => item.id === favedItem.id
+    );
+    if (isAlreadyFaved) {
+      // Remove the item from the favorites list
+      const updatedFavedData = state.favedData.filter(
+        (item) => item.id !== favedItem.id
+      );
+      dispatch({ type: actionTypes.ADD_FAVED_DATA, payload: updatedFavedData });
+    } else {
+      // Add the item to the favorites list
+      dispatch({
+        type: actionTypes.ADD_FAVED_DATA,
+        payload: [...state.favedData, favedItem],
+      });
+    }
   }
 
   const value = {
