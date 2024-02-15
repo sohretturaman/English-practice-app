@@ -46,7 +46,7 @@ const TranslatorInput = ({ handleTranslate, myText, isLoading }) => {
         )}
       </View>
       <View style={styles.resultWrapper}>
-        <Text>{isLoading ? "loading" : myText}</Text>
+        <Text>{input.length === 0 ? "" : myText}</Text>
       </View>
     </View>
   );

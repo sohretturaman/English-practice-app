@@ -8,10 +8,9 @@ import { useTranslateContext } from "../../store/SelectLangContext";
 import { Ionicons } from "@expo/vector-icons";
 
 const HistoryComp = ({ data }) => {
-  //render tranlated words here after got the  tranlated items objects's list
+  //faved items will we displayed on a seperate page which will be exist on drawer  later on
 
-  const { saveHistory, historyData, saveFaved, favedData } =
-    useTranslateContext();
+  const { historyData, saveFaved, favedData } = useTranslateContext();
 
   const handleFavedItems = (item) => {
     saveFaved(item);
