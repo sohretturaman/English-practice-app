@@ -18,7 +18,8 @@ const TranslatorInput = ({ handleTranslate, myText, isLoading }) => {
     if (input.trim().length === 0) {
       return;
     }
-
+    handleTranslate(input);
+    setInput("");
     console.log("request is sended", input);
   };
 
