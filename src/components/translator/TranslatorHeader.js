@@ -4,11 +4,7 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const TranslatorHeader = ({
-  selectedLang,
-  translateFromState,
-  translateToState,
-}) => {
+const TranslatorHeader = ({ translateFromState, translateToState }) => {
   const navigation = useNavigation();
 
   return (

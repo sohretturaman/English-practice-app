@@ -43,7 +43,14 @@ const reducer = (state, action) => {
 
 // Context provider to manage global state
 export const AppContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, []);
+  const initialState = {
+    historyData: [],
+    favedData: [],
+    translateFrom: "English", // Default value for translateFrom
+    translateTo: "Turkish", // Default value for translateTo
+  };
+
+  const [state, dispatch] = useReducer(reducer, initialState);
   function setTranslateTo(language) {
     dispatch({ type: actionTypes.UPDATE_TRANSLATE_TO, payload: language });
   }
@@ -52,7 +59,7 @@ export const AppContextProvider = ({ children }) => {
     dispatch({ type: actionTypes.UPDATE_TRANSLATE_FROM, payload: language });
   }
   function saveHistory(historyData) {
-    dispatch({ type: actionTypes.ADD_RESULT_DATA, payload: historyData });
+    dispatch({ type: actionTypes.ADD_HISTORY_DATA, payload: historyData });
   }
   function saveFaved(favedItem) {
     dispatch({ type: actionTypes.ADD_FAVED_DATA, payload: favedItem });

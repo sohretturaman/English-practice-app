@@ -1,16 +1,25 @@
 /** @format */
 
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../contants/Colors";
 
-const TranslatorInput = ({ handleTranslate }) => {
+const TranslatorInput = ({ handleTranslate, myText, isLoading }) => {
   const [input, setInput] = useState("");
 
-  const handleSubmitInpput = () => {
-    handleTranslate(input);
-    setInput("");
+  const handleSubmitInput = () => {
+    if (input.trim().length === 0) {
+      return;
+    }
+
+    console.log("request is sended", input);
   };
 
   return (
@@ -22,18 +31,22 @@ const TranslatorInput = ({ handleTranslate }) => {
           style={styles.input}
           value={input}
           textAlignVertical="top"
-          onSubmitEditing={handleSubmitInpput}
+          onSubmitEditing={handleSubmitInput}
         />
-        <Ionicons
-          name="arrow-forward-circle"
-          size={30}
-          color={Colors.secondary}
-          style={styles.arrowIcon}
-          onPress={handleSubmitInpput}
-        />
+        {isLoading ? (
+          <ActivityIndicator size={"small"} />
+        ) : (
+          <Ionicons
+            name="arrow-forward-circle"
+            size={30}
+            color={Colors.secondary}
+            style={styles.arrowIcon}
+            onPress={handleSubmitInput}
+          />
+        )}
       </View>
       <View style={styles.resultWrapper}>
-        <Text>Tranalated Text displays here.. </Text>
+        <Text>{isLoading ? "loading" : myText}</Text>
       </View>
     </View>
   );
