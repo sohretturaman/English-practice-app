@@ -4,7 +4,11 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const TranslatorHeader = ({ selectedLang, translateFrom, translateTo }) => {
+const TranslatorHeader = ({
+  selectedLang,
+  translateFromState,
+  translateToState,
+}) => {
   const navigation = useNavigation();
 
   return (
@@ -13,11 +17,11 @@ const TranslatorHeader = ({ selectedLang, translateFrom, translateTo }) => {
         onPress={() =>
           navigation.navigate("LangugeSelect", {
             mode: "from",
-            current: translateFrom,
+            current: translateFromState,
           })
         }
       >
-        <Text style={styles.text}> {translateFrom} </Text>
+        <Text style={styles.text}> {translateFromState} </Text>
       </Pressable>
       <Pressable>
         <Ionicons name="swap-horizontal" size={25} />
@@ -26,11 +30,11 @@ const TranslatorHeader = ({ selectedLang, translateFrom, translateTo }) => {
         onPress={() =>
           navigation.navigate("LangugeSelect", {
             mode: "to",
-            current: translateTo,
+            current: translateToState,
           })
         }
       >
-        <Text style={styles.text}> {translateTo} </Text>
+        <Text style={styles.text}> {translateToState} </Text>
       </Pressable>
     </View>
   );

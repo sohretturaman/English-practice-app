@@ -7,13 +7,12 @@ import { useRoute } from "@react-navigation/native";
 
 const LanguageSelect = () => {
   const route = useRoute();
-  console.log("route.params", route.params);
 
   return (
     <View style={styles.container}>
       <SelectLangComp
-        selectMode={route.params.mode}
-        current={route.params.current}
+        selectMode={route.params?.mode}
+        current={route.params?.current}
       />
     </View>
   );

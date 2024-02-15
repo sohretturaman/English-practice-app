@@ -6,16 +6,22 @@ import { Pressable } from "react-native";
 import SupportedLanguges from "../../utils/SupportedLanguges";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import { useTranslateContext } from "../../store/SelectLangContext";
 
 const SelectLangComp = ({ selectMode, current }) => {
   const navigation = useNavigation();
+  const { setTranslateFrom, setTranslateTo } = useTranslateContext();
 
   const onLangPress = (langKey) => {
     selectedLang = SupportedLanguges[langKey];
-    navigation.navigate("TranslateScreen", {
-      selectedLang: selectedLang,
-      mode: selectMode,
-    });
+    if (selectMode === "to") {
+      setTranslateTo(selectedLang);
+    }
+    if (selectMode === "from") {
+      setTranslateFrom(selectedLang);
+    }
+
+    navigation.navigate("TranslateScreen");
   };
 
   useLayoutEffect(() => {
