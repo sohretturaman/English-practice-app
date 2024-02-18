@@ -17,7 +17,7 @@ import {
 import Colors from "./contants/Colors";
 import Notes from "./screens/Notes";
 import Tasks from "./screens/Tasks";
-import BooksScreen from "./screens/BooksScreen";
+import BooksScreen from "./screens/ListeningScreen";
 import PracticesScreen from "./screens/PracticesScreen";
 import NewsScreen from "./screens/NewsScreen";
 import TranslateScreen from "./screens/TranslateScreen";
@@ -38,6 +38,9 @@ import SettingsScreen from "./screens/Drawer/SettingsScreen";
 import NewsDetailsScreen from "./screens/backup/NewsDetailsScreen";
 import CustomHeader from "./components/notes/CustomHeader";
 import LanguageSelect from "./screens/backup/LanguageSelect";
+import { Feather } from "@expo/vector-icons";
+import ListeningScreen from "./screens/ListeningScreen";
+import SearchScreen from "./screens/backup/SearchScreen";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -60,13 +63,21 @@ const DrawerRouter = () => {
       initialRouteName="Practices"
       drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
+        headerShown: true,
         headerTintColor: Colors.lightGray,
         drawerActiveTintColor: Colors.darkGray,
         drawerActiveBackgroundColor: Colors.lightGray,
         drawerInactiveTintColor: "white",
         drawerStyle: { backgroundColor: Colors.primary },
         header: ({ navigation }) => {
-          return <Header navigation={navigation} header={"My Practice App"} />;
+          return (
+            <Header
+              navigation={navigation}
+              header={"My Practice App"}
+              iconName="chatbox-ellipses-outline"
+              onIconPress={() => navigation.navigate("ChatGptScreen")}
+            />
+          );
         },
         sceneContainerStyle: {
           backgroundColor: darkMode ? Colors.black : Colors.background,
@@ -173,6 +184,13 @@ function MyBottomTab() {
     headerShown: false,
     tabBarShowLabel: false,
     tabBarHideOnKeyboard: true, //Solved problem to hide bottom tabbar on keyboard
+    tabBarActiveTintColor: Colors.secondary,
+    tabBarShowLabel: true,
+    tabBarInactiveTintColor: Colors.darkGray,
+    tabBarLabelStyle: {
+      paddingBottom: 5,
+      marginTop: -5,
+    },
     tabBarStyle: {
       elevation: 1,
       position: "absolute",
@@ -184,6 +202,7 @@ function MyBottomTab() {
       height: 60,
     },
   };
+
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
@@ -199,27 +218,30 @@ function MyBottomTab() {
               />
             );
           },
+          tabBarLabel: "Notes/Tasks",
         }}
       />
       <Tab.Screen
-        name="BooksScreen"
-        component={BooksScreen}
+        name="Listening"
+        component={ListeningScreen}
         options={{
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <MaterialCommunityIcons
-                name="bookshelf"
-                size={25}
+                name="headphones-box"
+                size={27}
                 color={focused ? Colors.secondary : Colors.darkGray}
               />
             );
           },
+          tabBarLabel: "Listening",
         }}
       />
       <Tab.Screen
         name="Practices"
         component={PracticesScreen}
         options={{
+          tabBarLabel: "Learn English",
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <MaterialCommunityIcons
@@ -235,6 +257,7 @@ function MyBottomTab() {
         name="Newsscreen"
         component={NewsScreen}
         options={{
+          tabBarLabel: "News",
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <FontAwesome
@@ -250,6 +273,7 @@ function MyBottomTab() {
         name="TranslateScreen"
         component={TranslateScreen}
         options={{
+          tabBarLabel: "Translator",
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <MaterialCommunityIcons
@@ -306,6 +330,7 @@ const RootStack = () => {
         <Stack.Screen name="FavedWords" component={FavedWords} />
         <Stack.Screen name="AddNote" component={AddNote} />
         <Stack.Screen name="NewsDetails" component={NewsDetailsScreen} />
+        <Stack.Screen name="SearchScreen" component={SearchScreen} />
         <Stack.Group
           screenOptions={{
             presentation: "card",

@@ -6,7 +6,12 @@ import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../contants/Colors";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Header({ header, navigation }) {
+export default function Header({
+  header,
+  navigation,
+  iconName = "chatbox-ellipses-outline",
+  onIconPress,
+}) {
   return (
     <View style={styles.container}>
       <Pressable style={({ pressed }) => pressed && styles.pressed}>
@@ -25,7 +30,8 @@ export default function Header({ header, navigation }) {
         <Text style={styles.text}>{header}</Text>
       </View>
       <Ionicons
-        name="chatbox-ellipses-outline"
+        onPress={onIconPress}
+        name={iconName}
         size={25}
         color={Colors.white}
       />

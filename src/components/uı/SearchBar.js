@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { View, TextInput, Button, StyleSheet } from "react-native";
 
-const SearchBar = ({ onSubmit }) => {
+const SearchBar = ({ onSubmit, placeholder = "Discover more news..." }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = () => {
@@ -20,8 +20,9 @@ const SearchBar = ({ onSubmit }) => {
       <Ionicons name="search" size={24} color="gray" style={styles.icon} />
       <TextInput
         style={{}}
-        placeholder="Discover more news..."
+        placeholder={placeholder}
         value={searchTerm}
+        autoFocus={true}
         onChangeText={(text) => setSearchTerm(text)}
         onSubmitEditing={handleSearch}
       />
