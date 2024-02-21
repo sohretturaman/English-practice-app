@@ -6,8 +6,6 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const CardYt = ({ data }) => {
-  console.log("data in card comp", data.id);
-
   return (
     <View style={styles.container}>
       <Pressable
@@ -38,7 +36,7 @@ export default CardYt;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
+    marginBottom: 20,
   },
   IconImage: {
     height: 40,

@@ -13,7 +13,9 @@ const SearchBar = ({ onSubmit, placeholder = "Discover more news..." }) => {
     // For now, you can console.log to see it's working
 
     onSubmit(searchTerm);
-    setSearchTerm("");
+    setTimeout(() => {
+      setSearchTerm("");
+    }, 5000);
   };
 
   return (
