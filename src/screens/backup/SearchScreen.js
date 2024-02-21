@@ -7,15 +7,11 @@ import { useNavigation } from "@react-navigation/native";
 import CustomHeader from "../../components/notes/CustomHeader";
 import SearchCard from "../../components/youtube/SearchCard";
 import { YOUTUBE_API_KEY } from "@env";
-import { podcasts } from "../../utils/PodcastsYt";
-//console.log("podcasts", podcasts.items);
 import { SearchedVideosContext } from "../../store/SearchedVideosContext";
 
 const SearchScreen = () => {
-  const [serchData, setSearchData] = useState(podcasts.items);
   const searchedItemsContext = useContext(SearchedVideosContext);
-  console.log("searched item context", searchedItemsContext.searchedVideos);
-
+  const searchedItemsData = searchedItemsContext.searchedVideos;
   const getSearchData = async (searchInput) => {
     try {
       await fetch(
@@ -24,7 +20,6 @@ const SearchScreen = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log("data yt from api", data);
-          setSearchData(data.items);
           searchedItemsContext.AddSearchedVideos(data.items);
         });
     } catch (error) {
@@ -47,7 +42,7 @@ const SearchScreen = () => {
       <CustomHeader header={"Explore more on Youtube"} />
       <SearchBar placeholder="Search.." onSubmit={getSearchData} />
       <FlatList
-        data={serchData}
+        data={searchedItemsData}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.videoId}
       />
