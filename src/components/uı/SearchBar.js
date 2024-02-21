@@ -9,10 +9,11 @@ const SearchBar = ({ onSubmit, placeholder = "Discover more news..." }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = () => {
-    // Implement the logic to fetch news based on the search term
+    // Implement the requied function to fetch news based on the search term
     // For now, you can console.log to see it's working
-    console.log("Search term:", searchTerm);
+
     onSubmit(searchTerm);
+    setSearchTerm("");
   };
 
   return (

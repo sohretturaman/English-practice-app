@@ -3,11 +3,12 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import { Pressable } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import Colors from "../../contants/Colors";
 
 const InputButtonYt = ({ onPress }) => {
   return (
-    <View>
+    <View style={{ alignItems: "center" }}>
       <Pressable
         style={({ pressed }) => [
           pressed && styles.pressed,
@@ -17,15 +18,24 @@ const InputButtonYt = ({ onPress }) => {
       >
         <Ionicons
           name="search"
-          size={24}
-          color="gray"
-          style={{ marginRight: 5 }}
-          onPress={onPress}
+          size={18}
+          color={Colors.coral}
+          style={{ marginRight: 5, marginBottom: -2 }}
         />
-        <TextInput
-          placeholder="Search..."
-          editable={false}
-          style={{ width: "90%" }}
+        <Text style={{ color: Colors.coral, fontWeight: "500" }}>
+          Search more on youtube{" "}
+        </Text>
+
+        <FontAwesome
+          name="chevron-right"
+          size={18}
+          color={Colors.coral}
+          style={{
+            marginHorizontal: 5,
+            alignSelf: "center",
+            marginBottom: -2,
+          }}
+          onPress={onPress}
         />
       </Pressable>
     </View>
@@ -40,17 +50,15 @@ const styles = StyleSheet.create({
   },
   searchWrapper: {
     justifyContent: "space-between",
+    backgroundColor: "transparent",
     flexDirection: "row",
-    padding: 16,
-    borderBottomColor: "gray",
-    borderBottomWidth: 0.5,
-    padding: 5,
-    marginTop: 10,
-    width: "90%",
-    alignSelf: "center",
+    width: 200,
+    alignSelf: "flex-end",
     alignItems: "center",
-    elevation: 1,
+    padding: 5,
     borderRadius: 10,
-    backgroundColor: "#fff",
+    marginTop: 5,
+    marginRight: 5,
+    justifyContent: "center",
   },
 });
