@@ -1,21 +1,22 @@
 /** @format */
 
 import { StyleSheet, Text, View, FlatList } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import SearchBar from "../../components/uı/SearchBar";
 import { useNavigation } from "@react-navigation/native";
 import CustomHeader from "../../components/notes/CustomHeader";
 import SearchCard from "../../components/youtube/SearchCard";
 import { YOUTUBE_API_KEY } from "@env";
 import { podcasts } from "../../utils/PodcastsYt";
-console.log("podcasts", podcasts.items);
+//console.log("podcasts", podcasts.items);
+import { SearchedVideosContext } from "../../store/SearchedVideosContext";
 
 const SearchScreen = () => {
   const [serchData, setSearchData] = useState(podcasts.items);
-  const navigation = useNavigation();
+  const searchedItemsContext = useContext(SearchedVideosContext);
+  console.log("searched item context", searchedItemsContext.searchedVideos);
+
   const getSearchData = async (searchInput) => {
-    console.log("search input", searchInput);
-    //function and yotune api is working properly
     try {
       await fetch(
         `https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_API_KEY}&q=${searchInput}&type=video&part=snippet&maxResults=2`
@@ -24,6 +25,7 @@ const SearchScreen = () => {
         .then((data) => {
           console.log("data yt from api", data);
           setSearchData(data.items);
+          searchedItemsContext.AddSearchedVideos(data.items);
         });
     } catch (error) {
       console.log("an error accured while fetching data", error);
@@ -33,9 +35,9 @@ const SearchScreen = () => {
   const renderItem = ({ item }) => {
     return (
       <SearchCard
-        channelTitle={item.snippet.channelTitle}
-        title={item.snippet.title}
-        videoId={item.id.videoId}
+        channelTitle={item?.snippet.channelTitle}
+        title={item?.snippet.title}
+        videoId={item?.id.videoId}
       />
     );
   };

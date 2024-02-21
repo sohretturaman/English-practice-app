@@ -4,8 +4,6 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import YoutubePlayer from "react-native-youtube-iframe";
 
-// https://i.ytimg.com/vi/Zqnz9jGg0kk/default.jpg
-
 const CardYt = () => {
   return (
     <View style={styles.container}>
@@ -13,11 +11,11 @@ const CardYt = () => {
         onPress={() => console.log("Pressed")}
         style={({ pressed }) => [styles.card, pressed && styles.pressed]}
       >
-        {/*    <Image
+        <Image
           source={require("../../contants/img/ytimage.jpg")}
           style={styles.cardImage}
-        /> */}
-        <YoutubePlayer height={200} play={true} videoId={"Zqnz9jGg0kk"} />
+        />
+        {/*   <YoutubePlayer height={300} play={false} videoId={"Zqnz9jGg0kk"} /> */}
       </Pressable>
       <View style={styles.bottomWrapper}>
         <Image

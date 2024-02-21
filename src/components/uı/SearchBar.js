@@ -20,7 +20,7 @@ const SearchBar = ({ onSubmit, placeholder = "Discover more news..." }) => {
     <View style={styles.contianer}>
       <Ionicons name="search" size={24} color="gray" style={styles.icon} />
       <TextInput
-        style={{}}
+        style={{ width: "90%" }}
         placeholder={placeholder}
         value={searchTerm}
         autoFocus={true}

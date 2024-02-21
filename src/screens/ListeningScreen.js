@@ -21,6 +21,8 @@ import Header from "../components/drawer/Header";
 
 const ListeningScreen = () => {
   const darkMode = useSelector((selector) => selector.theme.isDarkTheme);
+  const route = useRoute();
+  console.log("my listening route", route.name);
 
   const navigation = useNavigation();
 
