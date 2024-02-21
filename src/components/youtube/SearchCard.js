@@ -3,22 +3,24 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Image } from "react-native";
+import Colors from "../../contants/Colors";
 
-const searchCard = () => {
+const searchCard = ({ videoId, title, channelTitle }) => {
+  //videoid, title , channeltitle
   return (
     <View style={styles.containter}>
       <View style={styles.imageWraper}>
         <Image
-          source={require("../../contants/img/planeTravel.jpg")}
+          source={{ uri: `https://i.ytimg.com/vi/${videoId}/default.jpg` }}
           style={{ height: 100, width: "100%", resizeMode: "cover" }}
         />
       </View>
 
       <View style={styles.textContainer}>
         <Text style={styles.title} numberOfLines={2}>
-          Title is here : English practicig app with react native
+          {title}
         </Text>
-        <Text style={styles.subtext}> channel name .....</Text>
+        <Text style={styles.subtext}> {channelTitle}</Text>
       </View>
     </View>
   );
@@ -32,6 +34,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 100,
     padding: 5,
+    marginVertical: 5,
+    backgroundColor: Colors.lightGray,
   },
   textContainer: {
     padding: 5,

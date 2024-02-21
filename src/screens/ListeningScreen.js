@@ -32,11 +32,10 @@ const ListeningScreen = () => {
       ]}
     >
       <InputButtonYt onPress={() => navigation.navigate("SearchScreen")} />
-      <ScrollView>
-        <CardYt />
-        <CardYt />
-        <CardYt />
-      </ScrollView>
+
+      <CardYt />
+      <CardYt />
+      <CardYt />
     </SafeAreaView>
   );
 };
