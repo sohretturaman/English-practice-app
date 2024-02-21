@@ -3,8 +3,11 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import YoutubePlayer from "react-native-youtube-iframe";
+import { MaterialIcons } from "@expo/vector-icons";
 
-const CardYt = () => {
+const CardYt = ({ data }) => {
+  console.log("data in card comp", data.id);
+
   return (
     <View style={styles.container}>
       <Pressable
@@ -12,24 +15,19 @@ const CardYt = () => {
         style={({ pressed }) => [styles.card, pressed && styles.pressed]}
       >
         <Image
-          source={require("../../contants/img/ytimage.jpg")}
+          source={{
+            uri: `https://i.ytimg.com/vi/${data.id.videoId}/hqdefault.jpg`,
+          }}
           style={styles.cardImage}
         />
-        {/*   <YoutubePlayer height={300} play={false} videoId={"Zqnz9jGg0kk"} /> */}
       </Pressable>
       <View style={styles.bottomWrapper}>
-        <Image
-          source={{ uri: "https://i.pravatar.cc/100" }}
-          style={styles.IconImage}
-        />
+        <MaterialIcons name="account-circle" size={40} color="#212121" />
         <View style={styles.bottomTextWrapper}>
           <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-            Title of youtube video, the context is here brieflylskmdflkm
-            lskdmfksmdfk slklkdmflks nsdfknkfj osfısdjfjklmknsdjkfnkj
+            {data.snippet.title}
           </Text>
-          <Text style={styles.subtitle}>
-            Subtitle of yotube video,fontsize is 12
-          </Text>
+          <Text style={styles.subtitle}>{data.snippet.channelTitle}</Text>
         </View>
       </View>
     </View>
@@ -53,7 +51,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 200,
   },
-  card: {},
+  card: {
+    width: "100%",
+    height: 200,
+  },
   bottomWrapper: {
     flexDirection: "row",
     alignItems: "center",

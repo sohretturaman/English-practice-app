@@ -11,8 +11,10 @@ import YoutubeIframe from "react-native-youtube-iframe";
 import YoutubeMiniCard from "./YoutubeMiniCard";
 import { Image } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
 const ListeningLayout = () => {
+  const navigation = useNavigation();
   return (
     <View>
       <InputButtonYt onPress={() => navigation.navigate("SearchScreen")} />
@@ -26,11 +28,19 @@ const ListeningLayout = () => {
       />
 
       {/** songs with lyrics horizontal */}
-
+      <FlatList
+        data={songsYt.items}
+        renderItem={({ item }) => <YoutubeMiniCard data={item} />}
+        keyExtractor={(item) => item.id.videoId}
+        horizontal={true}
+      />
       {/** pocasts vertical */}
-      <CardYt />
-      <CardYt />
-      <CardYt />
+      <FlatList
+        data={pocastsYt.items}
+        renderItem={({ item }) => <CardYt data={item} />}
+        keyExtractor={(item) => item.id.videoId}
+        horizontal={false}
+      />
     </View>
   );
 };

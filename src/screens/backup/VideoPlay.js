@@ -15,6 +15,7 @@ const VideoPlay = () => {
       />
 
       {/** recommendations to watch, saved searches and  saved news, podcasts and songs */}
+      {/*   <YoutubePlayer height={300} play={false} videoId={"Zqnz9jGg0kk"} /> */}
     </View>
   );
 };
