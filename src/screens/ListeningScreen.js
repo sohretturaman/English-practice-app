@@ -12,12 +12,10 @@ import {
 import React, { useEffect, useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import Colors from "../contants/Colors";
-import SearchBar from "../components/uı/SearchBar";
-import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import InputButtonYt from "../components/uı/InputButtonYt";
 import CardYt from "../components/youtube/CardYt";
-import Header from "../components/drawer/Header";
+import ListeningLayout from "../components/youtube/ListeningLayout";
 
 const ListeningScreen = () => {
   const darkMode = useSelector((selector) => selector.theme.isDarkTheme);
@@ -33,11 +31,7 @@ const ListeningScreen = () => {
         { backgroundColor: darkMode ? Colors.black : Colors.background },
       ]}
     >
-      <InputButtonYt onPress={() => navigation.navigate("SearchScreen")} />
-
-      <CardYt />
-      <CardYt />
-      <CardYt />
+      <ListeningLayout />
     </SafeAreaView>
   );
 };

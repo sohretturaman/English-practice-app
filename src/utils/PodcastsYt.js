@@ -1,6 +1,6 @@
 /** @format */
 
-export const podcasts = {
+export const pocastsYt = {
   kind: "youtube#searchListResponse",
   etag: "TNKPfGdLi2vnVepLJ4RW-ACG2GI",
   nextPageToken: "CAoQAA",
