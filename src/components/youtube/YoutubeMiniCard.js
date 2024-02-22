@@ -3,13 +3,15 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Colors from "../../contants/Colors";
+import { useNavigation } from "@react-navigation/native";
 
 const YoutubeMiniCard = ({ data }) => {
+  const navigation = useNavigation();
   return (
     <Pressable
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
       onPress={() => {
-        console.log("p on layout item");
+        navigation.navigate("Videoplay", { data: data });
       }}
     >
       <View style={{ justifyContent: "space-between" }}>

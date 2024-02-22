@@ -29,7 +29,6 @@ const SearchScreen = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log("data yt from api", data);
-
           searchedItemsContext.AddSearchedVideos(data.items);
           setIsLoading(false);
         });

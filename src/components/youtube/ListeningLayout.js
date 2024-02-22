@@ -1,17 +1,16 @@
 /** @format */
 
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { pocastsYt } from "../../utils/PodcastsYt";
 import { songsYt } from "../../utils/Songsyt";
 import { newsYt } from "../../utils/NewsYt";
 import InputButtonYt from "../uı/InputButtonYt";
 import CardYt from "./CardYt";
-import YoutubeIframe from "react-native-youtube-iframe";
 import YoutubeMiniCard from "./YoutubeMiniCard";
-import { Image } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { ScrollView } from "react-native-virtualized-view";
 
 const ListeningLayout = () => {
   const navigation = useNavigation();
@@ -27,6 +26,7 @@ const ListeningLayout = () => {
           renderItem={({ item }) => <YoutubeMiniCard data={item} />}
           keyExtractor={(item) => item.id.videoId}
           horizontal={true}
+          nestedScrollEnabled={true}
         />
       </View>
 
@@ -38,6 +38,7 @@ const ListeningLayout = () => {
           renderItem={({ item }) => <YoutubeMiniCard data={item} />}
           keyExtractor={(item) => item.id.videoId}
           horizontal={true}
+          nestedScrollEnabled={true}
         />
       </View>
 
@@ -49,6 +50,7 @@ const ListeningLayout = () => {
           renderItem={({ item }) => <CardYt data={item} />}
           keyExtractor={(item) => item.id.videoId}
           horizontal={false}
+          nestedScrollEnabled={true}
         />
       </View>
     </ScrollView>

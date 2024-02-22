@@ -4,12 +4,14 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const CardYt = ({ data }) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Pressable
-        onPress={() => console.log("Pressed")}
+        onPress={() => navigation.navigate("Videoplay", { data: data })}
         style={({ pressed }) => [styles.card, pressed && styles.pressed]}
       >
         <Image
