@@ -7,6 +7,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 const CardYt = ({ data }) => {
+  console.log("data.id ", data.id);
+
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
