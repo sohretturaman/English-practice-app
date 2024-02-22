@@ -20,7 +20,7 @@ const ListeningLayout = () => {
 
       {/** songs with lyrics horizontal */}
       <View style={styles.listWrapper}>
-        <Text style={styles.text}> Listening practice with poplular news </Text>
+        <Text style={styles.text}> practice with poplular Songs </Text>
         <FlatList
           data={songsYt.items}
           renderItem={({ item }) => <YoutubeMiniCard data={item} />}

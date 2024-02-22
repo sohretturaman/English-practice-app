@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Pressable } from "react-native";
 import React, { useState } from "react";
 import Colors from "../../contants/Colors";
 import { Icon } from "react-native-elements";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 const VideoContext = ({ data }) => {
   const [isPressed, setIsPressed] = useState(false);
@@ -17,11 +17,16 @@ const VideoContext = ({ data }) => {
 
   return (
     <View style={styles.bottomWrapper}>
-      <View style={styles.bottomTextWrapper}>
-        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-          {data.snippet.title}
-        </Text>
-        <Text style={styles.subtitle}>{data.snippet.channelTitle}</Text>
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={styles.bottomTextWrapper}>
+          <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+            {data.snippet.title}
+          </Text>
+          <Text style={styles.subtitle}>{data.snippet.channelTitle}</Text>
+        </View>
+        <View>
+          <AntDesign name="like1" size={20} color="red" />
+        </View>
       </View>
 
       <View style={styles.descWrapper}>
