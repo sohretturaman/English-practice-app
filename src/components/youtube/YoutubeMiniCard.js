@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   subtitle: {
-    paddingLeft: 5,
     color: Colors.darkGray,
     fontSize: 12,
   },
