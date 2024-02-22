@@ -1,28 +1,38 @@
 /** @format */
 
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Image } from "react-native";
 import Colors from "../../contants/Colors";
+import { useNavigation } from "@react-navigation/native";
 
-const searchCard = ({ videoId, title, channelTitle }) => {
-  //videoid, title , channeltitle
+const searchCard = (props) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.containter}>
+    <Pressable
+      onPress={() => {
+        navigation.navigate("Videoplay", {
+          data: props,
+        });
+      }}
+      style={styles.containter}
+    >
       <View style={styles.imageWraper}>
         <Image
-          source={{ uri: `https://i.ytimg.com/vi/${videoId}/default.jpg` }}
+          source={{
+            uri: `https://i.ytimg.com/vi/${props.id.videoId}/default.jpg`,
+          }}
           style={{ height: 100, width: "100%", resizeMode: "cover" }}
         />
       </View>
 
       <View style={styles.textContainer}>
         <Text style={styles.title} numberOfLines={2}>
-          {title}
+          {props?.snippet.title}
         </Text>
-        <Text style={styles.subtext}> {channelTitle}</Text>
+        <Text style={styles.subtext}> {props?.snippet.channelTitle}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

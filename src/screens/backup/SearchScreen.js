@@ -39,13 +39,7 @@ const SearchScreen = () => {
   };
 
   const renderItem = ({ item }) => {
-    return (
-      <SearchCard
-        channelTitle={item?.snippet.channelTitle}
-        title={item?.snippet.title}
-        videoId={item?.id.videoId}
-      />
-    );
+    return <SearchCard {...item} />;
   };
 
   return (
