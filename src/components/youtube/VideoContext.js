@@ -9,8 +9,6 @@ import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 const VideoContext = ({ data }) => {
   const [isPressed, setIsPressed] = useState(false);
 
-  console.log("sdescrition", data.snippet.description);
-
   const toggleDescription = () => {
     setIsPressed(!isPressed);
   };

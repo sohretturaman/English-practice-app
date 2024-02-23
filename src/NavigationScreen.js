@@ -42,6 +42,7 @@ import { Feather } from "@expo/vector-icons";
 import ListeningScreen from "./screens/ListeningScreen";
 import SearchScreen from "./screens/backup/SearchScreen";
 import VideoPlay from "./screens/backup/VideoPlay";
+import PlaylistItems from "./screens/backup/PlaylistItems";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -343,6 +344,7 @@ const RootStack = () => {
         <Stack.Screen name="NewsDetails" component={NewsDetailsScreen} />
         <Stack.Screen name="SearchScreen" component={SearchScreen} />
         <Stack.Screen name="Videoplay" component={VideoPlay} />
+        <Stack.Screen name="PlaylistItems" component={PlaylistItems} />
         <Stack.Group
           screenOptions={{
             presentation: "card",

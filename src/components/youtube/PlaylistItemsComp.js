@@ -5,30 +5,29 @@ import React from "react";
 import Colors from "../../contants/Colors";
 import { useNavigation } from "@react-navigation/native";
 
-const YoutubeMiniCard = ({ data }) => {
+const PlaylistItemsComp = ({ data }) => {
   const navigation = useNavigation();
-  console.log("data in youtube mini card", data);
 
   return (
     <Pressable
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
       onPress={() => {
-        navigation.navigate("Videoplay", { data: data });
+        navigation.navigate("Videoplay", { playlistData: data });
       }}
     >
-      <View style={{ justifyContent: "space-between" }}>
+      <View style={{ flexDirection: "row" }}>
         <Image
           source={{
-            uri: `https://i.ytimg.com/vi/${data.id.videoId}/hqdefault.jpg`, // to being able to load all type images
+            uri: `https://i.ytimg.com/vi/${data.contentDetails.videoId}/hqdefault.jpg`, // to being able to load all type images
           }}
           style={{
-            width: "100%",
+            width: "40%",
             height: 100,
             resizeMode: "cover",
           }}
         />
         <View style={styles.textWrapper}>
-          <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+          <Text style={styles.title} numberOfLines={3} ellipsizeMode="tail">
             {data.snippet.title}{" "}
           </Text>
           <Text style={styles.subtitle} numberOfLines={1} ellipsizeMode="tail">
@@ -40,16 +39,19 @@ const YoutubeMiniCard = ({ data }) => {
   );
 };
 
-export default YoutubeMiniCard;
+export default PlaylistItemsComp;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "space-between",
-    marginHorizontal: 10,
-    width: 200,
-    height: 180,
-    alignContent: "center",
-    justifyContent: "center",
+    margin: 5,
+    width: "100%",
+    height: "auto",
+    elevation: 10,
+    backgroundColor: Colors.white,
+  },
+  innderContainer: {
+    flexDirection: "row",
+    backgroundColor: Colors.favGray,
   },
   pressed: {
     opacity: 0.5,
@@ -60,16 +62,20 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "400",
     color: Colors.black,
+    flex: 1,
+    flexWrap: "wrap",
+    width: "100%",
   },
   subtitle: {
-    color: Colors.darkGray,
+    color: Colors.secondary,
     fontSize: 12,
+    fontWeight: "400",
   },
   textWrapper: {
-    width: 200,
+    width: "60%",
     paddingVertical: 5,
-    padding: 2,
-
+    paddingHorizontal: 5,
+    flexWrap: "wrap",
     paddingBottom: 5,
   },
 });

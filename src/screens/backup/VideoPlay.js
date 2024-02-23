@@ -14,6 +14,9 @@ import { ScrollView } from "react-native-virtualized-view";
 const VideoPlay = () => {
   const route = useRoute();
   const data = route.params?.data;
+  const playlistData = route.params?.playlistData;
+  const playlistId = playlistData?.contentDetails.videoId;
+
   const searchedItems = useContext(SearchedVideosContext);
 
   const [playing, setPlaying] = useState(false);
@@ -36,10 +39,10 @@ const VideoPlay = () => {
           height={230}
           play={playing}
           onChangeState={onStateChange}
-          videoId={data.id.videoId}
+          videoId={playlistData ? playlistId : data.id.videoId}
         />
       </View>
-      <VideoContext data={data} />
+      <VideoContext data={playlistData ? playlistData : data} />
       <Recommendations data={searchedItems.searchedVideos} />
     </ScrollView>
   );

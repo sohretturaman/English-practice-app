@@ -15,7 +15,6 @@ const Channel = ({ iconData, margin }) => {
         .then((data) => {
           const url = data?.items[0]?.snippet?.thumbnails?.default?.url;
           setImageUrlList([url]);
-          console.log("rerednered");
         })
         .catch((error) => console.error("Error fetching channel data:", error));
     }
@@ -25,6 +24,12 @@ const Channel = ({ iconData, margin }) => {
 
   return (
     <Pressable
+      onPress={() =>
+        navigation.navigate("PlaylistItems", {
+          data: iconData?.data,
+          playlistName: iconData?.name,
+        })
+      }
       style={({ pressed }) => [styles.container, pressed && styles.pressedItem]}
     >
       {imageUrlList.map((url, index) => (
