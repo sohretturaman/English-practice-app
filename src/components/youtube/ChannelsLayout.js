@@ -5,42 +5,24 @@ import React from "react";
 import Channel from "./Channel";
 import { ScrollView } from "react-native-virtualized-view";
 import Colors from "../../contants/Colors";
+import { BeginnersChanelsData } from "../../utils/playlistsData/ChannelPlaylistsData";
+import MainPlaylists from "../../utils/playlistsData/ChannelPlaylistsData";
 
 const ChannelsLayout = () => {
-  const data = [
-    "https://picsum.photos/200/20",
-    "https://picsum.photos/200/390",
-    "https://picsum.photos/200/290",
-    "https://picsum.photos/200/90",
-    "https://picsum.photos/200/30",
-    "https://picsum.photos/200/",
-    "https://picsum.photos/200/20",
-    "https://picsum.photos/200/390",
-    "https://picsum.photos/200/280",
-    "https://picsum.photos/200/20",
-    "https://picsum.photos/200/390",
-    "https://picsum.photos/200/280",
-    "https://picsum.photos/200/500",
-  ];
   return (
-    <ScrollView style={{ alignSelf: "flex-start" }}>
+    <ScrollView
+      style={{ alignSelf: "flex-start", height: "100%", width: "100%" }}
+    >
       <View style={styles.container}>
-        <View style={styles.topContainer}>
-          <Text style={styles.text}>Education channels for beginners </Text>
-          <FlatList
-            data={data}
-            renderItem={({ item }) => <Channel data={item} margin={10} />}
-            keyExtractor={(item, index) => index}
-            horizontal={true}
-          />
-        </View>
         <View style={styles.listWrapper}>
-          <Text style={styles.text}> Level Up Your English </Text>
+          <Text style={styles.text}>
+            Choose a Channel To Level Up Your English{" "}
+          </Text>
           <FlatList
-            data={data}
-            renderItem={({ item }) => <Channel data={item} margin={18} />}
-            keyExtractor={(item, index) => index}
-            numColumns={2}
+            data={MainPlaylists}
+            renderItem={({ item }) => <Channel iconData={item} />}
+            keyExtractor={(item) => item.id}
+            numColumns={3}
           />
         </View>
       </View>
@@ -74,5 +56,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignItems: "center",
     height: 200,
+    marginLeft: 5,
   },
 });

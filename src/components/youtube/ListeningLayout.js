@@ -2,9 +2,9 @@
 
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { pocastsYt } from "../../utils/PodcastsYt";
-import { songsYt } from "../../utils/Songsyt";
-import { newsYt } from "../../utils/NewsYt";
+import { pocastsYt } from "../../utils/listeningYtData/PodcastsYt";
+import { songsYt } from "../../utils/listeningYtData/Songsyt";
+import { newsYt } from "../../utils/listeningYtData/NewsYt";
 import InputButtonYt from "../uı/InputButtonYt";
 import CardYt from "./CardYt";
 import YoutubeMiniCard from "./YoutubeMiniCard";
