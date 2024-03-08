@@ -19,7 +19,7 @@ const TranslatorInput = ({ handleTranslate, myText, isLoading }) => {
       return;
     }
     handleTranslate(input);
-    setInput("");
+
     console.log("request is sended", input);
   };
 

@@ -8,6 +8,7 @@ import MenuComp from "../components/notes/MenuComp";
 import Header from "../components/drawer/Header";
 import CustomHeader from "../components/notes/CustomHeader";
 import AddNoteContext from "../components/notes/AddNoteContext";
+import AddNoteLayout from "../components/notes/AddNoteLayout";
 
 const AddNote = () => {
   return (
@@ -17,7 +18,8 @@ const AddNote = () => {
         iconName={"clock-edit-outline"}
         MenuComp={() => <MenuComp />}
       />
-      <AddNoteContext />
+
+      <AddNoteLayout />
     </SafeAreaView>
   );
 };

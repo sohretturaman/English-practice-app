@@ -7,17 +7,16 @@ import { TextInput } from "react-native";
 import Colors from "../../contants/Colors";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-const AddNoteContext = () => {
+const AddNoteContext = ({ saveNote }) => {
   const [title, setTitle] = useState("");
   const [note, setNote] = useState("");
-
-  const handleTitleChange = (text) => {
-    setTitle(text);
-  };
 
   const handleTitleSubmit = () => {
     // Move focus to the note section
     noteInputRef.focus();
+  };
+  const handleSave = () => {
+    saveNote(title, note);
   };
 
   return (
@@ -28,7 +27,7 @@ const AddNoteContext = () => {
           placeholder="Write a title"
           placeholderTextColor="gray"
           value={title}
-          onChangeText={handleTitleChange}
+          onChangeText={(val) => setTitle(val)}
           onSubmitEditing={handleTitleSubmit}
           autoFocus={true}
         />
@@ -37,6 +36,7 @@ const AddNoteContext = () => {
           size={26}
           color={Colors.secondary}
           style={{ margin: 5, paddingTop: 5, alignSelf: "flex-start" }}
+          onPress={handleSave}
         />
       </View>
       <View>

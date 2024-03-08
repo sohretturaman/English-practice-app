@@ -7,7 +7,6 @@ import { useNavigation } from "@react-navigation/native";
 
 const YoutubeMiniCard = ({ data }) => {
   const navigation = useNavigation();
-  console.log("data in youtube mini card", data);
 
   return (
     <Pressable
