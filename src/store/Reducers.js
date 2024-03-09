@@ -34,6 +34,7 @@ const NotesSlice = createSlice({
   },
   reducers: {
     addNote: (state, action) => {
+      console.log("action.payload iin add note  ", action);
       state.notes.push(action.payload); // no need to return
     },
     deleteNote: (state, action) => {
