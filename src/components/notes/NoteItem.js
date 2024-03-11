@@ -10,13 +10,16 @@ import {
 } from "react-native";
 import Colors from "./../../contants/Colors";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-const NoteItem = ({ item, index, handleDelete }) => {
+const NoteItem = ({ item, deleteNote }) => {
+  const navigation = useNavigation();
+  const editnote = () => {
+    navigation.navigate("EditNote", { noteId: item.id });
+  };
   return (
     <Pressable
-      onPress={() => {
-        console.log("pressed on note item to edit");
-      }}
+      onPress={editnote}
       style={styles.continer}
       onLongPress={() => {
         console.log("long press");
@@ -24,31 +27,26 @@ const NoteItem = ({ item, index, handleDelete }) => {
     >
       <View style={styles.headerWrapper}>
         <View style={styles.titleWrapper}>
-          <Text style={styles.title}>Title item</Text>
+          <Text style={styles.title}>{item.title}</Text>
         </View>
-        <Pressable
-          style={{ marginRight: 2, padding: 5 }}
-          onPress={() => console.log("onDelete icon")}
-        >
+        <Pressable style={{ marginRight: 2, padding: 5 }}>
           <MaterialIcons
             name="cancel-presentation"
             size={20}
             color={"#BF360C"}
-            onPress={() => console.log("onDelete icon")}
+            onPress={() => deleteNote(item.id)}
           />
         </Pressable>
       </View>
       <View style={styles.bodyWrapper}>
         <View style={styles.discWrapper}>
-          <Text style={styles.disc} ellipsizeMode="tail"  numberOfLines={2}>
-            {" "}
-            Dictiption lorem impus lorem impuslorem impuslorem impuslorem
-            impuslorem impuslorem impuslorem impuslorem impus
+          <Text style={styles.disc} ellipsizeMode="tail" numberOfLines={2}>
+            {item.content}
           </Text>
         </View>
       </View>
       <View style={styles.footerWrapper}>
-        <Text style={styles.date}> date : 22.12.2023</Text>
+        <Text style={styles.date}> date : {item.date.slice(0, 10)}</Text>
       </View>
     </Pressable>
   );

@@ -14,28 +14,20 @@ import NoteItem from "./NoteItem";
 import { Button, FAB } from "react-native-paper";
 import Colors from "../../contants/Colors";
 import { useNavigation } from "@react-navigation/native";
-
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Item",
-    checked: true,
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Item",
-    checked: false,
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-    checked: true,
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { deleteNote } from "../../store/Reducers";
 
 const NoteList = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
+  const notesData = useSelector((state) => state?.notes);
+  console.log("all notes", notesData.notes);
+
+  const handleDelete = (id) => {
+    console.log("id in delete note", id);
+    dispatch(deleteNote(id));
+  };
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -44,8 +36,10 @@ const NoteList = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <FlatList
-            data={DATA}
-            renderItem={({ item }) => <NoteItem item={item} />}
+            data={notesData.notes}
+            renderItem={({ item }) => (
+              <NoteItem key={item.id} item={item} deleteNote={handleDelete} />
+            )}
             keyExtractor={(item) => item.id}
           />
 

@@ -1,7 +1,7 @@
 /** @format */
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 //theme slice
 
@@ -14,6 +14,7 @@ const ThemeSlice = createSlice({
     changeTheme: (state, action) => {
       try {
         AsyncStorage.setItem("savedTheme", JSON.stringify(action.payload));
+
         state.isDarkTheme = action.payload; // change the theme by incoming value !!
       } catch (error) {
         console.log("an error occured while saving theme");
@@ -34,17 +35,21 @@ const NotesSlice = createSlice({
   },
   reducers: {
     addNote: (state, action) => {
-      console.log("action.payload iin add note  ", action);
+      console.log("action.payload iin add note  ", action.payload);
+      const note = action.payload;
+      note.id = nanoid();
       state.notes.push(action.payload); // no need to return
     },
+
     deleteNote: (state, action) => {
-      state.notes.filter((note) => note.id !== action.payload);
+      state.notes = state.notes.filter((note) => note.id !== action.payload);
     },
     editNote: (state, action) => {
       const { id, ...updatedNote } = action.payload; // spread operator
       const index = state.notes.findIndex(
         (note) => note.id === action.payload.id
       );
+      console.log("index in edit ", index);
       if (index !== -1) {
         const newNotes = state.notes;
         state.notes[index] = { ...newNotes[index], ...updatedNote }; // merge them

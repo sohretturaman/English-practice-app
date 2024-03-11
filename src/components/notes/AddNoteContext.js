@@ -16,7 +16,15 @@ const AddNoteContext = ({ saveNote }) => {
     noteInputRef.focus();
   };
   const handleSave = () => {
-    saveNote(title, note);
+    const newNote = {
+      title: title,
+      content: note,
+      important: false,
+      date: new Date().toISOString(),
+    };
+    saveNote(newNote);
+    setTitle("");
+    setNote("");
   };
 
   return (

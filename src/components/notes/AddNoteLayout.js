@@ -10,9 +10,8 @@ import { useDispatch } from "react-redux";
 const AddNoteLayout = () => {
   const dispatch = useDispatch(); // Get dispatch function
 
-  const handleSaveNote = (title, note) => {
-    const newNote = { title: title, content: note };
-    console.log("new note ", newNote);
+  const handleSaveNote = (newNote) => {
+    console.log("new note in layout ", newNote);
     dispatch(addNote(newNote)); // Dispatch the addNote action
   };
 
