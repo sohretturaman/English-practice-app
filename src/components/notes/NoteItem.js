@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 const NoteItem = ({ item, deleteNote }) => {
   const navigation = useNavigation();
   const editnote = () => {
-    navigation.navigate("EditNote", { noteId: item.id });
+    navigation.navigate("EditNoteScreen", { noteId: item.id, data: item });
   };
   return (
     <Pressable
@@ -27,7 +27,9 @@ const NoteItem = ({ item, deleteNote }) => {
     >
       <View style={styles.headerWrapper}>
         <View style={styles.titleWrapper}>
-          <Text style={styles.title}>{item.title}</Text>
+          <Text numberOfLines={1} style={styles.title}>
+            {item.title}
+          </Text>
         </View>
         <Pressable style={{ marginRight: 2, padding: 5 }}>
           <MaterialIcons
@@ -65,13 +67,15 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 10,
     alignSelf: "center",
-    padding: 10,
+    padding: 8,
     justifyContent: "space-between",
   },
   headerWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    flex: 1,
+    width: "92%",
   },
   titleWrapper: {
     flexDirection: "row",
@@ -90,8 +94,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: "black",
-    textAlign: "center",
+    textAlign: "left",
     marginHorizontal: 5,
+    flex: 1,
   },
   date: {
     color: Colors.darkGray,

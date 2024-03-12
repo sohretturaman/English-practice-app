@@ -35,7 +35,6 @@ const NotesSlice = createSlice({
   },
   reducers: {
     addNote: (state, action) => {
-      console.log("action.payload iin add note  ", action.payload);
       const note = action.payload;
       note.id = nanoid();
       state.notes.push(action.payload); // no need to return
@@ -45,14 +44,11 @@ const NotesSlice = createSlice({
       state.notes = state.notes.filter((note) => note.id !== action.payload);
     },
     editNote: (state, action) => {
-      const { id, ...updatedNote } = action.payload; // spread operator
-      const index = state.notes.findIndex(
-        (note) => note.id === action.payload.id
-      );
-      console.log("index in edit ", index);
+      const { id, newNote } = action.payload; // spread operator
+      const index = state.notes.findIndex((note) => note.id === id);
+
       if (index !== -1) {
-        const newNotes = state.notes;
-        state.notes[index] = { ...newNotes[index], ...updatedNote }; // merge them
+        state.notes[index] = { ...state.notes[index], ...newNote };
       }
     },
   },

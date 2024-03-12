@@ -1,33 +1,29 @@
 /** @format */
 
-import { StyleSheet, View, Pressable, Text, Dimensions } from "react-native";
-import React, { useState } from "react";
-
+import { StyleSheet, Text, View } from "react-native";
+import React, { useDebugValue, useState } from "react";
 import { TextInput } from "react-native";
 import Colors from "../../contants/Colors";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { editNote } from "../../store/Reducers";
 
-const winWidth = Dimensions.get("window").width;
-const AddNoteContext = ({ saveNote }) => {
-  const [title, setTitle] = useState("");
-  const [note, setNote] = useState("");
+const EditNoteLayout = ({ info }) => {
+  console.log("info in editNotelayour", info.id, info.data);
+  const dispatch = useDispatch();
+
+  const [note, setNote] = useState({
+    title: info.data.title,
+    content: info.data.content,
+  });
 
   const handleTitleSubmit = () => {
-    // Move focus to the note section
     noteInputRef.focus();
   };
   const handleSave = () => {
-    const newNote = {
-      title: title,
-      content: note,
-      important: false,
-      date: new Date().toISOString(),
-    };
-    saveNote(newNote);
-    setTitle("");
-    setNote("");
+    console.log("presseed on save");
+    dispatch(editNote({ id: info.data.id, newNote: note }));
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.titleSection}>
@@ -35,8 +31,15 @@ const AddNoteContext = ({ saveNote }) => {
           style={styles.titleInput}
           placeholder="Write a title"
           placeholderTextColor="gray"
-          value={title}
-          onChangeText={(val) => setTitle(val)}
+          value={note.title}
+          onChangeText={(val) =>
+            setNote((prev) => {
+              return {
+                ...prev,
+                title: val,
+              };
+            })
+          }
           onSubmitEditing={handleTitleSubmit}
           autoFocus={true}
         />
@@ -55,15 +58,22 @@ const AddNoteContext = ({ saveNote }) => {
           multiline
           placeholder="Write your note..."
           textAlignVertical="top"
-          value={note}
-          onChangeText={(text) => setNote(text)}
+          value={note.content}
+          onChangeText={(text) =>
+            setNote((prevVal) => {
+              return {
+                ...prevVal,
+                content: text,
+              };
+            })
+          }
         />
       </View>
     </View>
   );
 };
 
-export default AddNoteContext;
+export default EditNoteLayout;
 
 const styles = StyleSheet.create({
   container: {
@@ -85,9 +95,6 @@ const styles = StyleSheet.create({
   titleInput: {
     fontSize: 18,
     color: "black",
-    height: "100%",
-    flex: 1,
-    width: "90%",
   },
   noteInput: {
     fontSize: 16,

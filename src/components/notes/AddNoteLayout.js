@@ -11,7 +11,6 @@ const AddNoteLayout = () => {
   const dispatch = useDispatch(); // Get dispatch function
 
   const handleSaveNote = (newNote) => {
-    console.log("new note in layout ", newNote);
     dispatch(addNote(newNote)); // Dispatch the addNote action
   };
 

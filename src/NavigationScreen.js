@@ -43,6 +43,7 @@ import ListeningScreen from "./screens/ListeningScreen";
 import SearchScreen from "./screens/backup/SearchScreen";
 import VideoPlay from "./screens/backup/VideoPlay";
 import PlaylistItems from "./screens/backup/PlaylistItems";
+import EditNoteScreen from "./screens/backup/EditNoteScreen";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -345,6 +346,7 @@ const RootStack = () => {
         <Stack.Screen name="SearchScreen" component={SearchScreen} />
         <Stack.Screen name="Videoplay" component={VideoPlay} />
         <Stack.Screen name="PlaylistItems" component={PlaylistItems} />
+        <Stack.Screen name="EditNoteScreen" component={EditNoteScreen} />
         <Stack.Group
           screenOptions={{
             presentation: "card",
