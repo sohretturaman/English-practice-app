@@ -1,35 +1,63 @@
 /** @format */
 
-import { StyleSheet, View, Pressable, Text, Dimensions } from "react-native";
-import React, { useState } from "react";
-
-import { TextInput } from "react-native";
-import Colors from "../../contants/Colors";
+import React, { useState, useRef } from "react";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Dimensions,
+  TouchableOpacity,
+  Text,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import Colors from "../../contants/Colors";
 
 const winWidth = Dimensions.get("window").width;
+
 const AddNoteContext = ({ saveNote }) => {
   const [title, setTitle] = useState("");
   const [note, setNote] = useState("");
+  const [tasks, setTasks] = useState([]);
+  const [task, setTask] = useState("");
+  const noteInputRef = useRef(null);
 
   const handleTitleSubmit = () => {
     // Move focus to the note section
-    noteInputRef.focus();
+    noteInputRef.current.focus();
   };
+
   const handleSave = () => {
     const newNote = {
       title: title,
       content: note,
       important: false,
       date: new Date().toISOString(),
+      tasks: tasks,
     };
     saveNote(newNote);
     setTitle("");
     setNote("");
+    setTasks([]);
+  };
+
+  const addTask = () => {
+    if (task.trim() !== "") {
+      setTasks([...tasks, task]);
+      setTask("");
+    }
+  };
+
+  const deleteTask = (index) => {
+    const newTasks = [...tasks];
+    newTasks.splice(index, 1);
+    setTasks(newTasks);
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
+      {/* Use ScrollView to enable scrolling */}
       <View style={styles.titleSection}>
         <TextInput
           style={styles.titleInput}
@@ -48,18 +76,37 @@ const AddNoteContext = ({ saveNote }) => {
           onPress={handleSave}
         />
       </View>
-      <View>
+      <TextInput
+        ref={noteInputRef}
+        style={styles.noteInput}
+        multiline
+        placeholder="Write your note..."
+        textAlignVertical="top"
+        value={note}
+        onChangeText={(text) => setNote(text)}
+      />
+      <View style={{ marginTop: 20 }}>
+        <Text style={styles.taskTitle}> Tasks List</Text>
+        {tasks.map((task, index) => (
+          <Pressable
+            style={styles.taskItemWrapper}
+            key={index}
+            onPress={() => deleteTask(index)}
+          >
+            <Ionicons name="trash" size={24} color="black" />
+            <Text style={styles.taskItem}>{task}</Text>
+          </Pressable>
+        ))}
+
         <TextInput
-          ref={(input) => (noteInputRef = input)}
-          style={styles.noteInput}
-          multiline
-          placeholder="Write your note..."
-          textAlignVertical="top"
-          value={note}
-          onChangeText={(text) => setNote(text)}
+          style={styles.taskInput}
+          placeholder="Add a task..."
+          value={task}
+          onChangeText={(text) => setTask(text)}
+          onSubmitEditing={addTask}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -68,12 +115,12 @@ export default AddNoteContext;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 10,
   },
   titleSection: {
     borderBottomWidth: 0.5,
-    borderBottomColor: "gray",
     paddingBottom: 8,
-    backgroundColor: Colors.white,
+    backgroundColor: "white",
     height: 70,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
@@ -87,17 +134,37 @@ const styles = StyleSheet.create({
     color: "black",
     height: "100%",
     flex: 1,
-    width: "90%",
   },
   noteInput: {
     fontSize: 16,
     padding: 10,
-    height: "95%",
-    backgroundColor: Colors.white,
-    padding: 5,
+    minHeight: winWidth * 0.5,
+    backgroundColor: "white",
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    padding: 10,
     paddingTop: 20,
+  },
+  taskInput: {
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+  },
+  taskItem: {
+    backgroundColor: "lightgray",
+    padding: 10,
+    marginBottom: 5,
+    borderRadius: 5,
+    flex: 1,
+  },
+  taskTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: Colors.darkGray,
+    marginBottom: 10,
+  },
+  taskItemWrapper: {
+    flexDirection: "row",
+    backgroundColor: "red",
   },
 });
