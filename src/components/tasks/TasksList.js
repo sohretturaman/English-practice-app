@@ -19,10 +19,8 @@ import Colors from "../../contants/Colors";
 import AddTaskContent from "./AddTaskForm";
 import { useNavigation } from "@react-navigation/native";
 
-const dummyData = ["task1", "task2", "task3"];
-const TasksList = () => {
+const TasksList = ({ tasks }) => {
   const navigation = useNavigation();
-  const [tasks, setTasks] = useState(dummyData);
 
   return (
     <View style={styles.container}>

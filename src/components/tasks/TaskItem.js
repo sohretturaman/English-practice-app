@@ -3,16 +3,19 @@ import { StyleSheet, Text, View, FlatList, Pressable } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../contants/Colors";
+import { useNavigation } from "@react-navigation/native";
 
 const TaskItem = ({ itemData }) => {
+  console.log("item data", itemData);
   function onDeletePress() {
     console.log("delete button pressed");
   }
+  const navigation = useNavigation();
 
   return (
     <Pressable
       style={({ pressed }) => [styles.itemWrapper, pressed && styles.pressed]}
-      onPress={onDeletePress}
+      onPress={() => navigation.navigate("AddTask", { editableTask: itemData })}
     >
       <Ionicons
         name={itemData.checked ? "checkbox" : "checkbox-outline"}
@@ -20,7 +23,7 @@ const TaskItem = ({ itemData }) => {
         color={"black"}
         style={styles.icon}
       />
-      <Text style={styles.title}>{itemData.title}</Text>
+      <Text style={styles.title}>{itemData.task}</Text>
     </Pressable>
   );
 };

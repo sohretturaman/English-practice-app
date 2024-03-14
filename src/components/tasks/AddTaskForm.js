@@ -1,6 +1,14 @@
 /** @format */
 
-import { TextInput, Button } from "react-native";
+import {
+  TextInput,
+  Button,
+  Pressable,
+  KeyboardAvoidingView,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import React, { useState } from "react";
 import { View, StyleSheet, Modal, Text } from "react-native";
 import Colors from "../../contants/Colors";
@@ -12,52 +20,104 @@ import {
 import { Dimensions } from "react-native";
 
 const winWidth = Dimensions.get("window").width;
-const dummyData = ["task1", "task2", "task3"];
-const AddTaskForm = ({ onAddTask, currentTask, setCurrentTask }) => {
+
+const AddTaskForm = ({ currentTask }) => {
+  console.log("current task", currentTask);
+  const [task, setTask] = useState(currentTask);
   const [subtask, setSubtask] = useState("");
-  const [tasks, setTasks] = useState(dummyData);
+  const [subTasks, setSubtasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   const handleAddTask = () => {
-    onAddTask(currentTask); // Call the function to add a task with the current task value
+    if (subTasks.length > 0 && task) {
+      const updatedTask = {
+        task: task,
+        subtasks: subTasks,
+      };
+      setTasks([...tasks, updatedTask]);
+    } else {
+      setTasks([...tasks, task]); // Call the function to add a task with the current task value
+    }
+  };
+
+  const addSubtask = () => {
+    if (subtask && subtask.trim() !== 0) {
+      setSubtasks((prev) => [...prev, subtask]);
+      setSubtask("");
+    } else {
+      return;
+    }
+
+    console.log(
+      "subtasks",
+      subTasks.map((x) => x)
+    );
   };
 
   return (
-    <View style={styles.cotainer}>
-      <Text style={styles.cancelIcon}>Date : 20.03.2024</Text>
-      <TextInput
-        placeholder="Add a new task.."
-        placeholderTextColor={Colors.darkGray}
-        style={styles.textInput}
-        value={currentTask}
-        onChangeText={(text) => setCurrentTask(text)} // Update the current task
-        autoCapitalize="none"
-      />
-      <View style={styles.subtaskContainer}>
-        <Text style={styles.subtaskTitle}>Subtasks</Text>
-        <View style={styles.subtaskList}>
-          {tasks.map((task, index) => (
-            <View>
-              <Text>Task</Text>
-            </View>
-          ))}
-        </View>
-        <View style={styles.inputWrapper}>
-          <MaterialCommunityIcons
-            name="checkbox-blank-circle-outline"
-            size={20}
-            color={Colors.secondary}
-            style={styles.icon}
-          />
+    <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={{ flex: 1, padding: 10, height: winWidth }}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.cotainer}>
+          <Text style={styles.cancelIcon}>Date : 20.03.2024</Text>
           <TextInput
-            value={subtask}
-            onChangeText={(text) => setSubtask(text)}
-            placeholder="Add a subtask"
+            placeholder="Add a new task.."
             placeholderTextColor={Colors.darkGray}
-            style={styles.subtaskIput}
+            style={styles.textInput}
+            value={task}
+            onChangeText={(text) => setTask(text)} // Update the current task
+            autoCapitalize="none"
+            placeholderTextSize={20}
+            onSubmitEditing={handleAddTask}
           />
+          <View style={styles.subtaskContainer}>
+            <Text style={styles.subtaskTitle}>Subtasks</Text>
+            <ScrollView
+              style={styles.subtaskList}
+              showsVerticalScrollIndicator={true}
+            >
+              {subTasks.map((task, index) => (
+                <Pressable
+                  key={index}
+                  style={({ pressed }) => [
+                    styles.subtaskItem,
+                    pressed && styles.pressed,
+                  ]}
+                >
+                  <MaterialCommunityIcons
+                    name="checkbox-blank-circle-outline"
+                    size={20}
+                    color={Colors.darkGray}
+                    style={styles.icon}
+                  />
+                  <Text numberOfLines={2} style={styles.subtaskText}>
+                    {task}
+                  </Text>
+                </Pressable>
+              ))}
+            </ScrollView>
+            <View style={styles.inputWrapper}>
+              <MaterialCommunityIcons
+                name="checkbox-blank-circle-outline"
+                size={20}
+                color={Colors.darkGray}
+                style={styles.icon}
+              />
+              <TextInput
+                value={subtask}
+                onChangeText={(text) => setSubtask(text)}
+                placeholder="Add a subtask"
+                placeholderTextColor={Colors.darkGray}
+                style={styles.subtaskIput}
+                onSubmitEditing={addSubtask}
+              />
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -66,7 +126,7 @@ export default AddTaskForm;
 const styles = StyleSheet.create({
   cotainer: {
     flex: 1,
-    padding: 10,
+    height: winWidth,
   },
 
   textInput: {
@@ -79,14 +139,10 @@ const styles = StyleSheet.create({
     borderColor: Colors.darkGray,
     paddingLeft: 10,
     //backgroundColor: Colors.secondary,
-    marginTop: 50,
+    marginTop: winWidth * 0.15,
     height: 50,
   },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    marginTop: 20,
-  },
+
   cancelIcon: {
     position: "absolute",
     top: 10,
@@ -95,32 +151,63 @@ const styles = StyleSheet.create({
   subtaskContainer: {
     marginTop: 10,
     padding: 10,
+    marginTop: winWidth * 0.04,
+    width: winWidth * 0.95,
+    alignSelf: "center",
   },
   subtaskTitle: {
     color: Colors.darkGray,
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
   },
   inputWrapper: {
-    marginTop: 10,
+    marginTop: winWidth * 0.08,
     flexDirection: "row",
     alignItems: "center",
-    width: "90%",
+    width: "100%",
     alignSelf: "center",
     borderRadius: 8,
     height: winWidth * 0.1,
     borderBottomColor: Colors.darkGray,
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 1,
+    paddingHorizontal: 5,
+    elevation: 2,
+    backgroundColor: Colors.lightGray,
   },
   subtaskIput: {
     flex: 1,
     height: "100%",
-    borderRadius: 8,
+    paddingLeft: 10,
   },
   icon: {
-    marginRight: 5,
+    marginHorizontal: 5,
   },
   subtaskList: {
-    backgroundColor: "red",
+    marginTop: 10,
+    height: "auto",
+    overflow: "scroll",
+    maxHeight: winWidth * 0.6,
+  },
+  subtaskItem: {
+    backgroundColor: "white",
+    marginVertical: 5,
+    padding: 5,
+    borderRadius: 5,
+    minHeight: winWidth * 0.1,
+    elevation: 2,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 5,
+  },
+  subtaskText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: Colors.darkGray,
+    marginLeft: 10,
+    padding: 3,
+    height: "auto",
+  },
+  pressed: {
+    opacity: 0.5,
   },
 });
