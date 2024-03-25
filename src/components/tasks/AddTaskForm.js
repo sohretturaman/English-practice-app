@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import React, { useState } from "react";
+import React, { Children, useLayoutEffect, useState } from "react";
 import { View, StyleSheet, Modal, Text } from "react-native";
 import Colors from "../../contants/Colors";
 import {
@@ -18,40 +18,107 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { addTask, completeSubtask, editTask } from "../../store/Reducers";
+import { nanoid } from "@reduxjs/toolkit";
+import { useNavigation } from "@react-navigation/native";
 
 const winWidth = Dimensions.get("window").width;
-
+//take only id valye from edit page find required item in that page and take infro from redux abut that task item
 const AddTaskForm = ({ currentTask }) => {
-  console.log("current task", currentTask);
-  const [task, setTask] = useState(currentTask);
+  const selector = useSelector((state) => state.tasks.tasks);
+  const findTask = selector?.find((item) => item.id === currentTask?.id);
+  const [task, setTask] = useState(currentTask ? findTask.task : "");
   const [subtask, setSubtask] = useState("");
-  const [subTasks, setSubtasks] = useState([]);
-  const [tasks, setTasks] = useState([]);
+  const [subTasks, setSubtasks] = useState(
+    currentTask ? findTask.subtasks : []
+  ); //!!imp
+  const [taskObj, setTaskObj] = useState(currentTask ? findTask : {});
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {}, [findTask, subTasks]);
 
   const handleAddTask = () => {
-    if (subTasks.length > 0 && task) {
+    if (task && currentTask) {
       const updatedTask = {
+        ...taskObj,
         task: task,
         subtasks: subTasks,
+        date: new Date().toISOString(),
       };
-      setTasks([...tasks, updatedTask]);
+      setTaskObj(updatedTask);
+      dispatch(editTask(updatedTask));
     } else {
-      setTasks([...tasks, task]); // Call the function to add a task with the current task value
+      const newTask = {
+        task: task,
+        subtasks: subTasks,
+        isDone: false,
+        date: new Date().toISOString(),
+      };
+      setTaskObj(newTask);
+      //dispatch(addTask(newTask));
     }
   };
 
   const addSubtask = () => {
     if (subtask && subtask.trim() !== 0) {
-      setSubtasks((prev) => [...prev, subtask]);
+      const newSubtask = {
+        id: nanoid(),
+        subtask: subtask,
+        isDone: false,
+      };
+      setSubtasks((prev) => [newSubtask, ...prev]);
+      const updatedTask = {
+        ...taskObj,
+        subTasks: subTasks,
+      };
+      setTaskObj(updatedTask);
       setSubtask("");
     } else {
       return;
     }
+  };
 
-    console.log(
-      "subtasks",
-      subTasks.map((x) => x)
-    );
+  const onSaveTask = () => {
+    if (task.trim().length === 0) {
+      return;
+    }
+    if (currentTask) {
+      const updatedTask = {
+        ...taskObj,
+        id: currentTask.id,
+        task: task,
+        subtasks: subTasks,
+        date: new Date().toISOString(),
+      };
+      console.log("updated task", updatedTask);
+      dispatch(editTask(updatedTask));
+      navigation.navigate("Tasks");
+    } else {
+      const newTask = {
+        task: task,
+        subtasks: subTasks,
+        isDone: false,
+        date: new Date().toISOString(),
+      };
+      dispatch(addTask(newTask));
+      navigation.navigate("Tasks");
+    }
+  };
+
+  const onDoneSubtask = (subtaskId) => {
+    if (currentTask?.id) {
+      dispatch(completeSubtask({ id: currentTask.id, subtaskId }));
+    } else {
+      console.warn("First save the task");
+      return;
+    }
+  };
+
+  const onDeleteSubtask = (id) => {
+    console.log("on Delete subtask", id);
+    // dlete subtask function in dispatch function
   };
 
   return (
@@ -61,10 +128,20 @@ const AddTaskForm = ({ currentTask }) => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.cotainer}>
-          <Text style={styles.cancelIcon}>Date : 20.03.2024</Text>
+          <View style={styles.dateContainer}>
+            <Text style={styles.date}>Date : 20.03.2024</Text>
+            <MaterialCommunityIcons
+              name="sticker-check-outline"
+              size={26}
+              color={Colors.secondary}
+              style={styles.save}
+              onPress={onSaveTask}
+            />
+          </View>
+
           <TextInput
             placeholder="Add a new task.."
-            placeholderTextColor={Colors.darkGray}
+            placeholderTextColor={"gray"}
             style={styles.textInput}
             value={task}
             onChangeText={(text) => setTask(text)} // Update the current task
@@ -78,7 +155,7 @@ const AddTaskForm = ({ currentTask }) => {
               style={styles.subtaskList}
               showsVerticalScrollIndicator={true}
             >
-              {subTasks.map((task, index) => (
+              {subTasks.map((subtaskItem, index) => (
                 <Pressable
                   key={index}
                   style={({ pressed }) => [
@@ -87,24 +164,43 @@ const AddTaskForm = ({ currentTask }) => {
                   ]}
                 >
                   <MaterialCommunityIcons
-                    name="checkbox-blank-circle-outline"
+                    name="square-rounded-outline"
                     size={20}
                     color={Colors.darkGray}
                     style={styles.icon}
+                    onPress={() => onDoneSubtask(subtaskItem.id)}
                   />
-                  <Text numberOfLines={2} style={styles.subtaskText}>
-                    {task}
-                  </Text>
+
+                  {subtaskItem.isDone ? (
+                    <Text style={styles.checkedText}>
+                      {subtaskItem.subtask}
+                    </Text>
+                  ) : (
+                    <Text numberOfLines={2} style={styles.subtaskText}>
+                      {subtaskItem.isDone ? "true" : "false"}{" "}
+                      {subtaskItem.subtask}
+                    </Text>
+                  )}
+
+                  <MaterialCommunityIcons
+                    name="cancel"
+                    size={20}
+                    color={Colors.darkGray}
+                    style={styles.icon}
+                    onPress={() => onDeleteSubtask(subtaskItem.id)}
+                  />
                 </Pressable>
               ))}
             </ScrollView>
             <View style={styles.inputWrapper}>
               <MaterialCommunityIcons
-                name="checkbox-blank-circle-outline"
+                name="square-rounded-outline"
                 size={20}
-                color={Colors.darkGray}
+                color={Colors.secondary}
                 style={styles.icon}
+                onPress={onDoneSubtask}
               />
+
               <TextInput
                 value={subtask}
                 onChangeText={(text) => setSubtask(text)}
@@ -130,23 +226,34 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-    marginTop: 16,
     width: "100%",
     padding: 5,
+    fontSize: 18,
     borderRadius: 10,
     borderColor: Colors.secondary,
     borderBottomWidth: 1.5,
     borderColor: Colors.darkGray,
     paddingLeft: 10,
-    //backgroundColor: Colors.secondary,
-    marginTop: winWidth * 0.15,
+    marginTop: winWidth * 0.08,
     height: 50,
   },
 
-  cancelIcon: {
-    position: "absolute",
-    top: 10,
-    right: 10,
+  dateContainer: {
+    width: winWidth * 0.95,
+    height: winWidth * 0.1,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: winWidth * 0.02,
+    justifyContent: "space-between",
+  },
+  date: {
+    padding: 2,
+    fontWeight: "600",
+    color: Colors.darkGray,
+    fontSize: winWidth * 0.03,
+  },
+  save: {
+    padding: 2,
   },
   subtaskContainer: {
     marginTop: 10,
@@ -206,6 +313,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     padding: 3,
     height: "auto",
+  },
+  checkedText: {
+    fontSize: 16,
+    fontWeight: "500",
+    textDecorationLine: "line-through",
+    color: Colors.checkedText,
   },
   pressed: {
     opacity: 0.5,

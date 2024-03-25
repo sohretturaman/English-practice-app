@@ -20,21 +20,21 @@ const Tasks = () => {
   const dummyData = [
     {
       id: 1,
-      task: "Task 1",
+      task: "Task 1 lksdnfkj",
       date: "10:00",
       isDone: true,
       subtasks: [{ id: 11, task: "subtask 1" }],
     },
     {
       id: 1,
-      task: "Task 2",
+      task: "Task 2 knskfnjksfdjk",
       date: "11:00",
       isDone: true,
       subtasks: [{ id: 11, task: "subtask 1" }],
     },
     {
       id: 1,
-      task: "Task 3",
+      task: "Task 3 complete tasks app",
       date: "12:00",
       isDone: false,
       subtasks: [{ id: 11, task: "subtask 1" }],

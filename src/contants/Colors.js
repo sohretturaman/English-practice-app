@@ -13,6 +13,7 @@ const Colors = {
   favGray: "#f6f6f6",
   coral: "#DF7058",
   traslate: "#009ADF",
+  checkedText: "#969595",
 };
 
 export default Colors;

@@ -18,15 +18,28 @@ import Colors from "../../contants/Colors";
 
 import AddTaskContent from "./AddTaskForm";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { completeTask } from "../../store/Reducers";
 
 const TasksList = ({ tasks }) => {
   const navigation = useNavigation();
+  const selector = useSelector((state) => state?.tasks.tasks);
+ // console.log('all tasks', selector)
+  const dispatch = useDispatch();
+ 
 
+  const handleOnComplete = (id) => {
+    dispatch(completeTask(id));
+    
+  };
+  // filter task here put completed tasks on bottom!!
   return (
     <View style={styles.container}>
       <FlatList
-        data={tasks}
-        renderItem={({ item }) => <TaskItem itemData={item} />}
+        data={selector}
+        renderItem={({ item }) => (
+          <TaskItem itemData={item} onComplete={handleOnComplete} />
+        )}
         keyExtractor={(item, index) => index.toString()}
       />
       <FAB

@@ -220,7 +220,7 @@ function MyBottomTab() {
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
-        name="noteTaks"
+        name="noteTasks"
         component={MyTabs}
         options={{
           tabBarIcon: ({ focused, color, size }) => {

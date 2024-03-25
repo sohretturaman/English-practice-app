@@ -66,26 +66,120 @@ const TasksSlice = createSlice({
   },
   reducers: {
     addTask: (state, action) => {
-      state.tasks.push(action.payload);
+      const task = action.payload;
+      task.id = nanoid();
+      state.tasks.push(task);
     },
 
     deleteTask: (state, action) => {
       state.tasks.filter((task) => task.id !== action.payload);
     },
-    editTask: (state, action) => {
+    completeTask: (state, action) => {
       const updatableTaskIndex = state.tasks.findIndex(
-        (task) => task.id === action.payload.id
+        (task) => task.id === action.payload
+      );
+      console.log("updatableTaskIndex", updatableTaskIndex);
+      const updatableTask = state.tasks[updatableTaskIndex];
+      const updatedItem = { ...updatableTask, isDone: !updatableTask.isDone };
+      console.log("updated item", updatedItem);
+      state.tasks[updatableTaskIndex] = updatedItem;
+    },
+    editTask: (state, action) => {
+      const { id, task, date, subtasks } = action.payload;
+      const updatedTaskIndex = state.tasks.findIndex((task) => task.id === id);
+      if (updatedTaskIndex !== -1) {
+        const updatedTask = {
+          ...state.tasks[updatedTaskIndex],
+          task: task,
+          subtasks: subtasks,
+          date: date,
+        };
+        state.tasks[updatedTaskIndex] = updatedTask;
+      }
+    },
+
+    editSubTask: (state, action) => {
+      const { id, date, subtaskId, subtask } = action.payload;
+      console.log("action.payload in edit subtask", action.payload);
+      const updatableTaskIndex = state.tasks.findIndex(
+        (task) => task.id === id
       );
       const updatableTask = state.tasks[updatableTaskIndex];
-      const updatedItem = { ...updatableTask, ...action.payload.task };
-      const updatedTasks = [...state.tasks];
-      updatedTasks[updatableTaskIndex] = updatedItem;
-      return updatedTasks;
+      const subtaskIndex = updatableTask.subTasks.find(
+        (subtask) => subtask.id === subtaskId
+      );
+      const updatableSubtask = updatableTask.subTasks[subtaskIndex];
+      const updatedSubtask = { ...updatableSubtask, subtask: subtask }; // updated the subtask
+      const updatedSubtasksList = (state.tasks[updatableTaskIndex].subTasks[
+        subtaskIndex
+      ] = updatedSubtask);
+      state.tasks[updatableTaskIndex] = {
+        ...updatableTask,
+        subTasks: updatedSubtasksList,
+        date: date,
+      };
+    },
+    completeSubtask: (state, action) => {
+      const { id, subtaskId } = action.payload;
+      const updatableTaskIndex = state.tasks.findIndex(
+        (task) => task.id === id
+      );
+      if (updatableTaskIndex === -1) {
+        console.warn("Task not found");
+        return;
+      }
+
+      const updatableTask = state.tasks[updatableTaskIndex];
+      const subtaskIndex = updatableTask.subtasks.findIndex(
+        (subtask) => subtask.id === subtaskId
+      );
+      if (subtaskIndex === -1) {
+        console.warn("Subtask not found");
+        return;
+      }
+
+      const updatedSubtasks = [...updatableTask.subtasks]; 
+      updatedSubtasks[subtaskIndex] = {
+        ...updatedSubtasks[subtaskIndex],
+        isDone: !updatedSubtasks[subtaskIndex].isDone,
+      };
+
+      const updatedTask = {
+        ...updatableTask,
+        subtasks: updatedSubtasks,
+        date: new Date().toISOString(),
+      };
+      console.log("updated task in complete subtask", updatedTask);
+      state.tasks[updatableTaskIndex] = updatedTask;
+    },
+
+    deleteSubtask: (state, action) => {
+      const { id, subtaskId } = action.payload;
+      const updatableTaskIndex = state.tasks.findIndex(
+        (task) => task.id === id
+      );
+      const updatableTask = state.tasks[updatableTaskIndex];
+      const updatedSubtasks = updatableTask.subTasks.filter(
+        (subtask) => subtask.id !== subtaskId
+      );
+      state.tasks[updatableTaskIndex] = {
+        ...updatableTask,
+        subTasks: updatedSubtasks,
+        date: new Date().toISOString(),
+      };
     },
   },
 });
 
-export const { addTask, deleteTask, editTask } = TasksSlice.actions;
+export const {
+  addTask,
+  deleteTask,
+  editTask,
+  completeTask,
+  completeSubtask,
+  deleteSubtask,
+  editSubTask,
+} = TasksSlice.actions;
 export const TasksReducer = TasksSlice.reducer;
 /* 
 const SavedNewsSlice = createSlice({
