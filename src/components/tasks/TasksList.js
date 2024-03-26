@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, FAB } from "react-native-paper";
@@ -20,6 +21,9 @@ import AddTaskContent from "./AddTaskForm";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { completeTask } from "../../store/Reducers";
+
+const winWidth = Dimensions.get("window").width;
+const winHeight = Dimensions.get("window").height;
 
 const TasksList = ({ tasks }) => {
   const navigation = useNavigation();
@@ -32,13 +36,21 @@ const TasksList = ({ tasks }) => {
     dispatch(completeTask(id));
     
   };
+
+  const handelDeleteTask= (taskId) => {
+    console.log('pressed on delete task with swipable ', taskId) 
+  }
   // filter task here put completed tasks on bottom!!
+  const Separator = () => <View style={styles.itemSeparator} />;
   return (
     <View style={styles.container}>
       <FlatList
         data={selector}
-        renderItem={({ item }) => (
-          <TaskItem itemData={item} onComplete={handleOnComplete} />
+        renderItem={({ item , index}) => (
+          <View key={index}>
+          <TaskItem itemData={item} onComplete={handleOnComplete}  onDelete={handelDeleteTask}/>
+          <Separator />
+         </View>
         )}
         keyExtractor={(item, index) => index.toString()}
       />
@@ -79,4 +91,8 @@ const styles = StyleSheet.create({
   pressed: {
     opacity: 0.5,
   },
+  itemSeparator:{
+    backgroundColor: Colors.background,
+    height: winHeight * 0.01,
+  }
 });

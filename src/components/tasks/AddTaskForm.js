@@ -24,7 +24,7 @@ import { nanoid } from "@reduxjs/toolkit";
 import { useNavigation } from "@react-navigation/native";
 
 const winWidth = Dimensions.get("window").width;
-//take only id valye from edit page find required item in that page and take infro from redux abut that task item
+
 const AddTaskForm = ({ currentTask }) => {
   const selector = useSelector((state) => state.tasks.tasks);
   const findTask = selector?.find((item) => item.id === currentTask?.id);
@@ -110,6 +110,10 @@ const AddTaskForm = ({ currentTask }) => {
   const onDoneSubtask = (subtaskId) => {
     if (currentTask?.id) {
       dispatch(completeSubtask({ id: currentTask.id, subtaskId }));
+      const FilteredSubtasks = subTasks.filter(
+        (subtask) => subtask.id !== subtaskId
+      )
+      setSubtasks(FilteredSubtasks);
     } else {
       console.warn("First save the task");
       return;
@@ -118,7 +122,7 @@ const AddTaskForm = ({ currentTask }) => {
 
   const onDeleteSubtask = (id) => {
     console.log("on Delete subtask", id);
-    // dlete subtask function in dispatch function
+    // dlete subtask function in dispatch function!!
   };
 
   return (

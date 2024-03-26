@@ -7,14 +7,16 @@ import {
   Pressable,
   Dimensions,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "../../contants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
+import { GestureHandlerRootView, Swipeable } from "react-native-gesture-handler";
 
 const windWidth = Dimensions.get("window").width;
-const TaskItem = ({ itemData, onComplete }) => {
+const TaskItem = ({ itemData, onComplete,onDelete }) => {
+  const swipeableRef = useRef(null);
   function onCompPress() {
     onComplete(itemData?.id);
   }
@@ -39,7 +41,36 @@ const TaskItem = ({ itemData, onComplete }) => {
       </View>
     );
   };
+  const swipeFromLeftOpen = (itemId) => {
+    onDelete(itemId);
+    if(swipeableRef.current !==null ) {
+      swipeableRef.current.close();
+    }  
+  };
+  const LeftSwipeActions = () => {
+   
+    return (
+      <View style={styles.leftSwipeContainer}>
+        <Text
+          style={{
+            color: "#FFFFFF",
+            paddingHorizontal: 0,
+            fontWeight: "600",
+            paddingHorizontal: windWidth * 0.05,   
+
+          }}
+        >
+          Delete Task
+        </Text>
+      </View>
+    );
+  };
+
   return (
+    <GestureHandlerRootView    style={styles.swipeItemContainer}>
+    <Swipeable    ref={swipeableRef} // Set the ref for Swipeable
+        renderLeftActions={LeftSwipeActions}
+        onSwipeableLeftOpen={()=>swipeFromLeftOpen(itemData.id)}>
     <Pressable
       style={({ pressed }) => [styles.itemWrapper, pressed && styles.pressed]}
     >
@@ -73,19 +104,30 @@ const TaskItem = ({ itemData, onComplete }) => {
         onPress={onCompPress}
       />
     </Pressable>
+    </Swipeable>
+    </GestureHandlerRootView>
   );
 };
 
 export default TaskItem;
 
 const styles = StyleSheet.create({
+  
+  swipeItemContainer:{
+    flex:1,
+    height: windWidth * 0.14,
+    backgroundColor: Colors.background,
+    width:windWidth*0.9,
+    alignSelf:'center',
+    borderRadius:10,
+    borderRadius: 10,
+    
+  },
   itemWrapper: {
     flexDirection: "row",
     alignItems: "center",
     padding: 5,
     backgroundColor: Colors.white,
-    marginHorizontal: 10,
-    marginVertical: 5,
     borderRadius: 10,
     elevation: 2,
     height: windWidth * 0.14,
@@ -125,5 +167,13 @@ const styles = StyleSheet.create({
   },
   shareIcon: {
     marginRight: windWidth * 0.02,
+  },
+  leftSwipeContainer: {
+    flex: 1,
+    backgroundColor: Colors.red,
+    justifyContent: "center",
+    height: windWidth * 0.12,
+    borderRadius:10,
+   
   },
 });

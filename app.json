@@ -37,6 +37,14 @@
           "icon": "./local/assets/icon.png",
           "color": "#D88484"
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow English Practice App to access your camera",
+          "microphonePermission": "Allow English Practice App to access your microphone",
+          "recordAudioAndroid": true
+        }
       ]
     ],
     "extra": {
