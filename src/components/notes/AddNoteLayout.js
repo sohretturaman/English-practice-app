@@ -13,8 +13,9 @@ import {
 import { addNote } from "../../store/Reducers";
 import { useDispatch } from "react-redux";
 
-const AddNoteLayout = () => {
-  const dispatch = useDispatch(); // Get dispatch function
+const AddNoteLayout = ({info}) => {
+  const noteToEdit = info?.data;
+  const dispatch = useDispatch(); 
   const [type, setType] = useState(CameraType.back);
 
   const [permissions, useRequestPermissions] = Camera.useCameraPermissions();
@@ -49,7 +50,7 @@ const AddNoteLayout = () => {
   }
   return (
     <View style={{ flex: 1 }}>
-      <AddNoteContext saveNote={handleSaveNote} />
+      <AddNoteContext saveNote={handleSaveNote} noteToEdit={noteToEdit} />
     </View>
   );
 };

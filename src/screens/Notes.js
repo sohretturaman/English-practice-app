@@ -1,18 +1,20 @@
 /** @format */
 
 import { StyleSheet, Text, View, FlatList, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 
 import { SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
 import NoteList from "../components/notes/NoteList";
 import Colors from "../contants/Colors";
-import { useNavigation } from "@react-navigation/native";
+
 
 const Notes = () => {
   const darkMode = useSelector((selector) => selector.theme.isDarkTheme);
   console.log("dark mode in note", darkMode);
-  const navigation = useNavigation();
+
+
+
   // add undo,on top , addtexsize, textcolor on keyboard//  , add  fab group item to camra, voice and galery or put them horizontal on keyboard
   //add categories on top headline horizontally
   return (

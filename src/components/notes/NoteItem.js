@@ -13,9 +13,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 const NoteItem = ({ item, deleteNote }) => {
+
   const navigation = useNavigation();
   const editnote = () => {
-    navigation.navigate("EditNoteScreen", { noteId: item.id, data: item });
+    navigation.navigate("AddNote", { noteId: item?.id, data: item });
   };
   return (
     <Pressable
@@ -48,7 +49,7 @@ const NoteItem = ({ item, deleteNote }) => {
         </View>
       </View>
       <View style={styles.footerWrapper}>
-        <Text style={styles.date}> date : {item.date.slice(0, 10)}</Text>
+        <Text style={styles.date}> date : {item?.date?.slice(0, 10)}</Text>
       </View>
     </Pressable>
   );

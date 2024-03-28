@@ -35,9 +35,10 @@ const NotesSlice = createSlice({
   },
   reducers: {
     addNote: (state, action) => {
-      const note = action.payload;
+      
+      var note = action.payload;
       note.id = nanoid();
-      state.notes.push(action.payload); // no need to return
+      state.notes.push(note); // no need to return
     },
 
     deleteNote: (state, action) => {

@@ -22,7 +22,7 @@ const NoteList = () => {
   const dispatch = useDispatch();
 
   const notesData = useSelector((state) => state?.notes);
-  console.log("all notes", notesData.notes);
+  console.log("all notes", notesData.notes?.lenghth);
 
   const handleDelete = (id) => {
     console.log("id in delete note", id);
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignContent: "center",
+    marginBottom: 70
   },
   fab: {
     position: "absolute",

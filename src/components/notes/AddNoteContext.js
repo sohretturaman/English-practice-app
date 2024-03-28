@@ -16,6 +16,7 @@ import Colors from "../../contants/Colors";
 import TaskItem from "../tasks/TaskItem";
 import NoteTaskItem from "./NoteTaskItem";
 import { nanoid } from "@reduxjs/toolkit";
+import { useNavigation } from "@react-navigation/native";
 
 const winWidth = Dimensions.get("window").width;
 const winHeight = Dimensions.get("window").height;
@@ -25,51 +26,81 @@ const todoList = [
   { id: "2", task: "Learn React", isDone: false },
   { id: "3", task: "Learn TypeScript", isDone: true },
 ];
-const AddNoteContext = ({ saveNote }) => {
-  const [title, setTitle] = useState("");
-  const [note, setNote] = useState("");
+const AddNoteContext = ({ saveNote,noteToEdit }) => {
+  const navigation = useNavigation(); 
+  const [title, setTitle] = useState(noteToEdit?.title || "");
+  const [note, setNote] = useState(noteToEdit?.content || "");
   const [tasks, setTasks] = useState(todoList);
-  const [task, setTask] = useState({task:"", isDone:Boolean});
-  const [noteObject, setNoteObject] = useState({});
+  const [task, setTask] = useState(noteToEdit?.tasks|| { task: "", isDone: Boolean });
+  const [noteObject, setNoteObject] = useState(noteToEdit || {});
   const noteInputRef = useRef(null);
 
   const handleTitleSubmit = () => {
-    // Move focus to the note section
     noteInputRef.current.focus();
+    
   };
 
   const handleSave = () => {
-    const newNote = {
-      title: title,
-      content: note,
-      important: false,
-      date: new Date().toISOString(),
-      tasks: tasks,
-    };
-    saveNote(newNote);
-    setTitle("");
-    setNote("");
-    setTasks([]);
+    console.log("presseed on save with submit in textinput");
+    if (note.trim().length === 0) {
+      return;
+    }// cope with edit note function in reducers and add formik to add note screen 
+    // add edit note functionality, 
+    // delete and edit task
+    //if current note is existing then update it else create a new one
+    if(noteToEdit){
+      const updatedNote = {
+        ...noteObject,
+        title: title,
+        content: note,
+        important: false,
+        date: new Date().toISOString(),
+        tasks: tasks,
+      };
+      console.log('updated note in addnote context', updatedNote)
+      setNoteObject(updatedNote);
+      console.log(' updated note object?', updatedNote)
+      saveNote(updatedNote);
+      navigation.navigate('Notes')
+    }else{
+      const newNote = {
+        title: title,
+        content: note,
+        important: false,
+        date: new Date().toISOString(),
+        tasks: tasks,
+      };
+      
+      setNoteObject(newNote);
+      console.log('new note object?', newNote)
+      saveNote(newNote);
+      navigation.navigate('Notes')
+    }
+   
+    
+  
   };
 
   const addTask = () => {
-    //add task check for edit task too 
+    //add task check for edit task too
     if (task.task.trim().length !== 0) {
-      const newTask ={
-        id:nanoid(),
-        task:task.task,
-        isDone:false
-      }
-      setTasks( (prev)=> 
-        [ ...prev,newTask])
+      const newTask = {
+        id: nanoid(),
+        task: task.task,
+        isDone: false,
+      };
+      const newTasksList = [...tasks, newTask]
+      setTasks(newTasksList);
+      setNoteObject((prev)=>({...prev,tasks:newTasksList}))
       setTask("");
     }
+ 
   };
 
   const deleteTask = (taskId) => {
-    console.log('task id in note content', taskId)
-    const filteredTasks = tasks.filter((task)=>task.id !== taskId) ;
-    console.log('tasks after delete', filteredTasks)
+    console.log("task id in note content", taskId);
+    const filteredTasks = tasks.filter((task) => task.id !== taskId);
+    console.log("tasks after delete", filteredTasks);
     setTasks(filteredTasks);
   };
   const Separator = () => <View style={styles.itemSeparator} />;
@@ -85,7 +116,7 @@ const AddNoteContext = ({ saveNote }) => {
           value={title}
           onChangeText={(val) => setTitle(val)}
           onSubmitEditing={handleTitleSubmit}
-         // autoFocus={true}
+        autoFocus={true}
         />
         <MaterialCommunityIcons
           name="sticker-check-outline"
@@ -97,13 +128,16 @@ const AddNoteContext = ({ saveNote }) => {
       </View>
       <View style={styles.inputWrapper}>
         <TextInput
-          ref={noteInputRef}
+         ref={noteInputRef}
           style={styles.noteInput}
           multiline
           placeholder="Write your note..."
           textAlignVertical="top"
           value={note}
           onChangeText={(text) => setNote(text)}
+          onSubmitEditing={handleSave}
+          submit={true}
+          
         />
       </View>
       <View style={styles.tasksContainer}>
@@ -126,7 +160,9 @@ const AddNoteContext = ({ saveNote }) => {
 
           <TextInput
             value={task.task}
-            onChangeText={(text) => setTask((prev)=>({...prev, task:text}))}
+            onChangeText={(text) =>
+              setTask((prev) => ({ ...prev, task: text }))
+            }
             placeholder="Add a new task..."
             placeholderTextColor={Colors.darkGray}
             style={styles.taskInput}
@@ -143,6 +179,7 @@ export default AddNoteContext;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    
   },
   titleSection: {
     borderBottomWidth: 0.5,
@@ -222,8 +259,8 @@ const styles = StyleSheet.create({
   icon: {
     marginHorizontal: 5,
   },
-  itemSeparator:{
+  itemSeparator: {
     backgroundColor: Colors.background,
     height: winHeight * 0.01,
-  }
+  },
 });

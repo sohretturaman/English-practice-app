@@ -9,17 +9,22 @@ import Header from "../components/drawer/Header";
 import CustomHeader from "../components/notes/CustomHeader";
 import AddNoteContext from "../components/notes/AddNoteContext";
 import AddNoteLayout from "../components/notes/AddNoteLayout";
+import { useRoute } from "@react-navigation/native";
 
 const AddNote = () => {
+  const route = useRoute();
+  const info = route.params;
+  const headerTitle= info?.data ? "Edit Note": "Add Note";
+
   return (
     <SafeAreaView style={styles.container}>
       <CustomHeader
-        header={"Add Note"}
+        header={headerTitle}
         iconName={"clock-edit-outline"}
         MenuComp={() => <MenuComp />}
       />
 
-      <AddNoteLayout />
+      <AddNoteLayout  info={info}/>
     </SafeAreaView>
   );
 };
