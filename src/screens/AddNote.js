@@ -18,11 +18,7 @@ const AddNote = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <CustomHeader
-        header={headerTitle}
-        iconName={"clock-edit-outline"}
-        MenuComp={() => <MenuComp />}
-      />
+     
 
       <AddNoteLayout  info={info}/>
     </SafeAreaView>

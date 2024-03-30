@@ -1,7 +1,7 @@
 /** @format */
 
 import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import AddNoteContext from "./AddNoteContext";
 import {
   Camera,
@@ -10,47 +10,62 @@ import {
   requestCameraPermissionsAsync,
 } from "expo-camera";
 
-import { addNote } from "../../store/Reducers";
+import CustomHeader from "../notes/CustomHeader";
+import MenuComp from "./MenuComp";
 import { useDispatch } from "react-redux";
+import { changeBackButtonState, changeStatus } from "../../store/Reducers";
+import { useNavigation } from "@react-navigation/native";
 
-const AddNoteLayout = ({info}) => {
+
+const AddNoteLayout = ({ info }) => {
   const noteToEdit = info?.data;
-  const dispatch = useDispatch(); 
-  const [type, setType] = useState(CameraType.back);
+  const navigation=useNavigation(); 
 
-  const [permissions, useRequestPermissions] = Camera.useCameraPermissions();
-  const getPersmissions = async () => {
-    if (permissions?.status === PermissionStatus.UNDETERMINED) {
-      const result = await requestCameraPermissionsAsync();
-      console.log("result in requestPermissons", result);
-      return result.status;
-    }
-    if (permissions?.status === PermissionStatus.DENIED) {
-      //const result =  await  requestCameraPermissionsAsync()
-      // console.log("permission is denied?", result.status)
-      return;
-    }
-    if (permissions?.status === PermissionStatus.GRANTED) {
-      return permissions.status;
-    }
+  const [visible, setVisible] = useState(false);
+  const [showImagePicker, setShowImagePicker] = useState(false);
+  const headerTitle = noteToEdit ? "Edit Note" : "Add Note";
+  const dispatch =useDispatch(); 
+  const [isBackPressed,setIsBackPressed] =useState(false); 
+
+ 
+  useLayoutEffect(() => {
+    setTimeout(() => {
+      setVisible(false);
+      if(isBackPressed){
+        dispatch(changeBackButtonState(isBackPressed));//make back button false
+        setIsBackPressed(!isBackPressed); 
+      }
+    },5000)
+  },[visible,showImagePicker])
+  const onGaleryPress = () => {
+    console.log("current show image pickeer in layout comp",showImagePicker);
+    dispatch(changeStatus(showImagePicker)); 
+    
   };
 
-  useEffect(() => {
-    getPersmissions();
-  });
+  const handleBackPress =()=>{
+     console.log('pressed on back created to save note data on back button ')
+     navigation.navigate("Notes")
+      setIsBackPressed(!isBackPressed);
 
-  const handleSaveNote = (newNote) => {
-    dispatch(addNote(newNote)); // Dispatch the addNote action
-  };
-
-  function toggleCameraType() {
-    setType((current) =>
-      current === CameraType.back ? CameraType.front : CameraType.back
-    );
   }
+
   return (
     <View style={{ flex: 1 }}>
-      <AddNoteContext saveNote={handleSaveNote} noteToEdit={noteToEdit} />
+      <CustomHeader
+        header={headerTitle}
+        iconName={"clock-edit-outline"}
+        onBackPress={handleBackPress}
+     /*    MenuComp={() => (
+          <MenuComp
+            onGaleryPress={onGaleryPress}
+            visible={visible}
+            setVisible={setVisible}
+          />
+        )} */
+      />
+
+      <AddNoteContext noteToEdit={noteToEdit}  />
     </View>
   );
 };

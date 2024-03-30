@@ -342,7 +342,7 @@ const RootStack = () => {
         {/*  <Stack.Screen name="Maintab" component={MyBottomTab} /> */}
 
         <Stack.Screen name="FavedWords" component={FavedWords} />
-        <Stack.Screen name="AddNote" component={AddNote} />
+        <Stack.Screen name="AddNote"   component={AddNote} />
         <Stack.Screen name="NewsDetails" component={NewsDetailsScreen} />
         <Stack.Screen name="SearchScreen" component={SearchScreen} />
         <Stack.Screen name="Videoplay" component={VideoPlay} />

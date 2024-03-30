@@ -26,6 +26,33 @@ const ThemeSlice = createSlice({
 export const { changeTheme } = ThemeSlice.actions;
 export const ThemeReducer = ThemeSlice.reducer;
 
+const ImagePickerSlice= createSlice({
+  name: "imagePicker",
+  initialState: {
+    pickerStatus: false,
+    backButtonState :false
+  },
+  reducers: {
+    changeStatus: (state, action) => {
+       console.log('action .playload image picker ? 1 ', action.payload)
+       state.pickerStatus = !action.payload; // change the theme by incoming value !!
+       console.log('steate.pickerStatus?2 ', state.pickerStatus)
+
+      
+  } ,
+  changeBackButtonState: (state, action) => {
+    console.log('action .playload back button state ? 1 ', state.backButtonState)
+    state.pickerStatus = !action.payload; // change the theme by incoming value !!
+    console.log('steate. back button state?2 ', state.backButtonState)
+
+   
+}
+
+}
+});
+
+export const {changeStatus ,changeBackButtonState} = ImagePickerSlice.actions;
+export const ImagePickerReducer = ImagePickerSlice.reducer;
 //Note slice
 
 const NotesSlice = createSlice({

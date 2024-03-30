@@ -15,6 +15,10 @@ const AddTask = ({ navigation }) => {
     console.log("clicked to save");
     navigation.goBack();
   };
+  const handleBackPress = () => {
+    
+    navigation.goBack();
+  }
   return (
     <View style={{ flex: 1, backgroundColor: Colors.background }}>
       <CustomHeader
@@ -25,6 +29,7 @@ const AddTask = ({ navigation }) => {
           onPress={handleClick}
           style={styles.cancelIcon} />
         )}
+        onBackPress={handleBackPress}
       />
       <AddTaskForm currentTask={route.params?.editableTask} />
     </View>

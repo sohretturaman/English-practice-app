@@ -7,23 +7,19 @@ import Colors from "../../contants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import MenuComp from "./MenuComp";
 
-function CustomHeader({ header, iconName, MenuComp, onIconPress }) {
+function CustomHeader({ header, iconName, MenuComp, onIconPress ,onBackPress}) {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Pressable
-        onPress={() => {
-          navigation.goBack();
-        }}
+          onPress={onBackPress}
         style={({ pressed }) => [styles.backButton, pressed && styles.pressed]}
       >
         <MaterialCommunityIcons
           name={"step-backward"}
           size={26}
           color={"white"}
-          onPress={() => {
-            navigation.goBack();
-          }}
+          onPress={onBackPress}
         />
       </Pressable>
       <View style={styles.textWrapper}>

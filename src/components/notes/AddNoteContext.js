@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useLayoutEffect, useCallback } from "react";
 import {
   StyleSheet,
   View,
@@ -17,6 +17,9 @@ import TaskItem from "../tasks/TaskItem";
 import NoteTaskItem from "./NoteTaskItem";
 import { nanoid } from "@reduxjs/toolkit";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import ImagePicker from "./ImagePicker";
+import { addNote } from "../../store/Reducers";
 
 const winWidth = Dimensions.get("window").width;
 const winHeight = Dimensions.get("window").height;
@@ -26,29 +29,30 @@ const todoList = [
   { id: "2", task: "Learn React", isDone: false },
   { id: "3", task: "Learn TypeScript", isDone: true },
 ];
-const AddNoteContext = ({ saveNote,noteToEdit }) => {
-  const navigation = useNavigation(); 
+const AddNoteContext = ({ noteToEdit }) => {
+  // save note here before go to  notes page
+  const navigation = useNavigation();
   const [title, setTitle] = useState(noteToEdit?.title || "");
   const [note, setNote] = useState(noteToEdit?.content || "");
   const [tasks, setTasks] = useState(todoList);
-  const [task, setTask] = useState(noteToEdit?.tasks|| { task: "", isDone: Boolean });
+  const [task, setTask] = useState(
+    noteToEdit?.tasks || { task: "", isDone: Boolean }
+  );
   const [noteObject, setNoteObject] = useState(noteToEdit || {});
+  const [images, setImages] = useState(noteToEdit?.images || []);
   const noteInputRef = useRef(null);
+  const dispatch = useDispatch();
 
   const handleTitleSubmit = () => {
     noteInputRef.current.focus();
-    
   };
 
   const handleSave = () => {
-    console.log("presseed on save with submit in textinput");
-    if (note.trim().length === 0) {
+        if (note.trim().length === 0) {
       return;
-    }// cope with edit note function in reducers and add formik to add note screen 
-    // add edit note functionality, 
-    // delete and edit task
-    //if current note is existing then update it else create a new one
-    if(noteToEdit){
+    }
+
+    if (noteToEdit) {
       const updatedNote = {
         ...noteObject,
         title: title,
@@ -56,29 +60,32 @@ const AddNoteContext = ({ saveNote,noteToEdit }) => {
         important: false,
         date: new Date().toISOString(),
         tasks: tasks,
+        images: images,
       };
-      console.log('updated note in addnote context', updatedNote)
+      console.log("updated note in addnote context", updatedNote);
       setNoteObject(updatedNote);
-      console.log(' updated note object?', updatedNote)
+      console.log(" updated note object?", updatedNote);
       saveNote(updatedNote);
-      navigation.navigate('Notes')
-    }else{
+      navigation.navigate("Notes");
+    } else {
       const newNote = {
         title: title,
         content: note,
         important: false,
         date: new Date().toISOString(),
         tasks: tasks,
+        images: images,
       };
-      
+
       setNoteObject(newNote);
-      console.log('new note object?', newNote)
+      console.log("new note object?", newNote);
       saveNote(newNote);
-      navigation.navigate('Notes')
+      navigation.navigate("Notes");
     }
-   
-    
-  
+  };
+
+  const saveNote = (newNote) => {
+    dispatch(addNote(newNote)); // Dispatch the addNote action
   };
 
   const addTask = () => {
@@ -89,12 +96,11 @@ const AddNoteContext = ({ saveNote,noteToEdit }) => {
         task: task.task,
         isDone: false,
       };
-      const newTasksList = [...tasks, newTask]
+      const newTasksList = [...tasks, newTask];
       setTasks(newTasksList);
-      setNoteObject((prev)=>({...prev,tasks:newTasksList}))
+      setNoteObject((prev) => ({ ...prev, tasks: newTasksList }));
       setTask("");
     }
- 
   };
 
   const deleteTask = (taskId) => {
@@ -105,6 +111,13 @@ const AddNoteContext = ({ saveNote,noteToEdit }) => {
   };
   const Separator = () => <View style={styles.itemSeparator} />;
 
+  const handleSaveImage = useCallback((newImage) => {
+    const newImageList = [newImage, ...images];
+    setImages(newImageList);
+    console.log("images in context", newImageList);
+    setNoteObject((prev) => ({ ...prev, images: newImageList }));
+  },[images,noteObject])
+  
   return (
     <ScrollView style={styles.container}>
       {/* Use ScrollView to enable scrolling */}
@@ -116,7 +129,7 @@ const AddNoteContext = ({ saveNote,noteToEdit }) => {
           value={title}
           onChangeText={(val) => setTitle(val)}
           onSubmitEditing={handleTitleSubmit}
-        autoFocus={true}
+          autoFocus={true}
         />
         <MaterialCommunityIcons
           name="sticker-check-outline"
@@ -128,7 +141,7 @@ const AddNoteContext = ({ saveNote,noteToEdit }) => {
       </View>
       <View style={styles.inputWrapper}>
         <TextInput
-         ref={noteInputRef}
+          ref={noteInputRef}
           style={styles.noteInput}
           multiline
           placeholder="Write your note..."
@@ -137,7 +150,6 @@ const AddNoteContext = ({ saveNote,noteToEdit }) => {
           onChangeText={(text) => setNote(text)}
           onSubmitEditing={handleSave}
           submit={true}
-          
         />
       </View>
       <View style={styles.tasksContainer}>
@@ -170,6 +182,12 @@ const AddNoteContext = ({ saveNote,noteToEdit }) => {
           />
         </View>
       </View>
+
+      <View style={styles.ImageContainer}>
+       
+      
+        <ImagePicker saveImage={handleSaveImage} images={images} />
+      </View>
     </ScrollView>
   );
 };
@@ -179,7 +197,6 @@ export default AddNoteContext;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
   },
   titleSection: {
     borderBottomWidth: 0.5,
@@ -237,6 +254,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: Colors.darkGray,
     marginBottom: 10,
+    marginLeft: winWidth * 0.02,
   },
   taskInputWrapper: {
     backgroundColor: Colors.lightGray,
@@ -263,4 +281,16 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     height: winHeight * 0.01,
   },
+  ImageContainer: {
+    marginTop: winWidth * 0.05,
+    marginBottom: winWidth * 0.1,
+    minHeight: winWidth * 0.2,
+  },
+  titleWrapper:{
+    width:winWidth * 0.9,
+    flexDirection:"row",
+    height:winWidth * 0.1,
+    justifyContent:"space-between",
+  
+  }
 });

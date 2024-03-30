@@ -43,6 +43,7 @@
         {
           "cameraPermission": "Allow English Practice App to access your camera",
           "microphonePermission": "Allow English Practice App to access your microphone",
+          "photosPermission": "The app accesses your photos to let you share them with your friends.",
           "recordAudioAndroid": true
         }
       ]

@@ -6,12 +6,15 @@ import { Button, Menu, Divider, PaperProvider } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "../../contants/Colors";
 
-const MenuComp = () => {
-  const [visible, setVisible] = React.useState(true);
+const MenuComp = ({onGaleryPress,visible,setVisible}) => {
 
-  const openMenu = () => setVisible(true);
 
-  const closeMenu = () => setVisible(false);
+  const closeMenu = () => setVisible(!visible);
+
+  const onPressMenu = () => {
+    setVisible(!visible);
+
+  }
   return (
     <View>
       <View
@@ -27,7 +30,7 @@ const MenuComp = () => {
             <MaterialCommunityIcons
               name="dots-vertical"
               size={25}
-              onPress={openMenu}
+              onPress={onPressMenu}
               color={"white"}
             />
           }
@@ -53,8 +56,9 @@ const MenuComp = () => {
             }}
           />
           <Divider />
+          {/**GALERY */}
           <Menu.Item
-            onPress={() => {}}
+            onPress={onGaleryPress}
             title="Galeri"
             titleStyle={{
               color: Colors.secondary,
@@ -73,15 +77,7 @@ const MenuComp = () => {
             }}
           />
           <Divider />
-          <Menu.Item
-            onPress={() => {}}
-            title="List"
-            titleStyle={{
-              color: Colors.secondary,
-              fontWeight: "bold",
-              fontSize: 15,
-            }}
-          />
+         
         </Menu>
       </View>
     </View>
