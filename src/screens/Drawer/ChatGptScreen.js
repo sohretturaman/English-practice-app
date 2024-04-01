@@ -14,46 +14,18 @@ import { OpenAIError } from "openai";
 
 const ChatGptScreen = () => {
  
-  // const apiUrl ="https://api.openai.com/v1/engines/text-davinci-002/completions";
-  const apiUrl =
-    "https://api.openai.com/v1/engines/gpt-3.5-turbo-1106/completions";
+
   const [textInput, setTextInput] = useState("");
   const [data, setData] = useState([]);
 
   const handleSend = async () => {
-    /* const prompt = textInput;
-    try {
-      const response = await axios.post(
-        apiUrl,
-        {
-          prompt: prompt,
-          max_tokens: 1024,
-          temperature: 0.5,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey}`,
-          },
-        }
-      );
-
-      const botText = response.data.choices[0].text; // Corrected typo
-      setData((prevData) => [
-        ...prevData,
-        { type: "user", text: textInput },
-        { type: "bot", text: botText },
-      ]);
-      setTextInput("");
-    } catch (error) {
-      OpenAIError.toString(error);
-      console.error("Error sending request:", error);
-    } */
+   
+ console.log('pressed on send ', textInput)
   };
 
   return (
     <View>
-      <Text>ChatGptScreen</Text>
+      
       <FlatList
         data={data}
         keyExtractor={(item, index) => index.toString()}

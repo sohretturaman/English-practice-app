@@ -74,22 +74,13 @@ const DrawerRouter = () => {
         drawerInactiveTintColor: "white",
         drawerStyle: { backgroundColor: Colors.primary },
         header: ({ navigation, route }) => {
-          let iconName;
-          let navigationRoute;
-          //chechk for here condition is not working because of  route name
-          if (route.name === "Listening") {
-            iconName = "search";
-            navigationRoute = "SearchScreen";
-          } else {
-            iconName = "chatbox-ellipses-outline";
-            navigationRoute = "ChatGptScreen";
-          }
+        
           return (
             <Header
               navigation={navigation}
               header={"My Practice App"}
-              iconName={iconName}
-              onIconPress={() => navigation.navigate(navigationRoute)}
+              iconName={"chatbox-ellipses-outline"}
+              onIconPress={() => navigation.navigate("ChatGpt")}
             />
           );
         },
