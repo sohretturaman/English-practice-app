@@ -50,6 +50,7 @@ const TaskItem = ({ itemData, onComplete, onDelete }) => {
   };
   const swipeFromLeftOpen = (itemId) => {
     onDelete(itemId);
+    
     if (swipeableRef.current !== null) {
       swipeableRef.current.close();
     }
@@ -70,6 +71,12 @@ const TaskItem = ({ itemData, onComplete, onDelete }) => {
       </View>
     );
   };
+
+  const onDeleteTask =(taskId)=>{
+    console.log("on delete task",taskId)
+    onDelete(taskId); 
+    
+  }
 
   return (
     <GestureHandlerRootView style={styles.swipeItemContainer}>
@@ -114,7 +121,7 @@ const TaskItem = ({ itemData, onComplete, onDelete }) => {
             size={25}
             color={itemData.isDone ? Colors.checkedText : Colors.darkGray}
             style={styles.icon}
-            onPress={onCompPress}
+            onPress={()=>onDeleteTask(itemData?.id)}
           />
         </Pressable>
       </Swipeable>

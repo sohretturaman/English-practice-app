@@ -70,7 +70,7 @@ const TasksSlice = createSlice({
     },
 
     deleteTask: (state, action) => {
-      state.tasks.filter((task) => task.id !== action.payload);
+      state.tasks= state.tasks.filter((task) => task.id !== action.payload);
     },
     completeTask: (state, action) => {
       const updatableTaskIndex = state.tasks.findIndex(
