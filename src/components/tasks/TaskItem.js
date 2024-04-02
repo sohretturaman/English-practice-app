@@ -8,14 +8,21 @@ import {
   Dimensions,
 } from "react-native";
 import React, { useRef, useState } from "react";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import Colors from "../../contants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { GestureHandlerRootView, Swipeable } from "react-native-gesture-handler";
+import {
+  GestureHandlerRootView,
+  Swipeable,
+} from "react-native-gesture-handler";
 
 const windWidth = Dimensions.get("window").width;
-const TaskItem = ({ itemData, onComplete,onDelete }) => {
+const TaskItem = ({ itemData, onComplete, onDelete }) => {
   const swipeableRef = useRef(null);
   function onCompPress() {
     onComplete(itemData?.id);
@@ -43,12 +50,11 @@ const TaskItem = ({ itemData, onComplete,onDelete }) => {
   };
   const swipeFromLeftOpen = (itemId) => {
     onDelete(itemId);
-    if(swipeableRef.current !==null ) {
+    if (swipeableRef.current !== null) {
       swipeableRef.current.close();
-    }  
+    }
   };
   const LeftSwipeActions = () => {
-   
     return (
       <View style={styles.leftSwipeContainer}>
         <Text
@@ -56,8 +62,7 @@ const TaskItem = ({ itemData, onComplete,onDelete }) => {
             color: "#FFFFFF",
             paddingHorizontal: 0,
             fontWeight: "600",
-            paddingHorizontal: windWidth * 0.05,   
-
+            paddingHorizontal: windWidth * 0.05,
           }}
         >
           Delete Task
@@ -67,44 +72,52 @@ const TaskItem = ({ itemData, onComplete,onDelete }) => {
   };
 
   return (
-    <GestureHandlerRootView    style={styles.swipeItemContainer}>
-    <Swipeable    ref={swipeableRef} // Set the ref for Swipeable
+    <GestureHandlerRootView style={styles.swipeItemContainer}>
+      <Swipeable
+        ref={swipeableRef} // Set the ref for Swipeable
         renderLeftActions={LeftSwipeActions}
-        onSwipeableLeftOpen={()=>swipeFromLeftOpen(itemData.id)}>
-    <Pressable
-      style={({ pressed }) => [styles.itemWrapper, pressed && styles.pressed]}
-    >
-      <MaterialCommunityIcons
-        name={itemData.isDone ? "square-rounded" : "square-rounded-outline"}
-        size={25}
-        childre
-        color={itemData.isDone ? Colors.checkedText : Colors.darkGray}
-        style={styles.icon}
-        onPress={onCompPress}
-      />
-
-      <Pressable
-        style={({ pressed }) => [styles.textWrapper, pressed && styles.pressed]}
-        onPress={itemData.isDone ? handlecheckedEdit : handleEdit}
+        onSwipeableLeftOpen={() => swipeFromLeftOpen(itemData.id)}
       >
-        {itemData.isDone ? (
-          <Text style={styles.checkedText}>{itemData.task}</Text>
-        ) : (
-          <View style={styles.textWrapper}>
-            <Text style={styles.taskText}>{itemData.task}</Text>
-            {itemData.subtasks?.length > 0 && <SubtaskContainer />}
-          </View>
-        )}
-      </Pressable>
-      <MaterialCommunityIcons
-        name={"cancel"}
-        size={25}
-        color={itemData.isDone ? Colors.checkedText : Colors.darkGray}
-        style={styles.icon}
-        onPress={onCompPress}
-      />
-    </Pressable>
-    </Swipeable>
+        <Pressable
+          style={({ pressed }) => [
+            styles.itemWrapper,
+            pressed && styles.pressed,
+          ]}
+        >
+          <MaterialCommunityIcons
+            name={itemData.isDone ? "square-rounded" : "square-rounded-outline"}
+            size={25}
+            childre
+            color={itemData.isDone ? Colors.checkedText : Colors.darkGray}
+            style={styles.icon}
+            onPress={onCompPress}
+          />
+
+          <Pressable
+            style={({ pressed }) => [
+              styles.textWrapper,
+              pressed && styles.pressed,
+            ]}
+            onPress={itemData.isDone ? handlecheckedEdit : handleEdit}
+          >
+            {itemData.isDone ? (
+              <Text style={styles.checkedText}>{itemData.task}</Text>
+            ) : (
+              <View style={styles.textWrapper}>
+                <Text style={styles.taskText}>{itemData.task}</Text>
+                {itemData.subtasks?.length > 0 && <SubtaskContainer />}
+              </View>
+            )}
+          </Pressable>
+          <MaterialIcons
+            name="cancel"
+            size={25}
+            color={itemData.isDone ? Colors.checkedText : Colors.darkGray}
+            style={styles.icon}
+            onPress={onCompPress}
+          />
+        </Pressable>
+      </Swipeable>
     </GestureHandlerRootView>
   );
 };
@@ -112,16 +125,14 @@ const TaskItem = ({ itemData, onComplete,onDelete }) => {
 export default TaskItem;
 
 const styles = StyleSheet.create({
-  
-  swipeItemContainer:{
-    flex:1,
+  swipeItemContainer: {
+    flex: 1,
     height: windWidth * 0.14,
     backgroundColor: Colors.background,
-    width:windWidth*0.9,
-    alignSelf:'center',
-    borderRadius:10,
+    width: windWidth * 0.9,
+    alignSelf: "center",
     borderRadius: 10,
-    
+    borderRadius: 10,
   },
   itemWrapper: {
     flexDirection: "row",
@@ -173,7 +184,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.red,
     justifyContent: "center",
     height: windWidth * 0.12,
-    borderRadius:10,
-   
+    borderRadius: 10,
   },
 });

@@ -1,6 +1,7 @@
 /** @format */
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { validatePathConfig } from "@react-navigation/native";
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 //theme slice
@@ -53,37 +54,6 @@ const ImagePickerSlice= createSlice({
 
 export const {changeStatus ,changeBackButtonState} = ImagePickerSlice.actions;
 export const ImagePickerReducer = ImagePickerSlice.reducer;
-//Note slice
-
-const NotesSlice = createSlice({
-  name: "notes",
-  initialState: {
-    notes: [],
-  },
-  reducers: {
-    addNote: (state, action) => {
-      
-      var note = action.payload;
-      note.id = nanoid();
-      state.notes.push(note); // no need to return
-    },
-
-    deleteNote: (state, action) => {
-      state.notes = state.notes.filter((note) => note.id !== action.payload);
-    },
-    editNote: (state, action) => {
-      const { id, newNote } = action.payload; // spread operator
-      const index = state.notes.findIndex((note) => note.id === id);
-
-      if (index !== -1) {
-        state.notes[index] = { ...state.notes[index], ...newNote };
-      }
-    },
-  },
-});
-
-export const { addNote, deleteNote, editNote } = NotesSlice.actions;
-export const NotesReducer = NotesSlice.reducer;
 
 // tasks slice
 
@@ -187,15 +157,17 @@ const TasksSlice = createSlice({
         (task) => task.id === id
       );
       const updatableTask = state.tasks[updatableTaskIndex];
-      const updatedSubtasks = updatableTask.subTasks.filter(
+      const updatedSubtasks = updatableTask.subtasks.filter(
         (subtask) => subtask.id !== subtaskId
       );
+      
       state.tasks[updatableTaskIndex] = {
         ...updatableTask,
         subTasks: updatedSubtasks,
         date: new Date().toISOString(),
       };
     },
+    
   },
 });
 

@@ -15,29 +15,23 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "../../contants/Colors";
 import TaskItem from "../tasks/TaskItem";
 import NoteTaskItem from "./NoteTaskItem";
-import { nanoid } from "@reduxjs/toolkit";
+
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import ImagePicker from "./ImagePicker";
-import { addNote } from "../../store/Reducers";
+import {  completeNoteTask,  } from "../../store/Reducers";
+import { addNote, editNote } from "../../store/NotesSlice";
+import AddNoteTask from "./AddNoteTask";
 
 const winWidth = Dimensions.get("window").width;
 const winHeight = Dimensions.get("window").height;
 
-const todoList = [
-  { id: "1", task: "Learn JavaScript", isDone: true },
-  { id: "2", task: "Learn React", isDone: false },
-  { id: "3", task: "Learn TypeScript", isDone: true },
-];
 const AddNoteContext = ({ noteToEdit }) => {
   // save note here before go to  notes page
   const navigation = useNavigation();
   const [title, setTitle] = useState(noteToEdit?.title || "");
   const [note, setNote] = useState(noteToEdit?.content || "");
-  const [tasks, setTasks] = useState(todoList);
-  const [task, setTask] = useState(
-    noteToEdit?.tasks || { task: "", isDone: Boolean }
-  );
+  const [tasks, setTasks] = useState(noteToEdit?.tasks || []);
   const [noteObject, setNoteObject] = useState(noteToEdit || {});
   const [images, setImages] = useState(noteToEdit?.images || []);
   const noteInputRef = useRef(null);
@@ -48,7 +42,7 @@ const AddNoteContext = ({ noteToEdit }) => {
   };
 
   const handleSave = () => {
-        if (note.trim().length === 0) {
+    if (note.trim().length === 0) {
       return;
     }
 
@@ -62,9 +56,9 @@ const AddNoteContext = ({ noteToEdit }) => {
         tasks: tasks,
         images: images,
       };
-      console.log("updated note in addnote context", updatedNote);
+
       setNoteObject(updatedNote);
-      console.log(" updated note object?", updatedNote);
+
       saveNote(updatedNote);
       navigation.navigate("Notes");
     } else {
@@ -76,48 +70,32 @@ const AddNoteContext = ({ noteToEdit }) => {
         tasks: tasks,
         images: images,
       };
-
+      console.log("is tasks an oobjet", tasks);
       setNoteObject(newNote);
-      console.log("new note object?", newNote);
+
       saveNote(newNote);
       navigation.navigate("Notes");
     }
   };
 
   const saveNote = (newNote) => {
-    dispatch(addNote(newNote)); // Dispatch the addNote action
+    dispatch(addNote(newNote));
   };
 
-  const addTask = () => {
-    //add task check for edit task too
-    if (task.task.trim().length !== 0) {
-      const newTask = {
-        id: nanoid(),
-        task: task.task,
-        isDone: false,
-      };
-      const newTasksList = [...tasks, newTask];
-      setTasks(newTasksList);
-      setNoteObject((prev) => ({ ...prev, tasks: newTasksList }));
-      setTask("");
-    }
-  };
 
-  const deleteTask = (taskId) => {
-    console.log("task id in note content", taskId);
-    const filteredTasks = tasks.filter((task) => task.id !== taskId);
-    console.log("tasks after delete", filteredTasks);
-    setTasks(filteredTasks);
-  };
-  const Separator = () => <View style={styles.itemSeparator} />;
 
-  const handleSaveImage = useCallback((newImage) => {
-    const newImageList = [newImage, ...images];
-    setImages(newImageList);
-    console.log("images in context", newImageList);
-    setNoteObject((prev) => ({ ...prev, images: newImageList }));
-  },[images,noteObject])
-  
+
+  const handleSaveImage = useCallback(
+    (newImage) => {
+      const newImageList = [newImage, ...images];
+      setImages(newImageList);
+      console.log("images in context", newImageList);
+      setNoteObject((prev) => ({ ...prev, images: newImageList }));
+    },
+    [images, noteObject]
+  );
+
+
   return (
     <ScrollView style={styles.container}>
       {/* Use ScrollView to enable scrolling */}
@@ -153,39 +131,10 @@ const AddNoteContext = ({ noteToEdit }) => {
         />
       </View>
       <View style={styles.tasksContainer}>
-        <Text style={styles.taskTitle}> Tasks List</Text>
-        {tasks.map((task, index) => (
-          <View key={index}>
-            <NoteTaskItem itemData={task} key={index} onDelete={deleteTask} />
-            <Separator />
-          </View>
-        ))}
-        {/* Add task input */}
-
-        <View style={styles.taskInputWrapper}>
-          <MaterialCommunityIcons
-            name="square-rounded-outline"
-            size={22}
-            color={Colors.secondary}
-            style={styles.icon}
-          />
-
-          <TextInput
-            value={task.task}
-            onChangeText={(text) =>
-              setTask((prev) => ({ ...prev, task: text }))
-            }
-            placeholder="Add a new task..."
-            placeholderTextColor={Colors.darkGray}
-            style={styles.taskInput}
-            onSubmitEditing={addTask}
-          />
-        </View>
+       <AddNoteTask  tasks={tasks} setTasks={setTasks} />
       </View>
 
       <View style={styles.ImageContainer}>
-       
-      
         <ImagePicker saveImage={handleSaveImage} images={images} />
       </View>
     </ScrollView>
@@ -286,11 +235,10 @@ const styles = StyleSheet.create({
     marginBottom: winWidth * 0.1,
     minHeight: winWidth * 0.2,
   },
-  titleWrapper:{
-    width:winWidth * 0.9,
-    flexDirection:"row",
-    height:winWidth * 0.1,
-    justifyContent:"space-between",
-  
-  }
+  titleWrapper: {
+    width: winWidth * 0.9,
+    flexDirection: "row",
+    height: winWidth * 0.1,
+    justifyContent: "space-between",
+  },
 });

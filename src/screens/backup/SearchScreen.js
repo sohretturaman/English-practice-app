@@ -20,6 +20,7 @@ const SearchScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const searchedItemsContext = useContext(SearchedVideosContext);
   const searchedItemsData = searchedItemsContext.searchedVideos;
+
   const getSearchData = async (searchInput) => {
     try {
       setIsLoading(true);
@@ -33,7 +34,7 @@ const SearchScreen = () => {
           setIsLoading(false);
         });
     } catch (error) {
-      console.log("an error accured while fetching data", error);
+      console.log("an error accured while fetching data", error.message);
       setIsLoading(false);
     }
   };

@@ -13,7 +13,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 const NoteItem = ({ item, deleteNote }) => {
-
+//console.log('news item', item)
   const navigation = useNavigation();
   const editnote = () => {
     navigation.navigate("AddNote", { noteId: item?.id, data: item });

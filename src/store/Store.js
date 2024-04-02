@@ -3,7 +3,8 @@
 // store.js
 
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import { ThemeReducer, NotesReducer, TasksReducer, ImagePickerReducer } from "./Reducers";
+import { ThemeReducer, TasksReducer, ImagePickerReducer } from "./Reducers";
+import { NotesReducer } from "./NotesSlice";
 
 
 // Configure the store

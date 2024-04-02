@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addTask, completeSubtask, editTask } from "../../store/Reducers";
 import { nanoid } from "@reduxjs/toolkit";
 import { useNavigation } from "@react-navigation/native";
+import { deleteSubtask } from "../../store/Reducers";
 
 const winWidth = Dimensions.get("window").width;
 
@@ -34,7 +35,7 @@ const AddTaskForm = ({ currentTask }) => {
     currentTask ? findTask.subtasks : []
   ); //!!imp
   const [taskObj, setTaskObj] = useState(currentTask ? findTask : {});
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
   const navigation = useNavigation();
 
   useLayoutEffect(() => {}, [findTask, subTasks]);
@@ -109,7 +110,27 @@ const AddTaskForm = ({ currentTask }) => {
 
   const onDoneSubtask = (subtaskId) => {
     if (currentTask?.id) {
+      setSubtasks((tasks)=>(
+        tasks.map((task)=>{
+          if(task.id === subtaskId){
+            return{...task, isDone: !task.isDone}
+          }
+          return task
+        })
+      ))
       dispatch(completeSubtask({ id: currentTask.id, subtaskId }));
+ 
+     
+    } else {
+      console.warn("First save the task");
+      return;
+    }
+  };
+
+  const onDeleteSubtask = (subtaskId) => {
+    if (currentTask?.id) {
+
+      dispatch(deleteSubtask({ id: currentTask.id, subtaskId }));
       const FilteredSubtasks = subTasks.filter(
         (subtask) => subtask.id !== subtaskId
       )
@@ -118,11 +139,6 @@ const AddTaskForm = ({ currentTask }) => {
       console.warn("First save the task");
       return;
     }
-  };
-
-  const onDeleteSubtask = (id) => {
-    console.log("on Delete subtask", id);
-    // dlete subtask function in dispatch function!!
   };
 
   return (
@@ -168,7 +184,7 @@ const AddTaskForm = ({ currentTask }) => {
                   ]}
                 >
                   <MaterialCommunityIcons
-                    name="square-rounded-outline"
+                    name={subtaskItem.isDone ? "square-rounded" : "square-rounded-outline"}
                     size={20}
                     color={Colors.darkGray}
                     style={styles.icon}
@@ -181,16 +197,16 @@ const AddTaskForm = ({ currentTask }) => {
                     </Text>
                   ) : (
                     <Text numberOfLines={2} style={styles.subtaskText}>
-                      {subtaskItem.isDone ? "true" : "false"}{" "}
+                   
                       {subtaskItem.subtask}
                     </Text>
                   )}
 
-                  <MaterialCommunityIcons
+                  <MaterialIcons
                     name="cancel"
                     size={20}
                     color={Colors.darkGray}
-                    style={styles.icon}
+                    style={styles.cancelIcon}
                     onPress={() => onDeleteSubtask(subtaskItem.id)}
                   />
                 </Pressable>
@@ -202,7 +218,7 @@ const AddTaskForm = ({ currentTask }) => {
                 size={20}
                 color={Colors.secondary}
                 style={styles.icon}
-                onPress={onDoneSubtask}
+               // onPress={onDoneSubtask}
               />
 
               <TextInput
@@ -284,7 +300,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     elevation: 2,
     backgroundColor: Colors.lightGray,
+    justifyContent:'space-between'
+
   },
+
   subtaskIput: {
     flex: 1,
     height: "100%",
@@ -292,6 +311,12 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginHorizontal: 5,
+   
+
+  },
+  cancelIcon:{
+    
+     justifyContent:'flex-end'
   },
   subtaskList: {
     marginTop: 10,
@@ -309,6 +334,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 5,
+    width: winWidth * 0.9,
+   
+ 
   },
   subtaskText: {
     fontSize: 16,
@@ -317,12 +345,17 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     padding: 3,
     height: "auto",
+    width:winWidth*0.7,
+    
+    
   },
   checkedText: {
     fontSize: 16,
     fontWeight: "500",
     textDecorationLine: "line-through",
     color: Colors.checkedText,
+    width:winWidth*0.7,
+    
   },
   pressed: {
     opacity: 0.5,

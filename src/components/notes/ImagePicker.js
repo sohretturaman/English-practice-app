@@ -35,7 +35,7 @@ import { nanoid } from "@reduxjs/toolkit";
 const { height, width } = Dimensions.get("window");
 //update noteobject here and send data to redux
 const ImagePicker = ({ saveImage, images }) => {
-  console.log("images in picker **", images.length);
+ // console.log("images in picker **", images.length);
   const [image, setImage] = useState({});
   const selector = useSelector((state) => state.imagePicker);
 

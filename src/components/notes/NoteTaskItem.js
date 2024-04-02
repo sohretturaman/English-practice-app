@@ -1,20 +1,34 @@
 /** @format */
 import { StyleSheet, Text, View, Pressable, Dimensions } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useDebugValue, useRef, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "../../contants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const windWidth = Dimensions.get("window").width;
-const NoteTaskItem = ({ itemData, onDelete }) => {
+const NoteTaskItem = ({ itemData, onDelete, onCompleteNoteTask, noteId }) => {
   const swipeableRef = useRef(null);
+  const AllNotes = useSelector((state) => state?.notes.notes); // find data with item id **seperate the list
+  const findItem = AllNotes.find((item) => item.id === noteId);
 
-  // task => task and isdone and id !!; no date no subtasks
+ 
+ // console.log('find ıtem??? have array',findItem)
+  
+if(findItem?.length>0){
+  const findCurrentTask = findItem?.tasks.find((task) => {
+    task.id === itemData.id;
+  });
+  console.log('CURRETN TASK',findCurrentTask)
+}
+   
 
-  function onCompPress() {
-    console.log("pressed on complete");
+  function onCompPress(taskId) {
+    console.log("pressed on complete", taskId);
+    onCompleteNoteTask(taskId);
   }
 
   const handleEdit = () => {
@@ -49,7 +63,6 @@ const NoteTaskItem = ({ itemData, onDelete }) => {
   }; */
 
   const LeftSwipeActions = () => {
-   
     return (
       <View style={styles.leftSwipeContainer}>
         <Text
@@ -57,8 +70,7 @@ const NoteTaskItem = ({ itemData, onDelete }) => {
             color: "#FFFFFF",
             paddingHorizontal: 0,
             fontWeight: "600",
-            paddingHorizontal: windWidth * 0.05,   
-
+            paddingHorizontal: windWidth * 0.05,
           }}
         >
           Delete Task
@@ -69,20 +81,17 @@ const NoteTaskItem = ({ itemData, onDelete }) => {
 
   const swipeFromLeftOpen = (itemId) => {
     onDelete(itemId);
-    if(swipeableRef.current !==null ) {
+    if (swipeableRef.current !== null) {
       swipeableRef.current.close();
-    }  
+    }
   };
 
-
   return (
-    <GestureHandlerRootView
-      style={styles.swipeItemContainer}
-    >
+    <GestureHandlerRootView style={styles.swipeItemContainer}>
       <Swipeable
-      ref={swipeableRef} // Set the ref for Swipeable
+        ref={swipeableRef} // Set the ref for Swipeable
         renderLeftActions={LeftSwipeActions}
-        onSwipeableLeftOpen={()=>swipeFromLeftOpen(itemData.id)}
+        onSwipeableLeftOpen={() => swipeFromLeftOpen(itemData.id)}
       >
         <View style={styles.itemWrapper}>
           <MaterialCommunityIcons
@@ -91,7 +100,7 @@ const NoteTaskItem = ({ itemData, onDelete }) => {
             childre
             color={itemData.isDone ? Colors.checkedText : Colors.darkGray}
             style={styles.icon}
-            onPress={onCompPress}
+            onPress={() => onCompPress(itemData.id)}
           />
 
           <Pressable
@@ -109,7 +118,6 @@ const NoteTaskItem = ({ itemData, onDelete }) => {
               </View>
             )}
           </Pressable>
-       
         </View>
       </Swipeable>
     </GestureHandlerRootView>
@@ -119,14 +127,13 @@ const NoteTaskItem = ({ itemData, onDelete }) => {
 export default NoteTaskItem;
 
 const styles = StyleSheet.create({
-  swipeItemContainer:{
-    flex:1,
+  swipeItemContainer: {
+    flex: 1,
     height: windWidth * 0.12,
     backgroundColor: Colors.background,
-    width:windWidth*0.9,
-    alignSelf:'center',
-    borderRadius:10,
-    
+    width: windWidth * 0.9,
+    alignSelf: "center",
+    borderRadius: 10,
   },
   itemWrapper: {
     flexDirection: "row",
@@ -180,7 +187,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.red,
     justifyContent: "center",
     height: windWidth * 0.12,
-    borderRadius:10,
-   
+    borderRadius: 10,
   },
 });
