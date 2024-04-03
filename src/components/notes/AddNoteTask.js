@@ -14,26 +14,23 @@ import Colors from "../../contants/Colors";
 import NoteTaskItem from "./NoteTaskItem";
 import { useDispatch, useSelector } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
-import { editNote,completeNoteTask } from "../../store/NotesSlice";
+import { editNote,completeNoteTask, deleteNote } from "../../store/NotesSlice";
 
 const winWidth = Dimensions.get("window").width;
 const winHeight = Dimensions.get("window").height;
 
-const AddNoteTask = ({ noteId }) => {
+const AddNoteTask = ({ noteId,tasks,setTasks,noteObject,setNoteObject }) => {
 const allNotes = useSelector((state) => state?.notes?.notes);
 const noteToEdit = allNotes?.find((note) => note?.id === noteId);
-//console.log("note to edit ?", noteToEdit);
 
-  const [tasks, setTasks] = useState(noteToEdit?.tasks || []);
+
+
+
   const [task, setTask] = useState(noteToEdit?.tasks || []);
-  const [noteObject, setNoteObject] = useState(noteToEdit || {});
+
 
   const dispatch = useDispatch();
 
-  useLayoutEffect(()=>{
-    console.log("new note object to edit", noteObject);
-    dispatch(editNote({ id: noteToEdit?.id, newNote: noteObject }));
-  },[tasks,noteObject?.tasks])
 
   const addTask = () => {
     if (task.task.trim().length !== 0) {
@@ -45,26 +42,49 @@ const noteToEdit = allNotes?.find((note) => note?.id === noteId);
       const newTasksList = [...tasks, newTask];
       setTasks(newTasksList);
       setNoteObject((prev) => ({ ...prev, tasks: newTasksList }));
+     
+      if(noteToEdit?.id){
+        dispatch(editNote({ id: noteToEdit?.id, newNote: newNote }));
+      }
+     
       
       setTask("");
     }
   };
 
   const deleteTask = (taskId) => {
-    console.log("task id in note content", taskId);
-    const filteredTasks = tasks.filter((task) => task.id !== taskId);
-    console.log("tasks after delete", filteredTasks);
-    setTasks(filteredTasks);
+    if(!taskId){
+      console.log('first save the task to delete', taskId)
+      return;
+    }
+    setTasks((tasks) => tasks.filter((task) => task.id !== taskId));
+    const newNoteObject={ ...noteObject, tasks: tasks.filter((task) => task.id !== taskId) }
+    setNoteObject(newNoteObject);
+    if(noteToEdit?.id){
+      dispatch(editNote({ id: noteToEdit?.id, newNote: newNoteObject }));
+    }
+ 
+
   };
   const Separator = () => <View style={styles.itemSeparator} />;
 
   const handleCompleteNoteTask = (taskId) => {
-    console.log(
-      "HANDLE COMPLETE NOTE TASK VALUES",
-      noteToEdit.id,
-      "task id",
-      taskId
-    );
+    if(!taskId){
+      console.log("first save the task please, (handle compelte)", taskId);
+      return;
+    }
+    setTasks((tasks)=>(
+      tasks.map((task)=>{
+        if(task.id ===taskId){
+          return {...task, isDone:!task.isDone}
+        }
+        else{
+          return;
+        }
+      })
+    ))
+    
+
     dispatch(completeNoteTask({ noteId: noteToEdit.id, taskId: taskId }));
   };
   return (

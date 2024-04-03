@@ -26,7 +26,7 @@ const NotesSlice = createSlice({
         const index = state.notes.findIndex((note) => note.id === id);
   
         if (index !== -1) {
-          state.notes[index] = { ...state.notes[index], ...newNote };
+           state.notes[index] = { ...state.notes[index], ...newNote };
         
         }
       },

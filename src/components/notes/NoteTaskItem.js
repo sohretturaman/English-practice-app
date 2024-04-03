@@ -10,25 +10,21 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 const windWidth = Dimensions.get("window").width;
-const NoteTaskItem = ({ itemData, onDelete, onCompleteNoteTask, noteId }) => {
+const NoteTaskItem = ({ itemData, onDelete, onCompleteNoteTask }) => {
   const swipeableRef = useRef(null);
-  const AllNotes = useSelector((state) => state?.notes.notes); // find data with item id **seperate the list
-  const findItem = AllNotes.find((item) => item.id === noteId);
-
- 
- // console.log('find ıtem??? have array',findItem)
+console.log('item data in noteTAskItem', itemData)
   
-if(findItem?.length>0){
-  const findCurrentTask = findItem?.tasks.find((task) => {
-    task.id === itemData.id;
-  });
-  console.log('CURRETN TASK',findCurrentTask)
-}
-   
 
-  function onCompPress(taskId) {
-    console.log("pressed on complete", taskId);
-    onCompleteNoteTask(taskId);
+
+  function onCompPress(taskId) {   
+    if(taskId) {
+      onCompleteNoteTask(taskId);
+    }
+    if(!taskId) {
+      console.log("first save the task please, (in noteTaskItem)", taskId);
+      return;
+    }
+    
   }
 
   const handleEdit = () => {
@@ -80,18 +76,26 @@ if(findItem?.length>0){
   };
 
   const swipeFromLeftOpen = (itemId) => {
+    if (!itemId) {
+      console.log("First save the task please, (in noteTaskItem)", itemId);
+      return;
+    }
+  
+    console.log('Delete task ID in swipeFromLeftOpen in noteTaskItem', itemId);
     onDelete(itemId);
+  
     if (swipeableRef.current !== null) {
       swipeableRef.current.close();
     }
   };
+  
 
   return (
     <GestureHandlerRootView style={styles.swipeItemContainer}>
       <Swipeable
         ref={swipeableRef} // Set the ref for Swipeable
         renderLeftActions={LeftSwipeActions}
-        onSwipeableLeftOpen={() => swipeFromLeftOpen(itemData.id)}
+        onSwipeableLeftOpen={() => swipeFromLeftOpen(itemData?.id)}
       >
         <View style={styles.itemWrapper}>
           <MaterialCommunityIcons
@@ -100,7 +104,8 @@ if(findItem?.length>0){
             childre
             color={itemData.isDone ? Colors.checkedText : Colors.darkGray}
             style={styles.icon}
-            onPress={() => onCompPress(itemData.id)}
+            onPress={() => onCompPress(itemData?.id)}
+          
           />
 
           <Pressable

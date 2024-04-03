@@ -41,6 +41,12 @@ const AddNoteContext = ({ noteToEdit }) => {
     noteInputRef.current.focus();
   };
 
+  useLayoutEffect(()=>{
+    if(noteToEdit){
+      dispatch(editNote({ id: noteObject?.id, newNote: noteObject }));
+    }
+
+  },[noteObject])
   const handleSave = () => {
     if (note.trim().length === 0) {
       return;
@@ -57,9 +63,9 @@ const AddNoteContext = ({ noteToEdit }) => {
         images: images,
       };
 
-      setNoteObject(updatedNote);
-
-      saveNote(updatedNote);
+       setNoteObject(updatedNote);
+       console.log('editable note in context in handleSave', updatedNote)
+       dispatch(editNote({id:noteToEdit.id,newNote:updatedNote}));
       navigation.navigate("Notes");
     } else {
       const newNote = {
@@ -70,7 +76,7 @@ const AddNoteContext = ({ noteToEdit }) => {
         tasks: tasks,
         images: images,
       };
-      console.log("is tasks an oobjet", tasks);
+      console.log("new note in context in handleSave",newNote);
       setNoteObject(newNote);
 
       saveNote(newNote);
@@ -131,7 +137,7 @@ const AddNoteContext = ({ noteToEdit }) => {
         />
       </View>
       <View style={styles.tasksContainer}>
-       <AddNoteTask  tasks={tasks} setTasks={setTasks} />
+       <AddNoteTask noteId={noteObject?.id}  tasks={tasks} setTasks={setTasks} noteObject={noteObject} setNoteObject={setNoteObject} />
       </View>
 
       <View style={styles.ImageContainer}>
