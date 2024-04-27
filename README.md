@@ -6,6 +6,7 @@
 ![selectPhoto](https://github.com/sohretturaman/English-practice-app/assets/81382575/8e40ddda-c2a8-4d52-baa9-372fa68a0a5b)
 ![selecetPhoto2](https://github.com/sohretturaman/English-practice-app/assets/81382575/30df726d-a0e1-40f3-aab3-bd70350cbb1a)
 ![addTask](https://github.com/sohretturaman/English-practice-app/assets/81382575/4dc131b5-b8ca-4955-ae6e-d3b05a093f30)
+![notes](https://github.com/sohretturaman/English-practice-app/assets/81382575/03c61e7c-6e55-4556-8d10-3f24b9808255)
 ![tasks2](https://github.com/sohretturaman/English-practice-app/assets/81382575/ca0349cd-2136-45e6-9b91-7683c6b52d69)
 ![editTaks](https://github.com/sohretturaman/English-practice-app/assets/81382575/075fed5d-2639-406b-aee2-fa041493e8b9)
 ![listeningScreen](https://github.com/sohretturaman/English-practice-app/assets/81382575/55e67a25-37e6-41d5-85b6-b366bcc547cd)
