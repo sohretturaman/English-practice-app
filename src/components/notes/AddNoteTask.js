@@ -41,7 +41,8 @@ const noteToEdit = allNotes?.find((note) => note?.id === noteId);
       };
       const newTasksList = [...tasks, newTask];
       setTasks(newTasksList);
-      setNoteObject((prev) => ({ ...prev, tasks: newTasksList }));
+      const newNote={...noteObject,tasks:newTasksList}
+      setNoteObject(newNote);
      
       if(noteToEdit?.id){
         dispatch(editNote({ id: noteToEdit?.id, newNote: newNote }));
@@ -73,19 +74,22 @@ const noteToEdit = allNotes?.find((note) => note?.id === noteId);
       console.log("first save the task please, (handle compelte)", taskId);
       return;
     }
-    setTasks((tasks)=>(
-      tasks.map((task)=>{
-        if(task.id ===taskId){
-          return {...task, isDone:!task.isDone}
-        }
-        else{
-          return;
-        }
-      })
-    ))
+    const updatedTasks=    tasks.map((task)=>{
+      if(task.id ===taskId){
+        return {...task, isDone:!task.isDone}
+      }
+      else{
+        return;
+      }
+    })
+    setTasks(updatedTasks)
+    console.log('updatedTaskss in addnoteTasksi completetask func', updatedTasks)
+   
+    const newNoteObject={...noteObject,tasks:updatedTasks};
+    setNoteObject(newNoteObject);
     
 
-    dispatch(completeNoteTask({ noteId: noteToEdit.id, taskId: taskId }));
+   // dispatch(completeNoteTask({ noteId: noteToEdit.id, taskId: taskId }));
   };
   return (
     <View style={styles.container}>

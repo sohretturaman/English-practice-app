@@ -15,7 +15,8 @@ import { Button, FAB } from "react-native-paper";
 import Colors from "../../contants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteNote } from "../../store/Reducers";
+import { deleteNote } from "../../store/NotesSlice";
+
 
 const NoteList = () => {
   const navigation = useNavigation();

@@ -8,23 +8,20 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 
-
 const windWidth = Dimensions.get("window").width;
 const NoteTaskItem = ({ itemData, onDelete, onCompleteNoteTask }) => {
   const swipeableRef = useRef(null);
-console.log('item data in noteTAskItem', itemData)
-  
+  console.log("item data in noteTAskItem", itemData);
 
-
-  function onCompPress(taskId) {   
-    if(taskId) {
+  function onCompPress(taskId) {
+    if (taskId) {
       onCompleteNoteTask(taskId);
     }
-    if(!taskId) {
+    console.log('done task id ', taskId)
+    if (!taskId) {
       console.log("first save the task please, (in noteTaskItem)", taskId);
       return;
     }
-    
   }
 
   const handleEdit = () => {
@@ -80,15 +77,14 @@ console.log('item data in noteTAskItem', itemData)
       console.log("First save the task please, (in noteTaskItem)", itemId);
       return;
     }
-  
-    console.log('Delete task ID in swipeFromLeftOpen in noteTaskItem', itemId);
+
+    console.log("Delete task ID in swipeFromLeftOpen in noteTaskItem", itemId);
     onDelete(itemId);
-  
+
     if (swipeableRef.current !== null) {
       swipeableRef.current.close();
     }
   };
-  
 
   return (
     <GestureHandlerRootView style={styles.swipeItemContainer}>
@@ -101,11 +97,9 @@ console.log('item data in noteTAskItem', itemData)
           <MaterialCommunityIcons
             name={itemData.isDone ? "square-rounded" : "square-rounded-outline"}
             size={25}
-            childre
             color={itemData.isDone ? Colors.checkedText : Colors.darkGray}
             style={styles.icon}
             onPress={() => onCompPress(itemData?.id)}
-          
           />
 
           <Pressable
