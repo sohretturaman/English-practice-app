@@ -1,5 +1,5 @@
 ### Application Screens
-![notes](https://github.com/sohretturaman/English-practice-app/assets/81382575/03c61e7c-6e55-4556-8d10-3f24b9808255)
+
 ![picPersmission](https://github.com/sohretturaman/English-practice-app/assets/81382575/ccebf552-4782-4481-8943-ef63763744b6)
 ![takinkPic](https://github.com/sohretturaman/English-practice-app/assets/81382575/49ccc242-5552-4462-8598-e84fb19471d9)
 ![newNoteScreen](https://github.com/sohretturaman/English-practice-app/assets/81382575/845c52e7-208f-44f3-8124-baff26705958)
@@ -20,3 +20,4 @@
 ![savedNewsScreen](https://github.com/sohretturaman/English-practice-app/assets/81382575/3e9ec404-cdd6-40d4-a631-e03cff9c7ff1)
 ![notfications](https://github.com/sohretturaman/English-practice-app/assets/81382575/9be5b1c8-443d-44d5-8796-7b8a0c6a9da8)
 ![settings](https://github.com/sohretturaman/English-practice-app/assets/81382575/67a7f109-2f56-4a46-87a8-eae8b7ae0220)
+![notes](https://github.com/sohretturaman/English-practice-app/assets/81382575/03c61e7c-6e55-4556-8d10-3f24b9808255)
