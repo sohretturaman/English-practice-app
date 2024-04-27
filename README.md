@@ -1,6 +1,5 @@
 ### Application Screens
 
-![picPermission](https://github.com/sohretturaman/English-practice-app/assets/81382575/be468e00-9f09-4916-8f9b-b8976faba5f5)
 ![picPersmission](https://github.com/sohretturaman/English-practice-app/assets/81382575/ccebf552-4782-4481-8943-ef63763744b6)
 ![takinkPic](https://github.com/sohretturaman/English-practice-app/assets/81382575/49ccc242-5552-4462-8598-e84fb19471d9)
 ![newNoteScreen](https://github.com/sohretturaman/English-practice-app/assets/81382575/845c52e7-208f-44f3-8124-baff26705958)
